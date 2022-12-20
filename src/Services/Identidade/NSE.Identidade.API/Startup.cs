@@ -47,7 +47,6 @@ namespace NSE.Identidade.API
             );
 
             // JWT
-            
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
@@ -69,8 +68,8 @@ namespace NSE.Identidade.API
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidAudience = appSettings.ValidoEm,
-                    ValidIssuer = appSettings.Emissor,
+                    ValidAudience = appSettings.Audience,
+                    ValidIssuer = appSettings.Issuer,
                 };
             });
         }
