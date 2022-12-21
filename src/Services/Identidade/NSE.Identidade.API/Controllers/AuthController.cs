@@ -116,10 +116,8 @@ namespace NSE.Identidade.API.Controllers
         private string EncodeToken(ClaimsIdentity identityClaims)
         {
             var tokenHandle = new JwtSecurityTokenHandler();
-            
-            Console.WriteLine(_appSettings.Secret);
 
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret ?? "ovjroj");
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
             var token = tokenHandle.CreateToken(new SecurityTokenDescriptor()
             {
