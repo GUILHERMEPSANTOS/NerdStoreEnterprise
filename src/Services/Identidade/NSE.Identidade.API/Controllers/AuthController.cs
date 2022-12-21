@@ -1,7 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -117,7 +116,10 @@ namespace NSE.Identidade.API.Controllers
         private string EncodeToken(ClaimsIdentity identityClaims)
         {
             var tokenHandle = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            
+            Console.WriteLine(_appSettings.Secret);
+
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret ?? "ovjroj");
 
             var token = tokenHandle.CreateToken(new SecurityTokenDescriptor()
             {

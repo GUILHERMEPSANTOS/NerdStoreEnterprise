@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace NSE.Identidade.API.Extensions
+namespace NSE.Identidade.API.Configurations
 {
-    public static class StartupExtensions
+    public static class StartupConfig
     {
         public static WebApplicationBuilder UseStartup<TStartup>(this WebApplicationBuilder WebApplicationBuilder) where TStartup : IStartup
         {
-            var startup = Activator.CreateInstance(typeof(TStartup), WebApplicationBuilder.Configuration) as IStartup;
+            var startup = Activator.CreateInstance(typeof(TStartup), WebApplicationBuilder.Environment) as IStartup;
 
             if (startup is null) throw new ArgumentException("Classe Startup inválida");
 
