@@ -12,9 +12,8 @@ using NSE.Identidade.API.Models;
 namespace NSE.Identidade.API.Controllers
 {
 
-    [ApiController]
     [Route("api/identidade")]
-    public class AuthController : ControllerBase
+    public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
@@ -33,7 +32,7 @@ namespace NSE.Identidade.API.Controllers
         public async Task<IActionResult> CreateUser([FromBody] RegisterModel registerModel)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return CustomResponse(ModelState);
 
             var user = new IdentityUser()
             {
@@ -48,15 +47,15 @@ namespace NSE.Identidade.API.Controllers
 
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                return Ok(await GerarJWT(user.Email));
+                return CustomResponse(await GerarJWT(user.Email));
             }
 
-            else
+            foreach (var error in result.Errors)
             {
-                return BadRequest();
+                AddErrorsProcessing(error.Description);
             }
+
+            return CustomResponse();
         }
 
         [HttpPost("autenticar")]
@@ -69,22 +68,37 @@ namespace NSE.Identidade.API.Controllers
             var result = await _signInManager
                                      .PasswordSignInAsync(loginModel.Email, loginModel.Password, isPersistent: false, lockoutOnFailure: true);
 
-
             if (result.Succeeded)
             {
                 return Ok(await GerarJWT(loginModel.Email));
             }
 
-            else
+            if (result.IsLockedOut)
             {
-                return BadRequest();
+                AddErrorsProcessing("Usuário temprariamente bloqueado por tentativas inválidas");
+                return CustomResponse();
             }
+
+            AddErrorsProcessing("Usuário ou Senha incorretos");
+            return CustomResponse();
+
         }
 
-        public async Task<UserLoginResponse> GerarJWT(string email)
+        private async Task<UserLoginResponse> GerarJWT(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var claims = await _userManager.GetClaimsAsync(user);
+
+            var identityClaims = await ConfigureUserClaims(claims, user);
+
+            var encodedToken = EncodeToken(identityClaims);
+
+            return GetResponseToken(encodedToken, user, claims);
+
+        }
+
+        private async Task<ClaimsIdentity> ConfigureUserClaims(ICollection<Claim> claims, IdentityUser user)
+        {
             var userRoles = await _userManager.GetRolesAsync(user);
 
             claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
@@ -93,13 +107,15 @@ namespace NSE.Identidade.API.Controllers
             claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
 
-
             foreach (var userRole in userRoles)
             {
                 claims.Add(new Claim("role", userRole));
             }
 
-            var identityClaims = new ClaimsIdentity(claims);
+            return new ClaimsIdentity(claims);
+        }
+        private string EncodeToken(ClaimsIdentity identityClaims)
+        {
             var tokenHandle = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
@@ -112,11 +128,11 @@ namespace NSE.Identidade.API.Controllers
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             });
 
-
-            var encodedToken = tokenHandle.WriteToken(token);
-
-
-            var reponse = new UserLoginResponse()
+            return tokenHandle.WriteToken(token);
+        }
+        private UserLoginResponse GetResponseToken(string encodedToken, IdentityUser user, ICollection<Claim> claims)
+        {
+            return new UserLoginResponse()
             {
                 AcessToken = encodedToken,
                 ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiresIn).TotalSeconds,
@@ -127,8 +143,6 @@ namespace NSE.Identidade.API.Controllers
                     Claims = claims.Select(c => new UserClaim { Type = c.Type, Value = c.Value })
                 }
             };
-
-            return reponse;
         }
 
         private static long ToUnixEpochDate(DateTime date)
