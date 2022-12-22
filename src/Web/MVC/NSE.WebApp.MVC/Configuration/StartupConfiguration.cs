@@ -1,22 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
-
-namespace NSE.Identidade.API.Configurations
+namespace NSE.WebApp.MVC.Configuration
 {
-    public static class StartupConfig
+    public static class StartupConfiguration
     {
         public static WebApplicationBuilder UseStartup<TStartup>(this WebApplicationBuilder WebApplicationBuilder) where TStartup : IStartup
         {
+
             var startup = Activator.CreateInstance(typeof(TStartup), WebApplicationBuilder.Environment) as IStartup;
 
             if (startup is null) throw new ArgumentException("Classe Startup inválida");
 
-            var app = WebApplicationBuilder.Build();
-            
             startup.ConfigureServices(WebApplicationBuilder.Services);
+            
+            
+            var app = WebApplicationBuilder.Build();
+
 
             startup.Configure(app, app.Environment);
 
