@@ -1,3 +1,5 @@
+using NSE.WebApp.MVC.Configuration;
+
 namespace NSE.WebApp.MVC
 {
     public class Startup : IStartup
@@ -12,29 +14,15 @@ namespace NSE.WebApp.MVC
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddIdentityConfiguration();
+            services.AddMvcCongiguration();
+            services.AddDependencyInjection();
+
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment environment)
         {
-
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.UseMvcConfiguration();
         }
     }
 }
