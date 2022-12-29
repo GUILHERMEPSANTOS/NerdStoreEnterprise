@@ -14,9 +14,9 @@ namespace NSE.Identidade.API.Configurations
 
             if (startup is null) throw new ArgumentException("Classe Startup inválida");
 
-            var app = WebApplicationBuilder.Build();
-            
             startup.ConfigureServices(WebApplicationBuilder.Services);
+
+            var app = WebApplicationBuilder.Build();
 
             startup.Configure(app, app.Environment);
 
