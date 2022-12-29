@@ -13,10 +13,8 @@ namespace NSE.WebApp.MVC.Configuration
 
             startup.ConfigureServices(WebApplicationBuilder.Services);
             
-            
             var app = WebApplicationBuilder.Build();
-
-
+            
             startup.Configure(app, app.Environment);
 
             app.Run();
