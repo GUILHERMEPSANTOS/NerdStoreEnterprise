@@ -1,20 +1,23 @@
+@using NSE.WebApp.MVC.Extensions
+@inject IUser AppUser
+
 <ul class="navbar-nav">
-    @if (Context.User.Identity.IsAuthenticated)
+    @if (AppUser.IsAuthenticated())
     {
-    <li class="nav-item">
-        <a class="nav-link text-dark" title="Manage">Olá Usuario</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-controller="Identidade" asp-action="Logout">Sair</a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" title="Manage">Olá @AppUser.GetUserEmail()</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Identidade" asp-action="Logout">Sair</a>
+        </li>
     }
     else
     {
-    <li class="nav-item" style="padding-right: 30px;">
-        <a class="btn btn-success" asp-controller="Identidade" asp-action="Register">Crie sua conta</a>
-    </li>
-    <li class="nav-item">
-        <a class="btn btn-primary" asp-controller="Identidade" asp-action="Login">Login</a>
-    </li>
+        <li class="nav-item" style="padding-right: 30px;">
+            <a class="btn btn-success" asp-controller="Identidade" asp-action="Register">Crie sua conta</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-primary" asp-controller="Identidade" asp-action="Login">Login</a>
+        </li>
     }
 </ul>
