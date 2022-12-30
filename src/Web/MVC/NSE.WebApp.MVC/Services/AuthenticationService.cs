@@ -1,14 +1,14 @@
 using System.Text;
 using System.Text.Json;
-using NSE.Identidade.API.Models;
+using NSE.WebApp.MVC.Authentication;
 using NSE.WebApp.MVC.Interfaces;
 using NSE.WebApp.MVC.Models;
+using NSE.WebApp.MVC.Models.Errors;
 
 namespace NSE.WebApp.MVC.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : ServiceBase, IAuthenticationService
     {
-
         private readonly HttpClient _httpClient;
 
         public AuthenticationService(HttpClient httpClient)
@@ -21,29 +21,32 @@ namespace NSE.WebApp.MVC.Services
 
             var response = await _httpClient.PostAsJsonAsync("http://localhost:5140/api/identidade/autenticar", loginViewModel);
 
-
-            var options = new JsonSerializerOptions
+            if (!HandleResponseError(response))
             {
-                PropertyNameCaseInsensitive = true,
-            };
+                return await ReturnResponseError(response);
+            }
 
-
-            return JsonSerializer.Deserialize<UserLoginResponse>(await response.Content.ReadAsStringAsync(), options);
+            return await SerializeResponse<UserLoginResponse>(response);
         }
 
         public async Task<UserLoginResponse> Register(RegisterViewModel registerViewModel)
         {
-
             var response = await _httpClient.PostAsJsonAsync("http://localhost:5140​/api​/identidade​/nova-conta", registerViewModel);
 
-
-            var options = new JsonSerializerOptions
+            if (!HandleResponseError(response))
             {
-                PropertyNameCaseInsensitive = true,
+                return await ReturnResponseError(response);
+            }
+
+            return await SerializeResponse<UserLoginResponse>(response);
+        }
+
+        private async Task<UserLoginResponse> ReturnResponseError(HttpResponseMessage response)
+        {
+            return new UserLoginResponse
+            {
+                ResponseResult = await SerializeResponse<ResponseResult>(response)
             };
-
-
-            return JsonSerializer.Deserialize<UserLoginResponse>(await response.Content.ReadAsStringAsync(), options);
         }
     }
 }

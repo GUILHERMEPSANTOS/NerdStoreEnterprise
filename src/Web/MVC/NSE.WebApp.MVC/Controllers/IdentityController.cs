@@ -3,14 +3,13 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using NSE.Identidade.API.Models;
+using NSE.WebApp.MVC.Authentication;
 using NSE.WebApp.MVC.Models;
 
 namespace NSE.WebApp.MVC.Controllers
 {
-    public class IdentidadeController : Controller
+    public class IdentidadeController : MainController
     {
-
         private readonly Interfaces.IAuthenticationService _authenticationService;
 
         public IdentidadeController(Interfaces.IAuthenticationService authenticationService)
@@ -33,7 +32,7 @@ namespace NSE.WebApp.MVC.Controllers
 
             var response = await _authenticationService.Register(registerViewModel);
 
-            // if (false) return View(registerViewModel);
+            if (HasErrors(response.ResponseResult)) return View(registerViewModel);
 
             await LogInContext(response);
 
@@ -55,7 +54,7 @@ namespace NSE.WebApp.MVC.Controllers
 
             var response = await _authenticationService.Login(loginViewModel);
 
-            // if (false) return View(loginViewModel);
+            if (HasErrors(response.ResponseResult)) return View(loginViewModel);
 
             await LogInContext(response);
 

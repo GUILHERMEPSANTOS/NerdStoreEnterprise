@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NSE.Identidade.API.Models
+namespace NSE.WebApp.MVC.Models.Token
 {
     public class UserClaim
     {
