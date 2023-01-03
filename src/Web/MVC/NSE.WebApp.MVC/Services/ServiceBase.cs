@@ -1,7 +1,5 @@
 using System.Text.Json;
-using NSE.WebApp.MVC.Authentication;
-using NSE.WebApp.MVC.Extensions;
-using NSE.WebApp.MVC.Models.Errors;
+using  NSE.WebApp.MVC.Extensions;
 
 namespace NSE.WebApp.MVC.Services
 {
@@ -15,7 +13,7 @@ namespace NSE.WebApp.MVC.Services
                 case 403:
                 case 404:
                 case 500:
-                    throw new CustomHttpRequestExecption(response.StatusCode);
+                    throw new CustomHttpRequestException(response.StatusCode);
 
                 case 400:
                     return false;
@@ -25,7 +23,7 @@ namespace NSE.WebApp.MVC.Services
 
             return true;
         }
-        protected async Task<Response> SerializeResponse<Response>(HttpResponseMessage response)
+        protected async Task<Response> DeserializeResponse<Response>(HttpResponseMessage response)
         {
             var options = new JsonSerializerOptions
             {
