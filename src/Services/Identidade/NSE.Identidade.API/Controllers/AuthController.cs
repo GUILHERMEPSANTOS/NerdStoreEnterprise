@@ -29,7 +29,7 @@ namespace NSE.Identidade.API.Controllers
 
         [HttpPost("nova-conta")]
         public async Task<IActionResult> CreateUser([FromBody] RegisterModel registerModel)
-        {
+        {       
             if (!ModelState.IsValid)
                 return CustomResponse(ModelState);
 

@@ -1,4 +1,3 @@
-
 using NSE.Identidade.API.Configurations;
 
 namespace NSE.Identidade.API
@@ -20,7 +19,6 @@ namespace NSE.Identidade.API
             }
 
             Configuration = builder.Build();
-
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -32,7 +30,6 @@ namespace NSE.Identidade.API
             services.AddSwaggerConfiguration();
 
             services.AddJwtConfiguration(Configuration);
-
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment environment)
