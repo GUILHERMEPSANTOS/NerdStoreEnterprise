@@ -7,17 +7,24 @@ namespace NSE.WebApp.MVC
         public IConfiguration Configuration { get; }
         public Startup(IWebHostEnvironment webHostEnvironment)
         {
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(webHostEnvironment.ContentRootPath)
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
+            var builder = new ConfigurationBuilder()
+                 .SetBasePath(webHostEnvironment.ContentRootPath)
+                 .AddJsonFile("appsettings.json", true, true)
+                 .AddJsonFile($"appsettings.{webHostEnvironment.EnvironmentName}.json", true, true)
+                 .AddEnvironmentVariables();
+
+            if (webHostEnvironment.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            Configuration = builder.Build();
         }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentityConfiguration();
-            services.AddMvcCongiguration();
+            services.AddMvcCongiguration(Configuration);
             services.AddDependencyInjection();
-
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment environment)
