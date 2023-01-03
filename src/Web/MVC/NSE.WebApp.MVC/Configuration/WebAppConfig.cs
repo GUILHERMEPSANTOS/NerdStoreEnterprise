@@ -2,14 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NSE.WebApp.MVC.Extensions;
 
 namespace NSE.WebApp.MVC.Configuration
 {
     public static class WebAppConfig
     {
-        public static IServiceCollection AddMvcCongiguration(this IServiceCollection services)
+        public static IServiceCollection AddMvcCongiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllersWithViews();
+
+            services.Configure<AppSettings>(configuration);
 
             return services;
         }
@@ -17,11 +20,18 @@ namespace NSE.WebApp.MVC.Configuration
 
         public static WebApplication UseMvcConfiguration(this WebApplication app)
         {
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
+            app.UseExceptionMiddleware();
+
+            // if (!app.Environment.IsDevelopment())
+            // {
+            //     app.UseExceptionHandler("/error/500");
+            //     app.UseStatusCodePagesWithRedirects("error/{0}");
+            //     app.UseHsts();
+            // }
+
+            app.UseExceptionHandler("/error/500");
+            app.UseStatusCodePagesWithRedirects("error/{0}");
+            app.UseHsts();
 
             app.UseHttpsRedirection();
 
@@ -31,10 +41,11 @@ namespace NSE.WebApp.MVC.Configuration
 
             app.UseIdentityConfiguration();
 
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            
+
             return app;
         }
     }
