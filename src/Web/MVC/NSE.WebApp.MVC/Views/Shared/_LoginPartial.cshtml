@@ -1,23 +1,27 @@
 @using NSE.WebApp.MVC.Extensions
 @inject IUser AppUser
 
-<ul class="navbar-nav">
-    @if (AppUser.IsAuthenticated())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" title="Manage">Olá @AppUser.GetUserEmail()</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Identidade" asp-action="Logout">Sair</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item" style="padding-right: 30px;">
-            <a class="btn btn-success" asp-controller="Identidade" asp-action="Register">Crie sua conta</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-primary" asp-controller="Identidade" asp-action="Login">Login</a>
-        </li>
-    }
-</ul>
+@if (AppUser.IsAuthenticated())
+{
+    <div class="dropdown d-inline-block">
+        <a href="#" class="icontext dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <img class="icon icon-sm rounded-circle" src="~/images/avatars/avatar1.jpg">
+            </a> <!-- iconbox // -->
+        <div class="dropdown-menu dropdown-menu-left" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 12px; left: 91px; transform: translate3d(150px, 32px, 0px);">
+            <a class="dropdown-item" href="#">Meu Perfil</a>
+            <a class="dropdown-item" href="#">Meus Pedidos</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" asp-controller="Identity" asp-action="Logout">Sair</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="widget-header">
+        <small class="title text-muted">Bem vindo!</small>
+        <div>
+            <a asp-controller="Identidade" asp-action="Register">Crie sua conta</a> <span> | </span>
+            <a asp-controller="Identidade" asp-action="Login"> Login</a>
+        </div>
+    </div>
+}

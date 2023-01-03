@@ -4,37 +4,42 @@
     ViewData["Title"] = "Registro";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-12">
-        <section>
-            <form method="post">
-                <h4>Registre-se e comece a comprar hoje mesmo</h4>
-                <hr />
+<section class="section-conten padding-y container" style="min-height: 45vh">
+    
+    <vc:Summary></vc:Summary>
 
+    <div class="card mx-auto" style="max-width: 380px; margin-top: 100px;">
+
+        <div class="card-body">
+            <h4 class="card-title mb-4">Seja bem vindo!</h4>
+
+            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                 <div class="form-group">
                     <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
+                    <input asp-for="Email" class="form-control"/>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password"></label>
-                    <input type="password" asp-for="Password" class="form-control" />
+                    <input type="password" asp-for="Password" class="form-control"/>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="ConfirmPassword"></label>
-                    <input type="password" asp-for="ConfirmPassword" class="form-control" />
+                    <input type="password" asp-for="ConfirmPassword" class="form-control"/>
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="submit" class="btn btn-primary btn-block">Registrar</button>
                 </div>
             </form>
-        </section>
+        </div>
+        <div class="card-footer text-center">Já tem uma conta?<a asp-controller="Identidade" asp-action="Login"> Entrar</a></div>
     </div>
-</div>
+
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

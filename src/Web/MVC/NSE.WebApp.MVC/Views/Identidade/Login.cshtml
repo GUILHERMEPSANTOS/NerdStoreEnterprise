@@ -1,22 +1,25 @@
 @model NSE.WebApp.MVC.Models.LoginViewModel
 
 @{
-    ViewData["Title"] = "Log In";
+    ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-12">
-        <section>
-            <form method="post">
-                <h4>Seja bem vindo e boas compras</h4>
-                <hr />
 
+<section class="section-conten padding-y container" style="min-height:45vh">
+    
+    <vc:Summary></vc:Summary>
+
+    <div class="card mx-auto" style="max-width: 380px; margin-top: 100px;">
+        
+        <div class="card-body">
+            <h4 class="card-title mb-4">Seja bem vindo!</h4>
+            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                 <div class="form-group">
                     <label asp-for="Email"></label>
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="Password"></label>
                     <input type="password" asp-for="Password" class="form-control" />
@@ -24,12 +27,15 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Entrar</button>
+                    <button type="submit" class="btn btn-primary btn-block">Entrar</button>
                 </div>
             </form>
-        </section>
+        </div>
+        <div class="card-footer text-center">Ainda não tem uma conta?<a asp-controller="Identidade" asp-action="Register"> Criar uma conta</a></div>
     </div>
-</div>
+
+</section>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
