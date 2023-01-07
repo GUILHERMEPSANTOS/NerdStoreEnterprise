@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Core.Data;
 using Microsoft.EntityFrameworkCore;
-using NSE.Catalogo.API.Models;
+using NSE.Catalogo.API.Domain.Entities;
 
 namespace NSE.Catalogo.API.Data
 {
-    public class CatalogoContext : DbContext
+    public class CatalogoContext : DbContext, IUnitOfWork
     {
         public DbSet<Produto> Produtos;
         public CatalogoContext(DbContextOptions<CatalogoContext> options) : base(options) { }
@@ -16,10 +13,8 @@ namespace NSE.Catalogo.API.Data
         {
             builder.ApplyConfigurationsFromAssembly(typeof(CatalogoContext).Assembly);
 
-            MapForgottenProperties(builder); 
+            MapForgottenProperties(builder);
         }
-
-
         private void MapForgottenProperties(ModelBuilder builder)
         {
             foreach (var property in builder
@@ -27,7 +22,12 @@ namespace NSE.Catalogo.API.Data
                                         .GetEntityTypes()
                                         .SelectMany(e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
 
-            property.SetColumnType("Varchar(100)");
+                property.SetColumnType("Varchar(100)");
+        }
+
+        public async Task<bool> Commit()
+        {
+            return await base.SaveChangesAsync() > 0;
         }
     }
 }
