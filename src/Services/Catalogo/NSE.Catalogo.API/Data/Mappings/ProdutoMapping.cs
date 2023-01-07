@@ -2,7 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NSE.Catalogo.API.Models;
+using NSE.Catalogo.API.Domain.Entities;
 
 namespace NSE.Catalogo.API.Data.Mappings
 {
