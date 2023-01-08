@@ -11,7 +11,6 @@ namespace NSE.Catalogo.API.Data.Repository
 {
     public class ProdutoRepository : IProdutoRepository
     {
-
         private readonly CatalogoContext _catalogoContext;
 
         public IUnitOfWork UnitOfWork => _catalogoContext;
@@ -22,7 +21,7 @@ namespace NSE.Catalogo.API.Data.Repository
 
         public async Task<IEnumerable<Produto>> GetAll()
         {
-            return await _catalogoContext.Produtos.AsNoTracking().ToListAsync();
+            return await _catalogoContext.Produtos.AsNoTracking<Produto>().ToListAsync();
         }
 
         public async Task<Produto> GetById(Guid id)
