@@ -1,7 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using NSE.Catalogo.API.Data;
-using NSE.Catalogo.API.Data.Repository;
-using NSE.Catalogo.API.Domain.Interfaces;
+using NSE.Catalogo.API.Configurations;
 
 namespace NSE.Catalogo.API
 {
@@ -9,41 +6,32 @@ namespace NSE.Catalogo.API
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IHostEnvironment hostEnvironment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
+                .AddEnvironmentVariables();
+
+            if (hostEnvironment.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddApiConfiguration(Configuration);
 
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
-
-            services.AddDbContext<CatalogoContext>(options =>
-                   options
-                        .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-                        .LogTo(Console.WriteLine)
-                        .EnableSensitiveDataLogging());
-
-
-            services.AddScoped<IProdutoRepository, ProdutoRepository>();
-
+            services.AddDependencyInjectionConfiguration();
         }
+
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-            app.MapControllers();
+            app.UseApiConfiguration();
         }
     }
 }
