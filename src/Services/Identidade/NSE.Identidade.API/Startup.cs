@@ -23,13 +23,9 @@ namespace NSE.Identidade.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApiConfiguration();
-
-            services.AddIdentityConfiguration(Configuration);
+            services.AddApiConfiguration(Configuration);
 
             services.AddSwaggerConfiguration();
-
-            services.AddJwtConfiguration(Configuration);
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment environment)

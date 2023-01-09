@@ -2,17 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NSE.WebApi.Core.Identidade;
 
 namespace NSE.Identidade.API.Configurations
 {
     public static class ApiConfig
     {
-        public static IServiceCollection AddApiConfiguration(this IServiceCollection builder)
+        public static IServiceCollection AddApiConfiguration(this IServiceCollection services, IConfiguration Configuration)
         {
-            builder.AddControllers();
-            builder.AddEndpointsApiExplorer();
+            services.AddControllers();
+         
+            services.AddJwtConfiguration(Configuration);
+         
+            services.AddEndpointsApiExplorer();
 
-            return builder;
+            return services;
         }
 
         public static WebApplication UseApplicationConfiguration(this WebApplication app, IWebHostEnvironment environment)
