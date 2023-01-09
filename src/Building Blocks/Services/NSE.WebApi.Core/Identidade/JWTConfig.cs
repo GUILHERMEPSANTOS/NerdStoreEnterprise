@@ -1,8 +1,12 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using NSE.Identidade.API.Extensions;
+using NSE.WebApi.Core.Extensions;
 
-namespace NSE.Identidade.API.Configurations
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+
+namespace NSE.WebApi.Core.Identidade
 {
     public static class JWTConfig
     {
@@ -37,7 +41,7 @@ namespace NSE.Identidade.API.Configurations
             return builder;
         }
 
-          public static WebApplication UseJWTConfiguration(this WebApplication webApplication)
+        public static WebApplication UseJWTConfiguration(this WebApplication webApplication)
         {
 
             webApplication.UseAuthentication();
