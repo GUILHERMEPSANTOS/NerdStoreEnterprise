@@ -24,14 +24,10 @@ namespace NSE.Identidade.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApiConfiguration(Configuration);
-
-            services.AddSwaggerConfiguration();
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment environment)
         {
-            app.UseSwaggerConfiguration(environment);
-
             app.UseApplicationConfiguration(environment);
         }
     }

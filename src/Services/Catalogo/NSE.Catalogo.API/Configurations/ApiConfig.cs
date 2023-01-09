@@ -1,3 +1,5 @@
+using NSE.WebApi.Core.Identidade;
+
 namespace NSE.Catalogo.API.Configurations
 {
     public static class ApiConfig
@@ -6,10 +8,18 @@ namespace NSE.Catalogo.API.Configurations
         {
 
             services.AddControllers();
+
             services.AddEndpointsApiExplorer();
+
+            services.AddJwtConfiguration(Configuration);
+
             services.AddSwaggerConfiguration();
+
             services.AddCorsConfiguration();
+
             services.AddDbContextConfiguration(Configuration);
+
+            services.AddDependencyInjectionConfiguration();
 
             return services;
         }
@@ -23,12 +33,11 @@ namespace NSE.Catalogo.API.Configurations
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-
             app.UseCorsConfiguration();
-            
+
             app.UseRouting();
 
+            app.UseJWTConfiguration();
 
             app.MapControllers();
 
