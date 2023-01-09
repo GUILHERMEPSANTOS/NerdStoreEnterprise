@@ -25,9 +25,10 @@ namespace NSE.Catalogo.API.Configurations
 
             app.UseAuthorization();
 
+            app.UseCorsConfiguration();
+            
             app.UseRouting();
 
-            app.UseCorsConfiguration();
 
             app.MapControllers();
 
