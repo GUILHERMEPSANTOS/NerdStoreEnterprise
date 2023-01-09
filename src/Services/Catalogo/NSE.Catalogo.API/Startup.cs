@@ -25,8 +25,6 @@ namespace NSE.Catalogo.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApiConfiguration(Configuration);
-
-            services.AddDependencyInjectionConfiguration();
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)

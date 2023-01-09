@@ -11,16 +11,21 @@ namespace NSE.Identidade.API.Configurations
         public static IServiceCollection AddApiConfiguration(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddControllers();
-         
+
+            services.AddIdentityConfiguration(Configuration);
+
             services.AddJwtConfiguration(Configuration);
-         
+
             services.AddEndpointsApiExplorer();
+
+            services.AddSwaggerConfiguration();
 
             return services;
         }
 
         public static WebApplication UseApplicationConfiguration(this WebApplication app, IWebHostEnvironment environment)
         {
+            app.UseSwaggerConfiguration(environment);
 
             app.UseHttpsRedirection();
 
