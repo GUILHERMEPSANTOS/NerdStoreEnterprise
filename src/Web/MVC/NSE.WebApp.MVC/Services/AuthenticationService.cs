@@ -15,7 +15,7 @@ namespace NSE.WebApp.MVC.Services
         {
 
             _httpClient = httpClient;
-             _httpClient.BaseAddress = new Uri(settings.Value.AuthenticationUrl);
+            _httpClient.BaseAddress = new Uri(settings.Value.AuthenticationUrl);
         }
 
         public async Task<UserLoginResponse> Login(LoginViewModel loginViewModel)
