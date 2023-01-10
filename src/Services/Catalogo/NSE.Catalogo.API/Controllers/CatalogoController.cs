@@ -1,11 +1,14 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSE.Catalogo.API.Application.Services.Interfaces;
 using NSE.Catalogo.API.Domain.Entities;
+using NSE.WebApi.Core.Identidade.Filter;
 
 namespace NSE.Catalogo.API.Controllers
 {
     [ApiController]
     [Route("catalogo")]
+    [Authorize]
     public class CatalogoController : ControllerBase
     {
         private readonly IProdutoService _produtoService;
@@ -15,12 +18,14 @@ namespace NSE.Catalogo.API.Controllers
             _produtoService = produtoService;
         }
 
+        [AllowAnonymous]
         [HttpGet("produtos")]
         public async Task<IEnumerable<Produto>> GetAll()
         {
             return await _produtoService.GetAll();
         }
 
+        [ClaimsAuthorize("Catalogo", "Read")]
         [HttpGet("produto/{id}")]
         public async Task<Produto> GetById([FromRoute] Guid id)
         {
