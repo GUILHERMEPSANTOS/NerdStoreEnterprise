@@ -1,0 +1,47 @@
+﻿@using NSE.WebApp.MVC.Extensions
+@model IEnumerable<NSE.WebApp.MVC.Models.Catalogo.ProdutoViewModel>
+
+@{
+    ViewData["Title"] = "Todos os produtos";
+}
+
+<section>
+    <div>
+        <div style="background-image: url(images/banners/Template.jpg); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
+            <div style="text-align: center;">
+                <img src="~/images/banners/nerdstore.png" />
+            </div>
+        </div>
+        <div class="container" style=" padding-top: 20px">
+            <div class="row">
+                @{
+                    foreach (var produto in Model.OrderBy(p=>p.Name))
+                    {
+                        <div class="col-md-3">
+                            <div href="#" class="card card-product-grid">
+                                <a asp-controller="Catalogo" asp-action="ProdutoDetalhe" asp-route-id="@produto.Id" class="img-wrap">
+                                    <img src="~/images/produtos/@produto.Image" alt="@produto.Name">
+                                </a>
+                                <figcaption class="info-wrap">
+                                    <a asp-controller="Catalogo" asp-action="ProdutoDetalhe" asp-route-id="@produto.Id" class="title">
+                                        <b> @produto.Name</b>
+                                    </a>
+
+                                    <small class="card-text">
+                                        @* @this.MensagemEstoque(produto.StockQuantity)<br/><br/> *@
+                                        @produto.StockQuantity
+                                        @produto.Description
+                                    </small>
+                                </figcaption>
+                                <div class="card-footer price mt-1">
+                                    @* <h3>@this.FormatoMoeda(produto.Price)</h3> *@
+                                    <h3>@produto.Price</h3>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
