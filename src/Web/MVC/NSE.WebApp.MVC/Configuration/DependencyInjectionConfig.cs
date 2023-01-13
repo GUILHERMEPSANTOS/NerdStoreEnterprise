@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NSE.WebApp.MVC.Extensions;
 using NSE.WebApp.MVC.Interfaces;
+using NSE.WebApp.MVC.Interfaces.Catalogo;
 using NSE.WebApp.MVC.Services;
 
 namespace NSE.WebApp.MVC.Configuration
@@ -13,6 +14,8 @@ namespace NSE.WebApp.MVC.Configuration
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
             services.AddHttpClient<IAuthenticationService, AuthenticationService>();
+
+            services.AddHttpClient<ICatalogoService, CatalogoService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
