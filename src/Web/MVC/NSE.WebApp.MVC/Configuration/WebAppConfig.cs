@@ -20,7 +20,6 @@ namespace NSE.WebApp.MVC.Configuration
 
         public static WebApplication UseMvcConfiguration(this WebApplication app)
         {
-            app.UseExceptionMiddleware();
 
             // if (!app.Environment.IsDevelopment())
             // {
@@ -33,6 +32,7 @@ namespace NSE.WebApp.MVC.Configuration
             app.UseStatusCodePagesWithRedirects("error/{0}");
             app.UseHsts();
 
+            
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
@@ -41,10 +41,11 @@ namespace NSE.WebApp.MVC.Configuration
 
             app.UseIdentityConfiguration();
 
+            app.UseExceptionMiddleware();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Catalogo}/{action=Index}/{id?}");
 
             return app;
         }
