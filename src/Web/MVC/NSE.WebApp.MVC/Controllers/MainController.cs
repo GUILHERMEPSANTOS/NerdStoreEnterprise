@@ -13,7 +13,7 @@ namespace NSE.WebApp.MVC.Controllers
                 {
                     ModelState.AddModelError(string.Empty, message);
                 }
-                
+               
                 return true;
             }
             return false;

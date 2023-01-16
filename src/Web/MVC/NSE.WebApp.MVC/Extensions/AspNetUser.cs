@@ -19,7 +19,6 @@ namespace NSE.WebApp.MVC.Extensions
         }
 
         public HttpContext GetHttpContext() => _acessor.HttpContext;
-
         public string GetUserEmail()
         {
             return IsAuthenticated()

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NSE.WebApp.MVC.Models;
 
 namespace NSE.WebApp.MVC.Controllers;
@@ -65,5 +64,4 @@ public class HomeController : Controller
         modelError.Message = "Você não tem permissão para fazer isto.";
         modelError.Title = "Acesso Negado!.";
     }
-
 }
