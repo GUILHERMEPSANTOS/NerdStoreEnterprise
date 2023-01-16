@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NSE.WebApp.MVC.Models.Catalogo;
 
-namespace NSE.WebApp.MVC.Interfaces.Catalogo
+namespace NSE.WebApp.MVC.Interfaces
 {
     public interface ICatalogoService
     {

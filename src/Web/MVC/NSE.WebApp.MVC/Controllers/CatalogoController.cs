@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NSE.WebApp.MVC.Interfaces.Catalogo;
+using NSE.WebApp.MVC.Interfaces;
 
 namespace NSE.WebApp.MVC.Controllers
 {
