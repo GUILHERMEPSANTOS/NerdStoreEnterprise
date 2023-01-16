@@ -21,7 +21,7 @@ namespace NSE.WebApp.MVC.Configuration
         public static WebApplication UseMvcConfiguration(this WebApplication app)
         {
             app.UseExceptionHandler("/error/500");
-            app.UseStatusCodePagesWithRedirects("error/{0}");
+            app.UseStatusCodePagesWithRedirects("/error/{0}");
             app.UseHsts();
 
             app.UseHttpsRedirection();
