@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using NSE.WebApp.MVC.Extensions;
 using Refit;
+using System.Net;
+using NSE.WebApp.MVC.Extensions;
 
 namespace NSE.WebApp.MVC.Middlewares;
 public class ExeceptionMiddleware
@@ -27,6 +23,10 @@ public class ExeceptionMiddleware
             HandleRequestExceptionAsync(httpContext, ex.StatusCode);
         }
         catch (ValidationApiException ex)
+        {
+            HandleRequestExceptionAsync(httpContext, ex.StatusCode);
+        }
+        catch (ApiException ex)
         {
             HandleRequestExceptionAsync(httpContext, ex.StatusCode);
         }
