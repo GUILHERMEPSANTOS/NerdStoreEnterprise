@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using NSE.WebApp.MVC.Extensions;
+using Refit;
 
 namespace NSE.WebApp.MVC.Middlewares;
 public class ExeceptionMiddleware
@@ -23,17 +24,21 @@ public class ExeceptionMiddleware
         }
         catch (CustomHttpRequestException ex)
         {
-            HandleRequestExceptionAsync(httpContext, ex);
+            HandleRequestExceptionAsync(httpContext, ex.StatusCode);
+        }
+        catch (ValidationApiException ex)
+        {
+            HandleRequestExceptionAsync(httpContext, ex.StatusCode);
         }
     }
-    private static void HandleRequestExceptionAsync(HttpContext httpContext, CustomHttpRequestException httpRequestException)
+    private static void HandleRequestExceptionAsync(HttpContext httpContext, HttpStatusCode statusCode)
     {
-        if (httpRequestException.StatusCode == HttpStatusCode.Unauthorized)
+        if (statusCode == HttpStatusCode.Unauthorized)
         {
             httpContext.Response.Redirect($"/login?ReturnUrl={httpContext.Request.Path}");
             return;
         }
 
-        httpContext.Response.StatusCode = (int)httpRequestException.StatusCode;
+        httpContext.Response.StatusCode = (int)statusCode;
     }
 }
