@@ -24,7 +24,7 @@ namespace NSE.WebApp.MVC
         {
             services.AddIdentityConfiguration();
             services.AddMvcCongiguration(Configuration);
-            services.AddDependencyInjection();
+            services.AddDependencyInjection(Configuration);
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment environment)
