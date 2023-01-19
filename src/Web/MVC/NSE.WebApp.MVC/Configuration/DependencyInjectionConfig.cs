@@ -2,6 +2,8 @@ using NSE.WebApp.MVC.Extensions;
 using NSE.WebApp.MVC.Interfaces;
 using NSE.WebApp.MVC.Services;
 using NSE.WebApp.MVC.Services.Handlers;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace NSE.WebApp.MVC.Configuration
 {
@@ -13,17 +15,24 @@ namespace NSE.WebApp.MVC.Configuration
 
             services.AddHttpClient<IAuthenticationService, AuthenticationService>();
 
-            // services.AddHttpClient<ICatalogoService, CatalogoService>()
-            //     .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+            var retryWaitPolicy = HttpPolicyExtensions
+                    .HandleTransientHttpError()
+                    .WaitAndRetryAsync(new[]
+                     {
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(5),
+                        TimeSpan.FromSeconds(10),
+                     }, (outcome, timeSpan, retrycount, context) =>
+                     {
+                         Console.ForegroundColor = ConsoleColor.Blue;
+                         Console.WriteLine($"Tentando pela {retrycount} vez!");
+                         Console.ForegroundColor = ConsoleColor.White;
+                     });
 
-
-            services.AddHttpClient("Refit",
-                     options =>
-                    {
-                        options.BaseAddress = new Uri(configuration.GetSection("CatalogoUrl").Value);
-                    })
-            .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-            .AddTypedClient(Refit.RestService.For<ICatalogoServiceRefit>);
+            services
+                .AddHttpClient<ICatalogoService, CatalogoService>()
+                .AddPolicyHandler(retryWaitPolicy)
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
