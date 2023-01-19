@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 using NSE.WebApp.MVC.Extensions;
 
 namespace NSE.WebApp.MVC.Configuration
@@ -16,8 +14,6 @@ namespace NSE.WebApp.MVC.Configuration
 
             return services;
         }
-
-
         public static WebApplication UseMvcConfiguration(this WebApplication app)
         {
             app.UseExceptionHandler("/error/500");
@@ -31,6 +27,15 @@ namespace NSE.WebApp.MVC.Configuration
             app.UseRouting();
 
             app.UseIdentityConfiguration();
+
+            var supportedCultures = new[] { new CultureInfo("pt-br") };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("pt-br"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
 
             app.UseExceptionMiddleware();
 
