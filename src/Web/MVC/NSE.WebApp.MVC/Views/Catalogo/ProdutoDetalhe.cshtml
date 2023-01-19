@@ -36,14 +36,12 @@
                     </div>
 
                     <div class="mb-3">
-                        @* <var class="price h4">@this.FormatoMoeda(Model.Valor)</var> *@
-                        <var class="price h4">@Model.Price</var>
+                        <var class="price h4">@this.FormatCurrency(Model.Price)</var>
                     </div>
 
                     <h5>@Model.Description</h5><br />
-                    @* <p> @this.MensagemEstoque(Model.QuantidadeEstoque)</p> *@
-                    <p>@Model.StockQuantity</p>
-
+                    <p> @this.StockMessage(Model.StockQuantity)</p>
+                    
                     <hr>
 
                     @{

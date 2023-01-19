@@ -1,12 +1,13 @@
+@using Microsoft.AspNetCore.Identity
 @using NSE.WebApp.MVC.Extensions
 @inject IUser AppUser
 
 @if (AppUser.IsAuthenticated())
 {
-    <div class="dropdown d-inline-block">
+   <div class="dropdown d-inline-block">
         <a href="#" class="icontext dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <img class="icon icon-sm rounded-circle" src="~/images/avatars/avatar1.jpg">
-            </a> <!-- iconbox // -->
+            <img class="icon icon-sm rounded-circle" src="https://s.gravatar.com/avatar/@this.HashEmailForGravatar(AppUser.GetUserEmail())?d=mm&s=45">
+        </a> <!-- iconbox // -->
         <div class="dropdown-menu dropdown-menu-left" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 12px; left: 91px; transform: translate3d(150px, 32px, 0px);">
             <a class="dropdown-item" href="#">Meu Perfil</a>
             <a class="dropdown-item" href="#">Meus Pedidos</a>
@@ -17,11 +18,11 @@
 }
 else
 {
-    <div class="widget-header">
+     <div class="widget-header">
         <small class="title text-muted">Bem vindo!</small>
         <div>
-            <a asp-controller="Identidade" asp-action="Register">Crie sua conta</a> <span> | </span>
-            <a asp-controller="Identidade" asp-action="Login"> Login</a>
+            <a asp-controller="Identity" asp-action="Register">Crie sua conta</a> <span> | </span>
+            <a asp-controller="Identity" asp-action="Login"> Login</a>
         </div>
     </div>
 }

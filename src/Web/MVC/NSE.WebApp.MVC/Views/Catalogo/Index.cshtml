@@ -28,14 +28,12 @@
                                     </a>
 
                                     <small class="card-text">
-                                        @* @this.MensagemEstoque(produto.StockQuantity)<br/><br/> *@
-                                        @produto.StockQuantity
+                                        @this.StockMessage(produto.StockQuantity)<br/><br/>
                                         @produto.Description
                                     </small>
                                 </figcaption>
                                 <div class="card-footer price mt-1">
-                                    @* <h3>@this.FormatoMoeda(produto.Price)</h3> *@
-                                    <h3>@produto.Price</h3>
+                                    <h3>@this.FormatCurrency(produto.Price)</h3>
                                 </div>
                             </div>
                         </div>
