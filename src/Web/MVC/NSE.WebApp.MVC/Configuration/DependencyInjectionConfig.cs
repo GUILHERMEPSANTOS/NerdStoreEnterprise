@@ -15,23 +15,9 @@ namespace NSE.WebApp.MVC.Configuration
 
             services.AddHttpClient<IAuthenticationService, AuthenticationService>();
 
-            var retryWaitPolicy = HttpPolicyExtensions
-                    .HandleTransientHttpError()
-                    .WaitAndRetryAsync(new[]
-                     {
-                        TimeSpan.FromSeconds(1),
-                        TimeSpan.FromSeconds(5),
-                        TimeSpan.FromSeconds(10),
-                     }, (outcome, timeSpan, retrycount, context) =>
-                     {
-                         Console.ForegroundColor = ConsoleColor.Blue;
-                         Console.WriteLine($"Tentando pela {retrycount} vez!");
-                         Console.ForegroundColor = ConsoleColor.White;
-                     });
-
             services
                 .AddHttpClient<ICatalogoService, CatalogoService>()
-                .AddPolicyHandler(retryWaitPolicy)
+                .AddPolicyHandler(PollyExtensions.WaitAndTry())
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
