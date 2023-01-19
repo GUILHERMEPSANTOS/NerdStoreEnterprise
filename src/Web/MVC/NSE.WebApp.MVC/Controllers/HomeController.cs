@@ -15,6 +15,17 @@ public class HomeController : Controller
         return View();
     }
 
+
+    [Route("sistema-indisponivel")]
+    public IActionResult SystemUnavailable()
+    {
+        var modelError = GenerateInstanceErrorViewModel(500);
+
+        HandleErrorViewModelSystemUnavailable(modelError);
+
+        return View("Error", modelError);
+    }
+
     [Route("error/{id:length(3,3)}")]
     public IActionResult Error(int id)
     {
@@ -63,5 +74,11 @@ public class HomeController : Controller
     {
         modelError.Message = "Você não tem permissão para fazer isto.";
         modelError.Title = "Acesso Negado!.";
+    }
+
+    private void HandleErrorViewModelSystemUnavailable(ErrorViewModel modelError)
+    {
+        modelError.Message = "O Sistema está temporariamente indisponível, isto pode ocorrer em momentos de sobrecarga de usuários";
+        modelError.Title = "Sistema indisponível.";
     }
 }

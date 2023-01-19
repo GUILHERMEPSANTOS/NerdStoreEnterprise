@@ -18,6 +18,7 @@ namespace NSE.WebApp.MVC.Configuration
             services
                 .AddHttpClient<ICatalogoService, CatalogoService>()
                 .AddPolicyHandler(PollyExtensions.WaitAndTry())
+                .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)))
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
