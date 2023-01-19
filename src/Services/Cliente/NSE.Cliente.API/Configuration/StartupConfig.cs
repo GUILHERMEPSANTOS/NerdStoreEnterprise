@@ -1,4 +1,4 @@
-namespace NSE.Catalogo.API.Configurations
+namespace NSE.Cliente.API.Configuration
 {
     public static class StartupConfig
     {
