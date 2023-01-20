@@ -11,7 +11,7 @@ namespace NSE.Cliente.API.Domain
         public string ZipCode { get; private set; }
         public string City { get; set; }
         public string State { get; set; }
-        public Guid ClientId { get; private set; }
+        public Guid CustomerId { get; private set; }
         public Customer Customer { get; private set; }
 
         public Address(string street, string houseNumber, string complement, string neighborhood, string zipCode, string city, string state)

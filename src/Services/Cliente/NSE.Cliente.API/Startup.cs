@@ -24,7 +24,7 @@ namespace NSE.Cliente.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApiConfiguration();
+            services.AddApiConfiguration(Configuration);
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)

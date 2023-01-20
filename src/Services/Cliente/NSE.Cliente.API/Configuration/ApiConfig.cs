@@ -1,12 +1,17 @@
+using NSE.WebApi.Core.Identidade;
+
 namespace NSE.Cliente.API.Configuration
 {
     public static class ApiConfig
     {
-        public static IServiceCollection AddApiConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddApiConfiguration(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddControllers();
+            services.AddCorsConfiguration();
+            services.AddDbContextConfiguration(Configuration);
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddJwtConfiguration(Configuration);
+            services.AddSwaggerConfiguration();
 
             return services;
         }
@@ -16,13 +21,16 @@ namespace NSE.Cliente.API.Configuration
 
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerConfiguration();
             }
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseCorsConfiguration();
+
+            app.UseRouting();
+
+            app.UseJWTConfiguration();
 
             app.MapControllers();
 
