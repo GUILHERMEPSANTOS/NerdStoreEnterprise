@@ -8,6 +8,7 @@ namespace NSE.Cliente.API.Configuration
         {
             services.AddControllers();
             services.AddCorsConfiguration();
+            services.AddDependencyInjectionConfiguration();
             services.AddDbContextConfiguration(Configuration);
             services.AddEndpointsApiExplorer();
             services.AddJwtConfiguration(Configuration);
