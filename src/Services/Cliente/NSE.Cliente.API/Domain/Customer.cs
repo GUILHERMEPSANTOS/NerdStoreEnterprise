@@ -10,7 +10,7 @@ namespace NSE.Cliente.API.Domain
         public bool Excluded { get; private set; }
         public Address Address { get; private set; }
         protected Customer() { }
-        public Customer(Guid id, string name, string email, string cpf, bool excluded)
+        public Customer(Guid id, string name, string email, string cpf)
         {
             Id = id;
             Name = name;
