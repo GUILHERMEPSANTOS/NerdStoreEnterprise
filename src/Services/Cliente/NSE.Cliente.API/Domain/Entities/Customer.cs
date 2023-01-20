@@ -1,6 +1,6 @@
 using Core.DomainObjects;
 
-namespace NSE.Cliente.API.Domain
+namespace NSE.Cliente.API.Domain.Entities
 {
     public class Customer : Entity, IAggregateRoot
     {

@@ -1,6 +1,6 @@
 using Core.Data;
 using Microsoft.EntityFrameworkCore;
-using NSE.Cliente.API.Domain;
+using NSE.Cliente.API.Domain.Entities;
 
 namespace NSE.Cliente.API.Data
 {

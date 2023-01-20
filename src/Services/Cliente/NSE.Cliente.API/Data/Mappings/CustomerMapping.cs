@@ -1,7 +1,7 @@
 using Core.DomainObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NSE.Cliente.API.Domain;
+using NSE.Cliente.API.Domain.Entities;
 
 namespace NSE.Cliente.API.Data.Mappings
 {
