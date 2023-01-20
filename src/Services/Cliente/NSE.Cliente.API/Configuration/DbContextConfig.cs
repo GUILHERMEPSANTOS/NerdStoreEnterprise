@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using NSE.Cliente.API.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace NSE.Cliente.API.Configuration
 {
