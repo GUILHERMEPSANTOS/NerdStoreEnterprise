@@ -6,7 +6,6 @@ namespace NSE.Cliente.API.Data
 {
     public class CustomerContext : DbContext, IUnitOfWork
     {
-
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public CustomerContext(DbContextOptions options) : base(options)

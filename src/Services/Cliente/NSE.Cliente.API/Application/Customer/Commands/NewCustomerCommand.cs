@@ -1,6 +1,6 @@
 using Core.Messages;
 
-namespace NSE.Cliente.API.Application.Commands
+namespace NSE.Cliente.API.Application.Customer.Commands
 {
     public class NewCustomerCommand: Command
     {
