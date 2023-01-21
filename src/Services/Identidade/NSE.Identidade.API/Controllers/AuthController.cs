@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NSE.Identidade.API.Models;
 using NSE.WebApi.Core.Extensions;
+using NSE.WebApi.Core.Controllers;
 
 namespace NSE.Identidade.API.Controllers
 {
