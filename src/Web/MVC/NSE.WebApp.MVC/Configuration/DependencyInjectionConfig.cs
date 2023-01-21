@@ -1,9 +1,8 @@
+using Polly;
 using NSE.WebApp.MVC.Extensions;
 using NSE.WebApp.MVC.Interfaces;
 using NSE.WebApp.MVC.Services;
 using NSE.WebApp.MVC.Services.Handlers;
-using Polly;
-using Polly.Extensions.Http;
 
 namespace NSE.WebApp.MVC.Configuration
 {

@@ -1,6 +1,8 @@
 using Core.Data;
 using Core.DomainObjects;
 using Core.Mediator;
+using Core.Messages;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using NSE.Cliente.API.Domain.Entities;
 
@@ -19,6 +21,9 @@ public class CustomerContext : DbContext, IUnitOfWork
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomerContext).Assembly);
+
+        modelBuilder.Ignore<Event>();
+        modelBuilder.Ignore<ValidationResult>();
 
         MapForgottenProperties(modelBuilder);
 
@@ -49,7 +54,7 @@ public class CustomerContext : DbContext, IUnitOfWork
     {
         var success = await base.SaveChangesAsync() > 0;
 
-        if(success) await _mediator.PublishEvents<CustomerContext>(this);
+        if (success) await _mediator.PublishEvents<CustomerContext>(this);
 
         return success;
     }
