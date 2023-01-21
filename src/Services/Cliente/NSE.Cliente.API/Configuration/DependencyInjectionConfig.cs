@@ -1,8 +1,10 @@
-using Core.Mediator;
 using MediatR;
+using Core.Mediator;
 using NSE.Cliente.API.Application.Interfaces;
 using NSE.Cliente.API.Application.Mappings;
 using NSE.Cliente.API.Application.Service;
+using NSE.Cliente.API.Data.Repositories;
+using NSE.Cliente.API.Domain.Interfaces;
 
 namespace NSE.Cliente.API.Configuration
 {
@@ -17,6 +19,8 @@ namespace NSE.Cliente.API.Configuration
             services.AddScoped<IMediatorHandler, MediatorHandler>();
 
             services.AddScoped<ICustomerService, CustomerService>();
+
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             return services;
         }
