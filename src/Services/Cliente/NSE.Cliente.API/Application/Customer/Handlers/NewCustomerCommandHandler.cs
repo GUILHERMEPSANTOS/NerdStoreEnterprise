@@ -3,6 +3,7 @@ using MediatR;
 using Core.Messages;
 using NSE.Cliente.API.Application.Customer.Commands;
 using NSE.Cliente.API.Domain.Interfaces;
+using NSE.Cliente.API.Application.Customer.Events;
 
 namespace NSE.Cliente.API.Application.Customer.Handlers
 {
@@ -31,7 +32,9 @@ namespace NSE.Cliente.API.Application.Customer.Handlers
 
             _customerRepository.Add(customer);
 
-           return await PersistData(_customerRepository.UnitOfWork);
+            customer.AddEvent(new NewCustomerAddedEvent(message.Id, message.Name, message.Email, message.Cpf));
+
+            return await PersistData(_customerRepository.UnitOfWork);
         }
     }
 }
