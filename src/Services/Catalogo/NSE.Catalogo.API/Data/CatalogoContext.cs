@@ -1,4 +1,5 @@
 using Core.Data;
+using Core.Messages;
 using Microsoft.EntityFrameworkCore;
 using NSE.Catalogo.API.Domain.Entities;
 
@@ -12,7 +13,9 @@ namespace NSE.Catalogo.API.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(typeof(CatalogoContext).Assembly);
-
+            
+            builder.Ignore<Event>();
+            
             MapForgottenProperties(builder);
         }
         private void MapForgottenProperties(ModelBuilder builder)

@@ -1,5 +1,5 @@
 using NSE.Cliente.API;
-using NSE.Cliente.API.Configuration;
+using NSE.WebApi.Core.Configuration;
 
 var builder = WebApplication.CreateBuilder(args)
         .UseStartup<Startup>();

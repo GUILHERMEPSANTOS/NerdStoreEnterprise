@@ -2,7 +2,7 @@ using NSE.Catalogo.API.Configurations;
 
 namespace NSE.Catalogo.API
 {
-    public class Startup : IStartup
+    public class Startup : NSE.WebApi.Core.Configuration.IStartup
     {
         public IConfiguration Configuration { get; }
 

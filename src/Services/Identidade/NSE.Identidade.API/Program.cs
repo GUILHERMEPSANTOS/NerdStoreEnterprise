@@ -1,5 +1,5 @@
 using NSE.Identidade.API;
-using NSE.Identidade.API.Configurations;
+using NSE.WebApi.Core.Configuration;
 
 var builder = WebApplication.CreateBuilder(args)
                 .UseStartup<Startup>();

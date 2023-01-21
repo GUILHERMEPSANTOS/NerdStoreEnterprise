@@ -2,14 +2,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSE.Catalogo.API.Application.Services.Interfaces;
 using NSE.Catalogo.API.Domain.Entities;
+using NSE.WebApi.Core.Controllers;
 using NSE.WebApi.Core.Identidade.Filter;
 
 namespace NSE.Catalogo.API.Controllers
 {
-    [ApiController]
-    [Route("catalogo")]
     [Authorize]
-    public class CatalogoController : ControllerBase
+    [Route("catalogo")]
+    public class CatalogoController : MainController
     {
         private readonly IProdutoService _produtoService;
 

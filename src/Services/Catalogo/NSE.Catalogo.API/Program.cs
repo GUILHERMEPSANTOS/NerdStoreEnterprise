@@ -1,5 +1,5 @@
 using NSE.Catalogo.API;
-using NSE.Catalogo.API.Configurations;
+using NSE.WebApi.Core.Configuration;
 
 var builder = WebApplication.CreateBuilder(args)
         .UseStartup<Startup>();

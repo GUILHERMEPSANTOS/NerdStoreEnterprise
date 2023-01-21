@@ -2,7 +2,7 @@ using NSE.Identidade.API.Configurations;
 
 namespace NSE.Identidade.API
 {
-    public class Startup : IStartup
+    public class Startup : NSE.WebApi.Core.Configuration.IStartup
     {
         public IConfiguration Configuration { get; }
         public Startup(IWebHostEnvironment webHostEnvironment)
