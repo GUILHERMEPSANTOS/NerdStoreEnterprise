@@ -12,6 +12,7 @@ namespace NSE.Catalogo.API.Configurations
                   options
                        .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                        .LogTo(Console.WriteLine)
+                       .EnableDetailedErrors()
                        .EnableSensitiveDataLogging());
 
             return services;
