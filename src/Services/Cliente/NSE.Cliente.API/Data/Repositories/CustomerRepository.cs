@@ -27,8 +27,7 @@ namespace NSE.Cliente.API.Data.Repositories
 
         public async Task<Customer> GetByCpf(string cpf)
         {
-            return await _customerContext.Customers
-                    .FirstOrDefaultAsync(customer => customer.Cpf.Number == cpf);
+            return await _customerContext.Customers.FirstOrDefaultAsync(customer => customer.Cpf.Number == cpf);
         }
 
         public void Dispose()
