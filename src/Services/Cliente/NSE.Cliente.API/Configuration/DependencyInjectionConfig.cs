@@ -19,7 +19,6 @@ namespace NSE.Cliente.API.Configuration
             services.AddScoped<IMediatorHandler, MediatorHandler>();
 
             services.AddScoped<ICustomerService, CustomerService>();
-
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             return services;
