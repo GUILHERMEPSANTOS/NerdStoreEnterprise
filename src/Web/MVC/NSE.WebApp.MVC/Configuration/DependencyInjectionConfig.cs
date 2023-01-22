@@ -3,6 +3,8 @@ using NSE.WebApp.MVC.Extensions;
 using NSE.WebApp.MVC.Interfaces;
 using NSE.WebApp.MVC.Services;
 using NSE.WebApp.MVC.Services.Handlers;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using static NSE.WebApp.MVC.Extensions.CpfAttributeAdapter;
 
 namespace NSE.WebApp.MVC.Configuration
 {
@@ -13,6 +15,7 @@ namespace NSE.WebApp.MVC.Configuration
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
             services.AddHttpClient<IAuthenticationService, AuthenticationService>();
+            services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
 
             services
                 .AddHttpClient<ICatalogoService, CatalogoService>()
