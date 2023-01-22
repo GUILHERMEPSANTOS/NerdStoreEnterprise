@@ -22,7 +22,7 @@ namespace NSE.Cliente.API.Application.Customer.Handlers
 
             var customer = new NSE.Cliente.API.Domain.Entities.Customer(message.Id, message.Name, message.Email, message.Cpf);
 
-            var customerExist = _customerRepository.GetByCpf(customer.Cpf.Number);
+            var customerExist = await _customerRepository.GetByCpf(customer.Cpf.Number);
 
             if (customerExist is not null)
             {
