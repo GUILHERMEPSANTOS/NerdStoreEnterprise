@@ -70,14 +70,15 @@ public static class MediatorExtensions
             .Where(x => x.Entity.Notification != null && x.Entity.Notification.Any());
 
         var domainEvents = domainEntities
-                .SelectMany(x => x.Entity.Notification);
+                .SelectMany(x => x.Entity.Notification)
+                .ToList();
 
         domainEntities.ToList()
-            .ForEach(x => x.Entity.ClearEvents());
+            .ForEach(entity => entity.Entity.ClearEvents());
 
-        foreach (var @event in domainEvents)
+        foreach (var task in domainEvents)
         {
-            await mediator.PublishEvent(@event);
+            await mediator.PublishEvent(task);
         }
     }
 }
