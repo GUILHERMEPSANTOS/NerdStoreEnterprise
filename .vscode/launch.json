@@ -60,11 +60,17 @@
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             }
-        },
+        },   
         {
-            "name": ".NET Core Attach",
+            "name": "Cliente",
             "type": "coreclr",
-            "request": "attach"
-        }
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Services/Cliente/NSE.Cliente.API/bin/Debug/net6.0/NSE.Cliente.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/Cliente/NSE.Cliente.API",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
     ]
 }
