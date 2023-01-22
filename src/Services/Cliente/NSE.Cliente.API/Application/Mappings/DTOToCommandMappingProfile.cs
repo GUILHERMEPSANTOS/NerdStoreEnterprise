@@ -6,7 +6,7 @@ namespace NSE.Cliente.API.Application.Mappings
 {
     public class DTOToCommandMappingProfile : Profile
     {
-        protected DTOToCommandMappingProfile()
+        public DTOToCommandMappingProfile()
         {
             CreateMap<NewCustomerDTO, NewCustomerCommand>();
         }
