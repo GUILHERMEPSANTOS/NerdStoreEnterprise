@@ -10,7 +10,7 @@ namespace Core.DomainObjects
         protected Cpf() { }
         public Cpf(string number)
         {
-            if (Validate(number)) throw new DomainException("CPF inválido");
+            if (!Validate(number)) throw new DomainException("CPF inválido");
             Number = number;
         }
 

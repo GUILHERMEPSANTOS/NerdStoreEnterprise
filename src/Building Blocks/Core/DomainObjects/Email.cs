@@ -12,7 +12,7 @@ namespace Core.DomainObjects
         }
         public Email(string address)
         {
-            if (Validate(address)) throw new DomainException("E-mail inválido");
+            if (!Validate(address)) throw new DomainException("E-mail inválido");
             Address = address;
         }
 
