@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyNetQ" Version="7.3.12" />
+    <PackageReference Include="EasyNetQ.Serialization.NewtonsoftJson" Version="7.3.12" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.12" />
@@ -23,5 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Building Blocks\Services\NSE.WebApi.Core\NSE.WebApi.Core.csproj" />
+    <ProjectReference Include="..\..\..\Building Blocks\Core\NSE.Core.csproj" />
   </ItemGroup>
 </Project>
