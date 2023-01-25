@@ -1,26 +1,26 @@
 using Core.Mediator;
 using Core.Messages.Integration;
-using EasyNetQ;
 using FluentValidation.Results;
 using NSE.Cliente.API.Application.Customer.Commands;
+using NSE.MessageBus;
 
 namespace NSE.Cliente.API.Services
 {
     public class NewCustomerIntegrationHandler : BackgroundService
     {
-        private IBus _bus;
+        private readonly IMessageBus _bus;
         private readonly IServiceProvider _serviceProvider;
 
-        public NewCustomerIntegrationHandler(IServiceProvider serviceProvider)
+        public NewCustomerIntegrationHandler(IMessageBus bus, IServiceProvider serviceProvider)
         {
+            _bus = bus;
             _serviceProvider = serviceProvider;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _bus = RabbitHutch.CreateBus("host=localhost:5672");
 
-            await _bus.Rpc.RespondAsync<UserRegisteredIntegrationEvent, ResponseMessage>(AddCustomer);
+            await _bus.RespondAsync<UserRegisteredIntegrationEvent, ResponseMessage>(AddCustomer);
         }
 
         private async Task<ResponseMessage> AddCustomer(UserRegisteredIntegrationEvent message)

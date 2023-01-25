@@ -5,7 +5,6 @@ using NSE.Cliente.API.Application.Mappings;
 using NSE.Cliente.API.Application.Service;
 using NSE.Cliente.API.Data.Repositories;
 using NSE.Cliente.API.Domain.Interfaces;
-using NSE.Cliente.API.Services;
 
 namespace NSE.Cliente.API.Configuration
 {
@@ -21,9 +20,6 @@ namespace NSE.Cliente.API.Configuration
 
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
-
-
-            services.AddHostedService<NewCustomerIntegrationHandler>();
 
             return services;
         }

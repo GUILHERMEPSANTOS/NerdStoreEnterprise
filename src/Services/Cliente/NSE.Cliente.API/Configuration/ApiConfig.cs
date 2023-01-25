@@ -13,6 +13,7 @@ namespace NSE.Cliente.API.Configuration
             services.AddEndpointsApiExplorer();
             services.AddJwtConfiguration(Configuration);
             services.AddSwaggerConfiguration();
+            services.AddMessageBusConfig(Configuration);
 
             return services;
         }

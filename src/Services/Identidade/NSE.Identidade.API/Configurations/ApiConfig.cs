@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using NSE.Cliente.API.Configuration;
 using NSE.WebApi.Core.Identidade;
 
 namespace NSE.Identidade.API.Configurations
@@ -19,6 +16,8 @@ namespace NSE.Identidade.API.Configurations
             services.AddEndpointsApiExplorer();
 
             services.AddSwaggerConfiguration();
+
+            services.AddMessageBusConfig(Configuration);
 
             return services;
         }
