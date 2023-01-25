@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using NSE.Identidade.API.Models;
 using NSE.WebApi.Core.Extensions;
 using NSE.WebApi.Core.Controllers;
+using Core.Messages.Integration;
+using EasyNetQ;
 
 namespace NSE.Identidade.API.Controllers
 {
@@ -18,7 +20,8 @@ namespace NSE.Identidade.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
-
+        private IBus _bus;
+        
         public AuthController(SignInManager<IdentityUser> signInManager,
                               UserManager<IdentityUser> userManager,
                               IOptions<AppSettings> appSettings)
@@ -29,24 +32,26 @@ namespace NSE.Identidade.API.Controllers
         }
 
         [HttpPost("nova-conta")]
-        public async Task<IActionResult> CreateUser([FromBody] RegisterModel registerModel)
-        {       
+        public async Task<IActionResult> CreateUser([FromBody] NewUser newUser)
+        {
             if (!ModelState.IsValid)
                 return CustomResponse(ModelState);
 
             var user = new IdentityUser()
             {
-                UserName = registerModel.Email,
-                Email = registerModel.Email,
+                UserName = newUser.Email,
+                Email = newUser.Email,
                 EmailConfirmed = true,
             };
 
 
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
+            var result = await _userManager.CreateAsync(user, newUser.Password);
 
 
             if (result.Succeeded)
             {
+                var success = await RegisterUser(newUser);
+
                 return CustomResponse(await GerarJWT(user.Email));
             }
 
@@ -56,6 +61,23 @@ namespace NSE.Identidade.API.Controllers
             }
 
             return CustomResponse();
+        }
+        private async Task<ResponseMessage> RegisterUser(NewUser newUser)
+        {
+            var user = await _userManager.FindByEmailAsync(newUser.Email);
+
+            var userRegistered = new UserRegisteredIntegrationEvent(
+                Guid.Parse(user.Id),
+                newUser.Name,
+                newUser.Email,
+                newUser.Cpf
+            );
+
+            _bus = RabbitHutch.CreateBus("host=localhost:5672");
+
+            var success = await _bus.Rpc.RequestAsync<UserRegisteredIntegrationEvent, ResponseMessage>(userRegistered);
+
+            return success;
         }
 
         [HttpPost("autenticar")]

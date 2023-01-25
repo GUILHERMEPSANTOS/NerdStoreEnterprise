@@ -2,8 +2,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NSE.Identidade.API.Models
 {
-    public class RegisterModel
+    public class NewUser
     {
+
+        [Required(ErrorMessage = "O Campo {0} é obrigatório")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "O Campo {0} é obrigatório")]
+        public string Cpf { get; set; }
+        
         [Required(ErrorMessage = "O Campo {0} é obrigatório")]
         [EmailAddress(ErrorMessage = "o Campo {0} está em formato inválido")]
         public string Email { get; set; }
@@ -13,6 +20,6 @@ namespace NSE.Identidade.API.Models
         public string Password { get; set; }
 
         [Compare("Password", ErrorMessage = "As senhas não conderem")]
-        public string ConfirmPassword  { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 }
