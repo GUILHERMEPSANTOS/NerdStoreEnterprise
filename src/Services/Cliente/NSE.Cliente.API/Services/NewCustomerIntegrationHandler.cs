@@ -16,11 +16,25 @@ namespace NSE.Cliente.API.Services
             _bus = bus;
             _serviceProvider = serviceProvider;
         }
+        private void SetResponder()
+        {
+            _bus.RespondAsync<UserRegisteredIntegrationEvent, ResponseMessage>(AddCustomer);
 
+            _bus.AdvancedBus.Connected += OnConnect;
+        }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            SetResponder();
 
-            await _bus.RespondAsync<UserRegisteredIntegrationEvent, ResponseMessage>(AddCustomer);
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
+            }
+        }
+
+        private void OnConnect(object? sender, EventArgs e)
+        {
+            SetResponder();
         }
 
         private async Task<ResponseMessage> AddCustomer(UserRegisteredIntegrationEvent message)

@@ -9,7 +9,7 @@ using NSE.Identidade.API.Models;
 using NSE.WebApi.Core.Extensions;
 using NSE.WebApi.Core.Controllers;
 using Core.Messages.Integration;
-using EasyNetQ;
+using NSE.MessageBus;
 
 namespace NSE.Identidade.API.Controllers
 {
@@ -20,15 +20,17 @@ namespace NSE.Identidade.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
-        private IBus _bus;
-        
+        private readonly IMessageBus _bus;
+
         public AuthController(SignInManager<IdentityUser> signInManager,
                               UserManager<IdentityUser> userManager,
-                              IOptions<AppSettings> appSettings)
+                              IOptions<AppSettings> appSettings,
+                              IMessageBus bus)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _bus = bus;
         }
 
         [HttpPost("nova-conta")]
@@ -44,13 +46,18 @@ namespace NSE.Identidade.API.Controllers
                 EmailConfirmed = true,
             };
 
-
             var result = await _userManager.CreateAsync(user, newUser.Password);
-
 
             if (result.Succeeded)
             {
-                var success = await RegisterUser(newUser);
+                var clienteResult = await RegisterUser(newUser);
+
+                if (!clienteResult.ValidationResult.IsValid)
+                {
+                    await _userManager.DeleteAsync(user);
+
+                    return CustomResponse(clienteResult.ValidationResult);
+                }
 
                 return CustomResponse(await GerarJWT(user.Email));
             }
@@ -73,11 +80,15 @@ namespace NSE.Identidade.API.Controllers
                 newUser.Cpf
             );
 
-            _bus = RabbitHutch.CreateBus("host=localhost:5672");
-
-            var success = await _bus.Rpc.RequestAsync<UserRegisteredIntegrationEvent, ResponseMessage>(userRegistered);
-
-            return success;
+            try
+            {
+                return await _bus.RequestAsync<UserRegisteredIntegrationEvent, ResponseMessage>(userRegistered);
+            }
+            catch (Exception)
+            {
+                await _userManager.DeleteAsync(user);
+                throw;
+            }
         }
 
         [HttpPost("autenticar")]
