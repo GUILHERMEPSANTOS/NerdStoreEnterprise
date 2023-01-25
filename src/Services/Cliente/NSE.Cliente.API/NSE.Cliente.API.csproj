@@ -9,8 +9,6 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="EasyNetQ" Version="7.3.12" />
-    <PackageReference Include="EasyNetQ.Serialization.NewtonsoftJson" Version="7.3.12" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.12" />
@@ -26,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Building Blocks\Core\NSE.Core.csproj" />
     <ProjectReference Include="..\..\..\Building Blocks\Services\NSE.WebApi.Core\NSE.WebApi.Core.csproj" />
+    <ProjectReference Include="..\..\..\Building Blocks\MessageBus\NSE.MessageBus\NSE.MessageBus.csproj" />
   </ItemGroup>
 
 </Project>
