@@ -11,7 +11,7 @@ namespace NSE.Catalogo.API.Configurations
 
             services.AddEndpointsApiExplorer();
 
-            services.AddJwtConfiguration(Configuration);
+            services.AddAuthConfiguration(Configuration);
 
             services.AddSwaggerConfiguration();
 
@@ -37,7 +37,7 @@ namespace NSE.Catalogo.API.Configurations
 
             app.UseRouting();
 
-            app.UseJWTConfiguration();
+            app.UseAuthConfiguration();
 
             app.MapControllers();
 

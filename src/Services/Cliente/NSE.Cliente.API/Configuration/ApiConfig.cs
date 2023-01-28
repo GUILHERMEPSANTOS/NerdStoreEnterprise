@@ -11,7 +11,7 @@ namespace NSE.Cliente.API.Configuration
             services.AddDependencyInjectionConfiguration();
             services.AddDbContextConfiguration(Configuration);
             services.AddEndpointsApiExplorer();
-            services.AddJwtConfiguration(Configuration);
+            services.AddAuthConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddMessageBusConfig(Configuration);
 
@@ -32,7 +32,7 @@ namespace NSE.Cliente.API.Configuration
 
             app.UseRouting();
 
-            app.UseJWTConfiguration();
+            app.UseAuthConfiguration();
 
             app.MapControllers();
 

@@ -11,7 +11,7 @@ namespace NSE.Identidade.API.Configurations
 
             services.AddIdentityConfiguration(Configuration);
 
-            services.AddJwtConfiguration(Configuration);
+            services.AddAuthConfiguration(Configuration);
 
             services.AddEndpointsApiExplorer();
 
@@ -30,7 +30,7 @@ namespace NSE.Identidade.API.Configurations
 
             app.UseRouting();
 
-            app.UseJWTConfiguration();
+            app.UseAuthConfiguration();
 
             app.MapControllers();
 
