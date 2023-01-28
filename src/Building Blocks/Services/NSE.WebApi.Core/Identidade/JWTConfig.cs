@@ -10,7 +10,7 @@ namespace NSE.WebApi.Core.Identidade
 {
     public static class JWTConfig
     {
-        public static IServiceCollection AddJwtConfiguration(this IServiceCollection builder, IConfiguration configuration)
+        public static IServiceCollection AddAuthConfiguration(this IServiceCollection builder, IConfiguration configuration)
         {
             var appSettingsSection = configuration.GetSection("AppSettings");
             builder.Configure<AppSettings>(appSettingsSection);
@@ -41,7 +41,7 @@ namespace NSE.WebApi.Core.Identidade
             return builder;
         }
 
-        public static WebApplication UseJWTConfiguration(this WebApplication webApplication)
+        public static WebApplication UseAuthConfiguration(this WebApplication webApplication)
         {
 
             webApplication.UseAuthentication();
