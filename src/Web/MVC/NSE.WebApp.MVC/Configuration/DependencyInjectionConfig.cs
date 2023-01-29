@@ -13,19 +13,15 @@ namespace NSE.WebApp.MVC.Configuration
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
-
             services.AddHttpClient<IAuthenticationService, AuthenticationService>();
             services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUser, AspNetUser>();
             services
                 .AddHttpClient<ICatalogoService, CatalogoService>()
                 .AddPolicyHandler(PollyExtensions.WaitAndTry())
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)))
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddScoped<IUser, AspNetUser>();
 
             return services;
         }
