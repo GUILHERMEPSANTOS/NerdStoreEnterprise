@@ -13,22 +13,22 @@ namespace NSE.Catalogo.API.Application.Services
             _produtoRepository = produtoRepository;
         }
 
-        public void Add(Produto produto)
+        public void Add(Product produto)
         {
             _produtoRepository.Add(produto);
         }
 
-        public async Task<IEnumerable<Produto>> GetAll()
+        public async Task<IEnumerable<Product>> GetAll()
         {
             return await _produtoRepository.GetAll();
         }
 
-        public async Task<Produto> GetById(Guid id)
+        public async Task<Product> GetById(Guid id)
         {
             return await _produtoRepository.GetById(id);
         }
 
-        public void Update(Produto produto)
+        public void Update(Product produto)
         {
             _produtoRepository.Update(produto);
         }

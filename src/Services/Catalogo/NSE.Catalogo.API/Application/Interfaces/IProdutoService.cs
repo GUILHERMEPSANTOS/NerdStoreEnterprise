@@ -4,9 +4,9 @@ namespace NSE.Catalogo.API.Application.Services.Interfaces
 {
     public interface IProdutoService
     {
-        Task<IEnumerable<Produto>> GetAll();
-        Task<Produto> GetById(Guid id);
-        void Add(Produto produto);
-        void Update(Produto produto);
+        Task<IEnumerable<Product>> GetAll();
+        Task<Product> GetById(Guid id);
+        void Add(Product produto);
+        void Update(Product produto);
     }
 }

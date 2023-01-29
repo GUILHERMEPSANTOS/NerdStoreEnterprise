@@ -8,7 +8,7 @@ namespace NSE.Catalogo.API.Data
 {
     public class CatalogoContext : DbContext, IUnitOfWork
     {
-        public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Product> Produtos { get; set; }
         public CatalogoContext(DbContextOptions<CatalogoContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)

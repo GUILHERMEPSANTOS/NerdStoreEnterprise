@@ -15,21 +15,21 @@ namespace NSE.Catalogo.API.Data.Repository
             _catalogoContext = catalogoContext;
         }
 
-        public async Task<IEnumerable<Produto>> GetAll()
+        public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _catalogoContext.Produtos.AsNoTracking<Produto>().ToListAsync();
+            return await _catalogoContext.Produtos.AsNoTracking<Product>().ToListAsync();
         }
 
-        public async Task<Produto> GetById(Guid id)
+        public async Task<Product> GetById(Guid id)
         {
             return await _catalogoContext.Produtos.FindAsync(id);
         }
-        public void Add(Produto produto)
+        public void Add(Product produto)
         {
             _catalogoContext.Produtos.Add(produto);
         }
 
-        public async void Update(Produto produto)
+        public async void Update(Product produto)
         {
             _catalogoContext.Update(produto);
         }

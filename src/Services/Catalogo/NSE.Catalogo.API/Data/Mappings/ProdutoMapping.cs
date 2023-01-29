@@ -6,9 +6,9 @@ using NSE.Catalogo.API.Domain.Entities;
 
 namespace NSE.Catalogo.API.Data.Mappings
 {
-    public class ProdutoMapping : IEntityTypeConfiguration<Produto>
+    public class ProdutoMapping : IEntityTypeConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Produto> builder)
+        public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.ToTable("Produtos");
 

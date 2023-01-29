@@ -3,11 +3,11 @@ using NSE.Catalogo.API.Domain.Entities;
 
 namespace NSE.Catalogo.API.Domain.Interfaces
 {
-    public interface IProdutoRepository : IRepository<Produto>
+    public interface IProdutoRepository : IRepository<Product>
     { 
-        Task<IEnumerable<Produto>> GetAll();
-        Task<Produto> GetById(Guid id);
-        void Add(Produto produto);
-        void Update(Produto produto);
+        Task<IEnumerable<Product>> GetAll();
+        Task<Product> GetById(Guid id);
+        void Add(Product produto);
+        void Update(Product produto);
     }
 }
