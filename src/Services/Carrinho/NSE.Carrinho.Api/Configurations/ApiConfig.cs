@@ -12,6 +12,7 @@ namespace NSE.Carrinho.Api.Configurations
             services.AddAuthConfiguration(Configuration);
             services.AddCorsConfiguration();
             services.AddDbContextConfiguration(Configuration);
+            services.AddDependencyInjectionConfiguration();
 
             return services;
         }
