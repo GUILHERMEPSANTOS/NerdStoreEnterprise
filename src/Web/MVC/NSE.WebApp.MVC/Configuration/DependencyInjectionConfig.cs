@@ -5,6 +5,7 @@ using NSE.WebApp.MVC.Services;
 using NSE.WebApp.MVC.Services.Handlers;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using static NSE.WebApp.MVC.Extensions.CpfAttributeAdapter;
+using NSE.WebApi.Core.User;
 
 namespace NSE.WebApp.MVC.Configuration
 {
@@ -16,7 +17,7 @@ namespace NSE.WebApp.MVC.Configuration
             services.AddHttpClient<IAuthenticationService, AuthenticationService>();
             services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IUser, AspNetUser>();
+            services.AddScoped<IAspNetUser, AspNetUser>();
             services
                 .AddHttpClient<ICatalogoService, CatalogoService>()
                 .AddPolicyHandler(PollyExtensions.WaitAndTry())
