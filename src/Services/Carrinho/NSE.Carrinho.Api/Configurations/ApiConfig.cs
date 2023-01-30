@@ -11,7 +11,7 @@ namespace NSE.Carrinho.Api.Configurations
             services.AddSwaggerGen();
             services.AddAuthConfiguration(Configuration);
             services.AddCorsConfiguration();
-            services.AddDbContextConfiguration();
+            services.AddDbContextConfiguration(Configuration);
 
             return services;
         }

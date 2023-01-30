@@ -5,12 +5,12 @@ namespace NSE.Carrinho.Api.Configurations
 {
     public static class DbContexConfig
     {
-        public static IServiceCollection AddDbContextConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddDbContextConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ShoppingCartContext>(options =>
                 options
-                    .UseSqlServer("DefaultConnection")
-                    .EnableDetailedErrors()                
+                .UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                    .EnableDetailedErrors()
             );
 
             return services;
