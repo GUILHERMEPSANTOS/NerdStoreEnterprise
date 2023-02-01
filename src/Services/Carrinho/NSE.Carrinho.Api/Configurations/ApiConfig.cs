@@ -13,6 +13,7 @@ namespace NSE.Carrinho.Api.Configurations
             services.AddCorsConfiguration();
             services.AddDbContextConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
+            services.AddSwaggerConfiguration();
 
             return services;
         }
@@ -22,8 +23,7 @@ namespace NSE.Carrinho.Api.Configurations
 
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+               app.UseSwaggerConfiguration();
             }
             app.UseHttpsRedirection();
             app.UseCorsConfiguration();
