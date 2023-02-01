@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace NSE.WebApi.Core.Identidade
 {
@@ -17,6 +18,8 @@ namespace NSE.WebApi.Core.Identidade
 
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = System.Text.Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             builder.AddAuthentication(options =>
                {
