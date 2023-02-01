@@ -1,20 +1,27 @@
 using Microsoft.EntityFrameworkCore;
+using NSE.Carrinho.Api.Domain;
 
 namespace NSE.Carrinho.Api.Data
 {
     public class ShoppingCartContext : DbContext
     {
+        public DbSet<CustomerShoppingCart> CustomerShoppingCarts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         public ShoppingCartContext(DbContextOptions options) : base(options)
         {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
+            builder.ApplyConfigurationsFromAssembly(typeof(ShoppingCartContext).Assembly);
+            MapForgottenProperties(builder);
+            DisableCascadeDelete(builder);
         }
 
 
-        private void mapForgottenProperties(ModelBuilder builder)
+        private void MapForgottenProperties(ModelBuilder builder)
         {
             var properties = builder.Model
                 .GetEntityTypes()
@@ -23,6 +30,17 @@ namespace NSE.Carrinho.Api.Data
             foreach (var property in properties)
             {
                 property.SetColumnType("Varchar(100)");
+            }
+        }
+
+        private void DisableCascadeDelete(ModelBuilder modelBuilder)
+        {
+            var properties = modelBuilder.Model.GetEntityTypes()
+                .SelectMany(properties => properties.GetForeignKeys());
+
+            foreach (var property in properties)
+            {
+                property.DeleteBehavior = DeleteBehavior.ClientSetNull;
             }
         }
     }
