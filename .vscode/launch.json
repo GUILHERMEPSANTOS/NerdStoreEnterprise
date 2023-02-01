@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Catalogo",
             "type": "coreclr",
@@ -69,6 +70,17 @@
             "program": "${workspaceFolder}/src/Services/Cliente/NSE.Cliente.API/bin/Debug/net6.0/NSE.Cliente.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Cliente/NSE.Cliente.API",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Carrinho",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Services/Carrinho/NSE.Carrinho.Api/bin/Debug/net6.0/NSE.Carrinho.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/Carrinho/NSE.Carrinho.Api",
             "console": "internalConsole",
             "stopAtEntry": false
         },
