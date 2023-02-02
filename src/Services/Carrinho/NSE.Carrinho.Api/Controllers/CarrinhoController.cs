@@ -23,7 +23,7 @@ namespace NSE.Carrinho.Api.Controllers
             return CustomResponse(result ?? new CustomerShoppingCart());
         }
 
-        [HttpPost]
+        [HttpPost("adicionar-item")]
         public async Task<IActionResult> AddItemToCart(CartItem item)
         {
             var result = await _shoppingCartService.AddCartItem(item);
