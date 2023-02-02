@@ -1,9 +1,10 @@
+using Core.Data;
 using Microsoft.EntityFrameworkCore;
 using NSE.Carrinho.Api.Domain;
 
 namespace NSE.Carrinho.Api.Data
 {
-    public class ShoppingCartContext : DbContext
+    public class ShoppingCartContext : DbContext, IUnitOfWork
     {
         public DbSet<CustomerShoppingCart> CustomerShoppingCarts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
@@ -42,6 +43,11 @@ namespace NSE.Carrinho.Api.Data
             {
                 property.DeleteBehavior = DeleteBehavior.ClientSetNull;
             }
+        }
+
+        public async Task<bool> Commit()
+        {
+            return await base.SaveChangesAsync() > 0;
         }
     }
 }
