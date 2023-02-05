@@ -34,9 +34,14 @@ namespace NSE.Carrinho.Api.Domain
             Quantity = +quantity;
         }
 
+        internal void UpdateUnit(int quantity)
+        {
+            Quantity = quantity;
+        }
         internal bool IsValid()
         {
             return new CartItemValidation().Validate(this).IsValid;
         }
+
     }
 }

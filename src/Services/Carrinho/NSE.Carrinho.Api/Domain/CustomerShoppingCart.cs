@@ -7,7 +7,7 @@ namespace NSE.Carrinho.Api.Domain
         public decimal Total { get; set; }
         public List<CartItem> Items { get; set; } = new List<CartItem>();
 
-        public  CustomerShoppingCart(Guid customerId)
+        public CustomerShoppingCart(Guid customerId)
         {
             Id = Guid.NewGuid();
             CustomerId = customerId;
@@ -43,9 +43,28 @@ namespace NSE.Carrinho.Api.Domain
         {
             return Items.FirstOrDefault(item => item.ProductId == ProductId);
         }
+
         internal void CalculateShoppingCartPrice()
         {
             Total = Items.Sum(item => item.CalculatePrice());
+        }
+
+        internal void UpdateCartItem(CartItem item)
+        {
+            if (!item.IsValid()) return;
+
+            var itemRef = GetCartItemBy(item.ProductId);
+
+            Items.Remove(itemRef);
+            Items.Add(item);
+
+            CalculateShoppingCartPrice();
+        }
+
+        internal void UpdateUnit(CartItem item, int unities)
+        {
+            item.UpdateUnit(unities);
+            UpdateCartItem(item);
         }
     }
 }
