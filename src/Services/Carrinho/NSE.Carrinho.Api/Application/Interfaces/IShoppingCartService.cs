@@ -8,5 +8,8 @@ namespace NSE.Carrinho.Api.Application.Interfaces
         Task<CustomerShoppingCart> GetCustomerShoppingCart();
 
         Task<ValidationResult> AddCartItem(CartItem item);
+
+        Task<ValidationResult> UpdateCartItem(Guid productId, CartItem item);
+        Task<ValidationResult> RemoveCartItem(Guid productId);
     }
 }
