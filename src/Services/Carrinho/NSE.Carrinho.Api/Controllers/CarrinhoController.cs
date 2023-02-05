@@ -30,5 +30,23 @@ namespace NSE.Carrinho.Api.Controllers
 
             return CustomResponse(result);
         }
+
+        [HttpPut("/{productId}")]
+        public async Task<IActionResult> UpdateCartItem([FromRoute] Guid productId, [FromBody] CartItem item)
+        {
+            var result = await _shoppingCartService.UpdateCartItem(productId, item);
+
+            return CustomResponse(result);
+        }
+        
+        [HttpDelete("/{productId}")]
+        public async Task<IActionResult> RemoveCartItem([FromRoute] Guid productId, [FromBody] CartItem item)
+        {
+            var result = await _shoppingCartService.UpdateCartItem(productId, item);
+
+            return CustomResponse(result);
+        }
+
+
     }
 }
