@@ -3,9 +3,9 @@ using NSE.WebApp.MVC.Models.Errors;
 
 namespace NSE.WebApp.MVC.Controllers
 {
-    public class MainController : Controller
+    public abstract class MainController : Controller
     {
-        public bool HasErrors(ResponseResult response)
+        protected bool HasErrors(ResponseResult response)
         {
             if (response is not null && response.Errors.Message.Any())
             {
@@ -13,10 +13,20 @@ namespace NSE.WebApp.MVC.Controllers
                 {
                     ModelState.AddModelError(string.Empty, message);
                 }
-               
+
                 return true;
             }
             return false;
         }
+        protected void AddValidationError(string message)
+        {
+            ModelState.AddModelError(string.Empty, message);
+        }
+
+        protected bool IsValid()
+        {
+            return ModelState.Count == 0;
+        }
     }
 }
+
