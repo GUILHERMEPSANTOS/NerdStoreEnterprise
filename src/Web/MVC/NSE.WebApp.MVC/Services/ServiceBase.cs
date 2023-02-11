@@ -1,5 +1,6 @@
 using System.Text.Json;
-using  NSE.WebApp.MVC.Extensions;
+using NSE.WebApp.MVC.Extensions;
+using NSE.WebApp.MVC.Models.Errors;
 
 namespace NSE.WebApp.MVC.Services
 {
@@ -31,6 +32,10 @@ namespace NSE.WebApp.MVC.Services
             };
 
             return JsonSerializer.Deserialize<Response>(await response.Content.ReadAsStringAsync(), options);
+        }
+        protected ResponseResult ReturnOk()
+        {
+            return new ResponseResult();
         }
     }
 }
