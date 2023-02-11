@@ -10,6 +10,7 @@ namespace NSE.Carrinho.Api.Domain.Interfaces
         void UpdateCustomerShoppingCart(CustomerShoppingCart customerShoppingCart);
         void AddCartItem(CartItem cartItem);
         void UpdateCartItem(CartItem cartItem);
+        void RemoveCartItem(CartItem item);
         Task<CartItem> FindCartItemBy(Guid productId, Guid cartItemId);
     }
 }
