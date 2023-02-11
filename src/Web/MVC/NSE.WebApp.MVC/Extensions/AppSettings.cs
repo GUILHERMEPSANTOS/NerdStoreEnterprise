@@ -4,5 +4,6 @@ namespace NSE.WebApp.MVC.Extensions
     {
         public string AuthenticationUrl { get; set; }
         public string CatalogoUrl { get; set; }
+        public string CarrinhoUrl { get; set; }
     }
 }
