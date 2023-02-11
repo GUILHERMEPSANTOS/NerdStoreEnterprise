@@ -1,4 +1,5 @@
 using Core.Data;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using NSE.Carrinho.Api.Domain;
 
@@ -17,6 +18,8 @@ namespace NSE.Carrinho.Api.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(typeof(ShoppingCartContext).Assembly);
+            builder.Ignore<ValidationResult>();
+
             MapForgottenProperties(builder);
             DisableCascadeDelete(builder);
         }
