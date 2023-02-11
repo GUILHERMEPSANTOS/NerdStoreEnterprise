@@ -1,7 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "Catalogo",
             "type": "coreclr",
@@ -61,7 +60,7 @@
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             }
-        },   
+        },
         {
             "name": "Cliente",
             "type": "coreclr",
@@ -84,5 +83,18 @@
             "console": "internalConsole",
             "stopAtEntry": false
         },
+    ],
+    "compounds": [
+        {
+            "name": "Start all projects",
+            "configurations": [
+                "Catalogo",
+                "Carrinho",
+                "Identidade",
+                "Cliente",
+                "WebApp",
+            ],
+            "stopAll": true
+        }
     ]
 }
