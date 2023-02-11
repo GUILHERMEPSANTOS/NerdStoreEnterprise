@@ -17,15 +17,15 @@ namespace NSE.Carrinho.Api.Application.Validations
 
             RuleFor(c => c.Quantity)
                 .GreaterThan(0)
-                .WithMessage("A quantidade miníma de um item é 1");
+                .WithMessage(item => $"A quantidade miníma para o {item.Name} é 1");
 
             RuleFor(c => c.Quantity)
-                .LessThan(CartItem.MAX_ITEMS)
-                .WithMessage($"A quantidade máxima de um item é {CartItem.MAX_ITEMS}");
+                .LessThanOrEqualTo(CartItem.MAX_ITEMS)
+                .WithMessage(item => $"A quantidade máxima para o {item.Name} é {CartItem.MAX_ITEMS}");
 
             RuleFor(c => c.Price)
                 .GreaterThan(0)
-                .WithMessage("O valor do item precisa ser maior que 0");
+                .WithMessage(item => $"O valor do {item.Name} precisa ser maior que 0");
         }
 
     }
