@@ -48,5 +48,10 @@ namespace NSE.Carrinho.Api.Data.Repositories
             return await _shoppingCartContext
                 .CartItems.FirstOrDefaultAsync(cartItem => cartItem.ShoppingCartId == ShoppingCartId && cartItem.ProductId == productId);
         }
+
+        public void RemoveCartItem(CartItem item)
+        {
+            _shoppingCartContext.CartItems.Remove(item);
+        }
     }
 }
