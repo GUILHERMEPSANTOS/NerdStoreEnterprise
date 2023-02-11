@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using NSE.Carrinho.Api.Application.Validations;
 
 namespace NSE.Carrinho.Api.Domain
@@ -12,7 +13,9 @@ namespace NSE.Carrinho.Api.Domain
         public decimal Price { get; set; }
         public string Image { get; set; }
         public Guid ShoppingCartId { get; set; }
-        public CustomerShoppingCart CustomerShoppingCart { get; set; }
+       
+        [JsonIgnore]
+        public CustomerShoppingCart? CustomerShoppingCart { get; set; }
 
         public CartItem()
         {
