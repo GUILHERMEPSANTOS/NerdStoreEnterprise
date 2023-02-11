@@ -1,3 +1,6 @@
+using FluentValidation.Results;
+using NSE.Carrinho.Api.Application.Validations;
+
 namespace NSE.Carrinho.Api.Domain
 {
     public class CustomerShoppingCart
@@ -6,6 +9,18 @@ namespace NSE.Carrinho.Api.Domain
         public Guid CustomerId { get; set; }
         public decimal Total { get; set; }
         public List<CartItem> Items { get; set; } = new List<CartItem>();
+        public ValidationResult ValidationResult { get; set; }
+
+
+        internal bool IsValid()
+        {
+            var errors = Items.SelectMany(item => new CartItemValidation().Validate(item).Errors).ToList();
+            errors.AddRange(new CustomerShoppingCartValidation().Validate(this).Errors);
+            ValidationResult = new ValidationResult(errors);
+
+            return ValidationResult.IsValid;
+
+        }
 
         public CustomerShoppingCart(Guid customerId)
         {
@@ -17,8 +32,6 @@ namespace NSE.Carrinho.Api.Domain
 
         internal void AddItem(CartItem item)
         {
-            if (item.IsValid()) return;
-
             item.SetShoppingCart(Id);
 
             if (HasItem(item))
@@ -36,7 +49,7 @@ namespace NSE.Carrinho.Api.Domain
 
         internal bool HasItem(CartItem item)
         {
-            return Items.Any(item => item.ProductId == item.ProductId);
+            return Items.Any(cartItem => cartItem.ProductId == item.ProductId);
         }
 
         internal CartItem GetCartItemBy(Guid ProductId)
@@ -51,8 +64,6 @@ namespace NSE.Carrinho.Api.Domain
 
         internal void UpdateCartItem(CartItem item)
         {
-            if (!item.IsValid()) return;
-
             var itemRef = GetCartItemBy(item.ProductId);
 
             Items.Remove(itemRef);
@@ -65,6 +76,15 @@ namespace NSE.Carrinho.Api.Domain
         {
             item.UpdateUnit(unities);
             UpdateCartItem(item);
+        }
+
+        internal void RemoveItem(CartItem item)
+        {
+            var itemExistsInList = GetCartItemBy(item.ProductId);
+
+            Items.Remove(itemExistsInList);
+
+            CalculateShoppingCartPrice();
         }
     }
 }
