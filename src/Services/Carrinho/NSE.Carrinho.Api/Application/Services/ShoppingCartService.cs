@@ -17,6 +17,27 @@ namespace NSE.Carrinho.Api.Application.Services
             _aspNetUser = aspNetUser;
         }
 
+        public async Task<ValidationResult> UpdateCartItem(Guid productId, CartItem item)
+        {
+            var customerShoppingCart = await GetCustomerShoppingCart();
+            var cartItemRef = await _shoppingCartRepository.FindCartItemBy(productId, customerShoppingCart.Id);
+
+            await ValidateCartItem(productId, cartItemRef, customerShoppingCart, item);
+
+            if (!ValidationResult.IsValid) return ValidationResult;
+
+            customerShoppingCart.UpdateUnit(cartItemRef, item.Quantity);
+
+            ValidateShoppingCart(customerShoppingCart);
+
+            if (!cartItemRef.IsValid()) return ValidationResult;
+
+            _shoppingCartRepository.UpdateCustomerShoppingCart(customerShoppingCart);
+            _shoppingCartRepository.UpdateCartItem(cartItemRef);
+
+            return await PersistData(_shoppingCartRepository.UnitOfWork);
+        }
+
         public async Task<ValidationResult> RemoveCartItem(Guid productId)
         {
             var customerShoppingCart = await GetCustomerShoppingCart();
@@ -25,6 +46,11 @@ namespace NSE.Carrinho.Api.Application.Services
             await ValidateCartItem(productId, cartItemRef, customerShoppingCart);
 
             if (!ValidationResult.IsValid) return ValidationResult;
+
+            customerShoppingCart.RemoveItem(cartItemRef);
+
+            _shoppingCartRepository.UpdateCustomerShoppingCart(customerShoppingCart);
+            _shoppingCartRepository.RemoveCartItem(cartItemRef);
 
             return await PersistData(_shoppingCartRepository.UnitOfWork);
         }
@@ -42,6 +68,8 @@ namespace NSE.Carrinho.Api.Application.Services
                 HandleExistingCart(shoppingCart, item);
             }
 
+            if (!ValidationResult.IsValid) return ValidationResult;
+
             return await PersistData(_shoppingCartRepository.UnitOfWork);
         }
 
@@ -51,6 +79,8 @@ namespace NSE.Carrinho.Api.Application.Services
 
             shoppingCart.AddItem(cartItem);
 
+            ValidateShoppingCart(shoppingCart);
+
             _shoppingCartRepository.AddCustomerShoppingCart(shoppingCart);
 
         }
@@ -58,12 +88,13 @@ namespace NSE.Carrinho.Api.Application.Services
         private void HandleExistingCart(CustomerShoppingCart customerShoppingCart, CartItem cartItem)
         {
             var itemAlreadyExistsInCart = customerShoppingCart.HasItem(cartItem);
-
             customerShoppingCart.AddItem(cartItem);
+
+            ValidateShoppingCart(customerShoppingCart);
 
             if (itemAlreadyExistsInCart)
             {
-                _shoppingCartRepository.UpdateCartItem(customerShoppingCart.GetCartItemBy(cartItem.Id));
+                _shoppingCartRepository.UpdateCartItem(customerShoppingCart.GetCartItemBy(cartItem.ProductId));
             }
             else
             {
@@ -78,34 +109,18 @@ namespace NSE.Carrinho.Api.Application.Services
             return await _shoppingCartRepository.GetCustomerShoppingCart(_aspNetUser.GetUserId());
         }
 
-        public async Task<ValidationResult> UpdateCartItem(Guid productId, CartItem item)
-        {
-            var customerShoppingCart = await GetCustomerShoppingCart();
-            var cartItemRef = await _shoppingCartRepository.FindCartItemBy(productId, customerShoppingCart.Id);
-
-            await ValidateCartItem(productId, cartItemRef, customerShoppingCart, item);
-
-            if (!ValidationResult.IsValid) return ValidationResult;
-
-            customerShoppingCart.UpdateUnit(cartItemRef, item.Quantity);
-
-            _shoppingCartRepository.UpdateCustomerShoppingCart(customerShoppingCart);
-            _shoppingCartRepository.UpdateCartItem(cartItemRef);
-
-            return await PersistData(_shoppingCartRepository.UnitOfWork);
-        }
 
         private async Task ValidateCartItem(Guid productId, CartItem cartItemRef, CustomerShoppingCart customerShoppingCart, CartItem item = null)
         {
             var cartItemHasProduct = ValidationCartItemHasProduct(productId, item);
-            var isCartNotNull = ValidateCartItemExists(item);
+            var isCartItemNotNull = ValidateCartItemExists(item);
             var hasItemsInCart = customerShoppingCart.HasItem(cartItemRef);
 
             if (!cartItemHasProduct)
             {
                 AddError("O item não corresponde ao informado");
             }
-            if (!isCartNotNull)
+            if (!isCartItemNotNull)
             {
                 AddError("Carrinho não encontrado");
             }
@@ -116,9 +131,18 @@ namespace NSE.Carrinho.Api.Application.Services
             }
         }
 
+        private bool ValidateShoppingCart(CustomerShoppingCart cart)
+        {
+            if (cart.IsValid()) return true;
+
+            cart.ValidationResult.Errors.ForEach(error => AddError(error.ErrorMessage));
+
+            return false;
+        }
+
         private bool ValidationCartItemHasProduct(Guid productId, CartItem item)
         {
-            return item != null && item.ProductId == productId;
+            return item != null && item.ProductId != productId;
         }
 
         private bool ValidateCartItemExists(CartItem item)
