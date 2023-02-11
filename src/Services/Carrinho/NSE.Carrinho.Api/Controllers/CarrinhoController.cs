@@ -24,14 +24,14 @@ namespace NSE.Carrinho.Api.Controllers
         }
 
         [HttpPost("adicionar-item")]
-        public async Task<IActionResult> AddItemToCart(CartItem item)
+        public async Task<IActionResult> AddItemToCart([FromBody] CartItem item)
         {
             var result = await _shoppingCartService.AddCartItem(item);
 
             return CustomResponse(result);
         }
 
-        [HttpPut("/{productId}")]
+        [HttpPut("atualizar-item/{productId}")]
         public async Task<IActionResult> UpdateCartItem([FromRoute] Guid productId, [FromBody] CartItem item)
         {
             var result = await _shoppingCartService.UpdateCartItem(productId, item);
@@ -39,10 +39,10 @@ namespace NSE.Carrinho.Api.Controllers
             return CustomResponse(result);
         }
         
-        [HttpDelete("/{productId}")]
+        [HttpDelete("{productId}")]
         public async Task<IActionResult> RemoveCartItem([FromRoute] Guid productId, [FromBody] CartItem item)
         {
-            var result = await _shoppingCartService.UpdateCartItem(productId, item);
+            var result = await _shoppingCartService.RemoveCartItem(productId);
 
             return CustomResponse(result);
         }
