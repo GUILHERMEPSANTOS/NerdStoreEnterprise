@@ -6,7 +6,7 @@ namespace NSE.WebApp.MVC.Interfaces
     public interface ICatalogoService
     {
         Task<IEnumerable<ProdutoViewModel>> GetAll();
-        Task<ProdutoViewModel> GetById(Guid id);
+        Task<ProdutoViewModel> GetById(Guid productId);
     }
 
     public interface ICatalogoServiceRefit
