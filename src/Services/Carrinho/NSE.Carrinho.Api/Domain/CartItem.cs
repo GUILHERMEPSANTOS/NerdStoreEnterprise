@@ -8,10 +8,10 @@ namespace NSE.Carrinho.Api.Domain
         internal const int MAX_ITEMS = 5;
         public Guid Id { get; set; }
         public Guid ProductId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
-        public string Image { get; set; }
+        public string? Image { get; set; }
         public Guid ShoppingCartId { get; set; }
        
         [JsonIgnore]
