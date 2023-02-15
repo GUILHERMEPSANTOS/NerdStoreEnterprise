@@ -5,5 +5,11 @@ namespace NSE.WebApp.MVC.Models.Errors
         public string Title { get; set; }
         public int Status { get; set; }
         public ResponseErrorMessages Errors { get; set; }
+
+        public ResponseResult()
+        {
+            Errors = new ResponseErrorMessages();
+        }
+        
     }
 }
