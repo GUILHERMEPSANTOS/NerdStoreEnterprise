@@ -40,14 +40,14 @@
                                                         </div>
                                                         <figcaption class="info">
                                                             <a asp-controller="Catalogo" asp-action="ProdutoDetalhe" asp-route-id="@item.ProductId"><h6 style="padding-top: 10px" class="title text-dark">@item.Name</h6></a>
-                                                            @* <p class="text-muted small">@this.UnidadesPorProduto(item.Quantidade)</p> *@
+                                                            <p class="text-muted small">@this.UnityByProduct(item.Quantity)</p>
                                                         </figcaption>
                                                     </figure>
                                                 </td>
                                                 <td>
                                                     <div class="price-wrap">
                                                         <var class="price"> @this.FormatCurrency(item.Price * item.Quantity)</var>
-                                                        <small class="text-muted"> @this.FormatCurrency(item.Price) cada</small>
+                                                        <small class="text-muted">@this.FormatCurrency(item.Price) cada</small>
                                                     </div>
                                                 </td>
                                                 <form method="post" asp-controller="Carrinho" asp-action="UpdateCartItem">
@@ -56,9 +56,9 @@
                                                         <input type="hidden" id="ProductId" name="ProductId" value="@item.ProductId" />
 
                                                         <div class="text-left">
-                                                            <select id="Quantidade" name="Quantidade" style="width: 80px" class="form-control">
+                                                            <select id="Quantity" name="Quantity" style="width: 80px" class="form-control">
                                                                 @{
-                                                                    @* @Html.Raw(this.SelectOptionsPorQuantidade(5, item.Quantity)) *@
+                                                                    @Html.Raw(this.SelectOptionsByQuantity(5, item.Quantity))
                                                                 }
                                                             </select>
                                                         </div>
