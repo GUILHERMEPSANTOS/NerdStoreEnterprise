@@ -30,6 +30,7 @@ namespace NSE.WebApp.MVC.Controllers
         [Route("carrinho/adicionar-item")]
         public async Task<IActionResult> AddCartItem(CartItemViewModel item)
         {
+            ModelState.Clear();
             var product = await _catalogoService.GetById(item.ProductId);
 
             ValidateCartItem(product, item.Quantity);
@@ -50,6 +51,8 @@ namespace NSE.WebApp.MVC.Controllers
         [Route("carrinho/atualizar-item")]
         public async Task<IActionResult> UpdateCartItem(Guid productId, int quantity)
         {
+            ModelState.Clear();
+            
             var product = await _catalogoService.GetById(productId);
 
             ValidateCartItem(product, quantity);
