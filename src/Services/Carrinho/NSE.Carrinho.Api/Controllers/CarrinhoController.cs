@@ -40,13 +40,11 @@ namespace NSE.Carrinho.Api.Controllers
         }
         
         [HttpDelete("{productId}")]
-        public async Task<IActionResult> RemoveCartItem([FromRoute] Guid productId, [FromBody] CartItem item)
+        public async Task<IActionResult> RemoveCartItem([FromRoute] Guid productId)
         {
             var result = await _shoppingCartService.RemoveCartItem(productId);
 
             return CustomResponse(result);
         }
-
-
     }
 }
