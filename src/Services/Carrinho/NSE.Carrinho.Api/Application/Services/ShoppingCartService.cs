@@ -44,6 +44,7 @@ namespace NSE.Carrinho.Api.Application.Services
             var cartItemRef = await _shoppingCartRepository.FindCartItemBy(productId, customerShoppingCart.Id);
 
             await ValidateCartItem(productId, cartItemRef, customerShoppingCart);
+            ValidateShoppingCart(customerShoppingCart);
 
             if (!ValidationResult.IsValid) return ValidationResult;
 
@@ -113,14 +114,14 @@ namespace NSE.Carrinho.Api.Application.Services
         private async Task ValidateCartItem(Guid productId, CartItem cartItemRef, CustomerShoppingCart customerShoppingCart, CartItem item = null)
         {
             var cartItemHasProduct = ValidationCartItemHasProduct(productId, item);
-            var isCartItemNotNull = ValidateCartItemExists(item);
+            var isShoppingCartNull = ValidateShoppingCartExists(customerShoppingCart);
             var hasItemsInCart = customerShoppingCart.HasItem(cartItemRef);
 
-            if (!cartItemHasProduct)
+            if (cartItemHasProduct)
             {
                 AddError("O item não corresponde ao informado");
             }
-            if (!isCartItemNotNull)
+            if (isShoppingCartNull)
             {
                 AddError("Carrinho não encontrado");
             }
@@ -145,9 +146,9 @@ namespace NSE.Carrinho.Api.Application.Services
             return item != null && item.ProductId != productId;
         }
 
-        private bool ValidateCartItemExists(CartItem item)
+        private bool ValidateShoppingCartExists(CustomerShoppingCart customerShoppingCart)
         {
-            return item is not null;
+            return customerShoppingCart is null;
         }
     }
 }
