@@ -38,7 +38,7 @@ namespace NSE.WebApp.MVC.Services
 
         public async Task<ResponseResult> RemoveCartItem(Guid productId)
         {
-            var result = await _httpClient.DeleteAsync("/{productId}");
+            var result = await _httpClient.DeleteAsync($"carrinho/{productId}");
             var hasNotError = HandleResponseError(result);
 
             if (!hasNotError) return await DeserializeResponse<ResponseResult>(result);
@@ -48,7 +48,7 @@ namespace NSE.WebApp.MVC.Services
 
         public async Task<ResponseResult> UpdateCartItem(Guid productId, CartItemViewModel item)
         {
-            var result = await _httpClient.PutAsJsonAsync("/atualizar-item/{productId}", item);
+            var result = await _httpClient.PutAsJsonAsync($"/carrinho/atualizar-item/{productId}", item);
             var hasNotError = HandleResponseError(result);
 
             if (!hasNotError) return await DeserializeResponse<ResponseResult>(result);
