@@ -13,7 +13,6 @@ namespace NSE.Cliente.API.Configuration
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowAnyOrigin();
-
                 });
             });
 
