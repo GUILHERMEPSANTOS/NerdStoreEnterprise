@@ -83,6 +83,17 @@
             "console": "internalConsole",
             "stopAtEntry": false
         },
+        {
+            "name": "BFF Api Gateway Compras",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/api-gateways/Compras/NSE.Bff.Compras/bin/Debug/net6.0/NSE.Bff.Compras.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/api-gateways/Compras/NSE.Bff.Compras",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
     ],
     "compounds": [
         {
@@ -92,6 +103,7 @@
                 "Carrinho",
                 "Identidade",
                 "Cliente",
+                "BFF Api Gateway Compras",
                 "WebApp",
             ],
             "stopAll": true
