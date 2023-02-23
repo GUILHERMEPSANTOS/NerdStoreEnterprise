@@ -1,25 +1,14 @@
+using System.Net;
 using System.Text.Json;
 using Core.Communication;
-using NSE.WebApp.MVC.Extensions;
 
-
-namespace NSE.WebApp.MVC.Services
+namespace NSE.Bff.Compras.Services
 {
     public abstract class ServiceBase
     {
         protected bool HandleResponseError(HttpResponseMessage response)
         {
-            switch ((int)response.StatusCode)
-            {
-                case 401:
-                case 403:
-                case 404:
-                case 500:
-                    throw new CustomHttpRequestException(response.StatusCode);
-
-                case 400:
-                    return false;
-            }
+            if (response.StatusCode == HttpStatusCode.BadRequest) return false;
 
             response.EnsureSuccessStatusCode();
 

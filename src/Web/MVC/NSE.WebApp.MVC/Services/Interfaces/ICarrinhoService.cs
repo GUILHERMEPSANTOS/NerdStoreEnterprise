@@ -1,5 +1,5 @@
+using Core.Communication;
 using NSE.WebApp.MVC.Models.Carrinho;
-using NSE.WebApp.MVC.Models.Errors;
 
 namespace NSE.WebApp.MVC.Services.Interfaces
 {
