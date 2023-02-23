@@ -1,5 +1,6 @@
-namespace NSE.WebApp.MVC.Models.Errors
+namespace Core.Communication
 {
+
     public class ResponseErrorMessages
     {
         public List<string> Message { get; set; }

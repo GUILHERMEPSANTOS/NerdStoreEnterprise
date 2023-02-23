@@ -1,3 +1,4 @@
+using Core.Communication;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -7,9 +8,7 @@ namespace NSE.WebApi.Core.Controllers
     [ApiController]
     public abstract class MainController : ControllerBase
     {
-
         protected ICollection<string> Errors = new List<string>();
-
 
         protected IActionResult CustomResponse(object result = null)
         {
@@ -44,6 +43,33 @@ namespace NSE.WebApi.Core.Controllers
             }
 
             return CustomResponse();
+        }
+
+        protected IActionResult CustomResponse(ResponseResult response)
+        {
+            ResponseHasErrors(response);
+
+            return CustomResponse();
+        }
+ 
+        protected bool ResponseHasErrors(ResponseResult response)
+        {
+            if (ProcessSuccess(response)) return false;
+
+            foreach (var error in response.Errors.Message)
+            {
+                AddErrorsProcessing(error);
+            }
+
+            return true;
+        }
+
+        private bool ProcessSuccess(ResponseResult response)
+        {
+            var responseIsNull = response is null;
+            var hasMessageErrors = response.Errors.Message.Any();
+
+            return responseIsNull || !hasMessageErrors;
         }
 
         protected bool ValidOperation()

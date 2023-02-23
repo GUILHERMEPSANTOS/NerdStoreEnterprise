@@ -1,5 +1,5 @@
+using Core.Communication;
 using Microsoft.AspNetCore.Mvc;
-using NSE.WebApp.MVC.Models.Errors;
 
 namespace NSE.WebApp.MVC.Controllers
 {

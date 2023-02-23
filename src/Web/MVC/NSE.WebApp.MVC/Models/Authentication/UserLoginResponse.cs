@@ -1,5 +1,4 @@
-using System.Threading.Tasks;
-using NSE.WebApp.MVC.Models.Errors;
+using Core.Communication;
 using NSE.WebApp.MVC.Models.Token;
 
 namespace NSE.WebApp.MVC.Authentication

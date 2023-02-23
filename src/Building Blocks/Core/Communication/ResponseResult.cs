@@ -1,4 +1,4 @@
-namespace NSE.WebApp.MVC.Models.Errors
+namespace Core.Communication
 {
     public class ResponseResult
     {
@@ -10,6 +10,5 @@ namespace NSE.WebApp.MVC.Models.Errors
         {
             Errors = new ResponseErrorMessages();
         }
-        
     }
 }

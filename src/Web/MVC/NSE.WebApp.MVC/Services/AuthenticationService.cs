@@ -1,9 +1,9 @@
+using Core.Communication;
 using Microsoft.Extensions.Options;
 using NSE.WebApp.MVC.Authentication;
 using NSE.WebApp.MVC.Extensions;
 using NSE.WebApp.MVC.Interfaces;
 using NSE.WebApp.MVC.Models;
-using NSE.WebApp.MVC.Models.Errors;
 
 namespace NSE.WebApp.MVC.Services
 {
