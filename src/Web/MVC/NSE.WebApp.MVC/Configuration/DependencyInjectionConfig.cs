@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using static NSE.WebApp.MVC.Extensions.CpfAttributeAdapter;
 using NSE.WebApi.Core.User;
 using NSE.WebApp.MVC.Services.Interfaces;
+using NSE.WebApi.Core.Extensions;
 
 namespace NSE.WebApp.MVC.Configuration
 {
@@ -31,7 +32,7 @@ namespace NSE.WebApp.MVC.Configuration
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)))
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
             services
-                .AddHttpClient<ICarrinhoService, CarrinhoService>()
+                .AddHttpClient<IComprasBffService, ComprasBffService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 .AddPolicyHandler(PollyExtensions.WaitAndTry())
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
