@@ -14,6 +14,7 @@ namespace NSE.Bff.Compras.Configurations
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddCors();
+            services.AddDependencyInjectionConfiguration();
             services.AddMessageBusConfig(configuration);
             services.AddAuthConfiguration(configuration);
             services.AddSwaggerConfiguration();
