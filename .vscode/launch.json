@@ -84,7 +84,7 @@
             "stopAtEntry": false
         },
         {
-            "name": "BFF Api Gateway Compras",
+            "name": "BFF_Api_Gateway_Compras",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -103,7 +103,7 @@
                 "Carrinho",
                 "Identidade",
                 "Cliente",
-                "BFF Api Gateway Compras",
+                "BFF_Api_Gateway_Compras",
                 "WebApp",
             ],
             "stopAll": true
