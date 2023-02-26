@@ -10,4 +10,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <ProjectReference Include="..\..\..\Building Blocks\Services\NSE.WebApi.Core\NSE.WebApi.Core.csproj" />
+    <ProjectReference Include="..\NSE.Pedido.Infra\NSE.Pedido.Infra.csproj" />
+    <ProjectReference Include="..\..\..\Building Blocks\Core\NSE.Core.csproj" />
+  </ItemGroup>
+
 </Project>

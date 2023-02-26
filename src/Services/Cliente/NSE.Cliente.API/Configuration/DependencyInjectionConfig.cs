@@ -13,11 +13,8 @@ namespace NSE.Cliente.API.Configuration
         public static IServiceCollection AddDependencyInjectionConfiguration(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(DTOToCommandMappingProfile));
-
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
-
             services.AddScoped<IMediatorHandler, MediatorHandler>();
-
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 

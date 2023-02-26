@@ -10,7 +10,6 @@ namespace NSE.Carrinho.Api.Configurations
             services.AddDbContext<ShoppingCartContext>(options =>
                 options
                 .UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
-                    .EnableDetailedErrors()
             );
 
             return services;
