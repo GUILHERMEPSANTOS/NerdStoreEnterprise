@@ -1,3 +1,4 @@
+using Core.Data;
 using Core.Mediator;
 using Core.Messages;
 using FluentValidation.Results;
@@ -6,7 +7,7 @@ using NSE.Pedido.Domain.Vouchers;
 
 namespace NSE.Pedido.Infra.Context
 {
-    public class OrdersContext : DbContext
+    public class OrdersContext : DbContext, IUnitOfWork
     {
         private readonly IMediatorHandler _mediator;
         public DbSet<Voucher> Vouchers { get; set; }
@@ -41,6 +42,13 @@ namespace NSE.Pedido.Infra.Context
             {
                 property.SetColumnType("VARCHAR(100)");
             }
+        }
+
+        public async Task<bool> Commit()
+        {
+            var success = await base.SaveChangesAsync() > 0;
+
+            return success;
         }
     }
 }
