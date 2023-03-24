@@ -131,16 +131,6 @@ namespace NSE.Carrinho.Api.Application.Services
                 AddError("O Item não etá no carrinho");
             }
         }
-
-        private bool ValidateShoppingCart(CustomerShoppingCart cart)
-        {
-            if (cart.IsValid()) return true;
-
-            cart.ValidationResult.Errors.ForEach(error => AddError(error.ErrorMessage));
-
-            return false;
-        }
-
         private bool ValidationCartItemHasProduct(Guid productId, CartItem item)
         {
             return item != null && item.ProductId != productId;
@@ -150,5 +140,15 @@ namespace NSE.Carrinho.Api.Application.Services
         {
             return customerShoppingCart is null;
         }
+        private bool ValidateShoppingCart(CustomerShoppingCart cart)
+        {
+            if (cart.IsValid()) return true;
+
+            cart.ValidationResult.Errors.ForEach(error => AddError(error.ErrorMessage));
+
+            return false;
+        }
+
+
     }
 }
