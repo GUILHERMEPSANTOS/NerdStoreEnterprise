@@ -1,4 +1,5 @@
 using Core.DomainObjects;
+using NSE.Pedido.Domain.Vouchers.Specs;
 
 namespace NSE.Pedido.Domain.Vouchers
 {
@@ -14,5 +15,23 @@ namespace NSE.Pedido.Domain.Vouchers
         public DateTime ExpirationDate { get; private set; }
         public bool Active { get; private set; }
         public bool Used { get; private set; }
+
+
+        public bool CanUse()
+        {
+            var specifications = new VoucherActiveSpecification()
+                .And(new VoucherDateSpecification())
+                .And(new VoucherQuantitySpecification());
+
+            return specifications.IsSatisfiedBy(this);
+        }
+
+        public void SetAsUsed()
+        {
+            Used = true;
+            UsedAt = DateTime.Now;
+            Active = false;
+            Quantity = 0;
+        }
     }
 }
