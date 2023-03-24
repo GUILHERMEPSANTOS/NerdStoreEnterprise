@@ -6,6 +6,7 @@ namespace NSE.Pedido.API.Application.Queries
     public class VoucherQueries : IVoucherQueries
     {
         private readonly IVoucherRepository _voucherRepository;
+        private bool IsValidVoucher;
 
         public VoucherQueries(IVoucherRepository voucherRepository)
         {
@@ -16,7 +17,9 @@ namespace NSE.Pedido.API.Application.Queries
         {
             var voucher = await _voucherRepository.GetVoucherByCode(code);
 
-            if (voucher is null) return null;
+            CheckAndUpdateVoucherValidity(voucher);
+
+            if (!IsValidVoucher) return null;
 
             return new VoucherDTO
             {
@@ -25,6 +28,11 @@ namespace NSE.Pedido.API.Application.Queries
                 DiscountType = (int)voucher.DiscountType,
                 Percentage = voucher.Percentage
             };
+        }
+
+        private void CheckAndUpdateVoucherValidity(Voucher voucher)
+        {
+            IsValidVoucher = !(voucher is null) && voucher.CanUse();
         }
     }
 }
