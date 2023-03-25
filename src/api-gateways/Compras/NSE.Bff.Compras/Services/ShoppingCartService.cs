@@ -19,11 +19,15 @@ namespace NSE.Bff.Compras.Services
         public async Task<ResponseResult> AddCartItem(CartItemDTO item)
         {
             var result = await _httpClient.PostAsJsonAsync("carrinho/adicionar-item", item);
-            var hasNotError = HandleResponseError(result);
 
-            if (!hasNotError) return await DeserializeResponse<ResponseResult>(result);
+            return await RetrieveResponseResult(result);
+        }
 
-            return ReturnOk();
+        public async Task<ResponseResult> ApplyVoucher(VoucherDTO voucher)
+        {
+            var result = await _httpClient.PostAsJsonAsync("/carrinho/aplicar-voucher", voucher);
+
+            return await RetrieveResponseResult(result);
         }
 
         public async Task<ShoppingCartDTO> GetShoppingCart()
@@ -38,16 +42,20 @@ namespace NSE.Bff.Compras.Services
         public async Task<ResponseResult> RemoveCartItem(Guid productId)
         {
             var result = await _httpClient.DeleteAsync($"carrinho/{productId}");
-            var hasNotError = HandleResponseError(result);
 
-            if (!hasNotError) return await DeserializeResponse<ResponseResult>(result);
-
-            return ReturnOk();
+            return await RetrieveResponseResult(result);
         }
 
         public async Task<ResponseResult> UpdateCartItem(Guid productId, CartItemDTO item)
         {
             var result = await _httpClient.PutAsJsonAsync($"/carrinho/atualizar-item/{productId}", item);
+
+            return await RetrieveResponseResult(result);
+        }
+
+
+        public async Task<ResponseResult> RetrieveResponseResult(HttpResponseMessage result)
+        {
             var hasNotError = HandleResponseError(result);
 
             if (!hasNotError) return await DeserializeResponse<ResponseResult>(result);
