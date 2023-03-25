@@ -5,11 +5,51 @@ namespace NSE.Carrinho.Api.Domain
 {
     public class CustomerShoppingCart
     {
+        internal const int MAX_ITEMS = 5;
         public Guid Id { get; set; }
         public Guid CustomerId { get; set; }
         public decimal Total { get; set; }
         public List<CartItem> Items { get; set; } = new List<CartItem>();
         public ValidationResult ValidationResult { get; set; }
+        public bool HasVoucher { get; set; }
+        public decimal Discount { get; set; }
+        public Voucher Voucher { get; set; }
+
+        public void ApplyVoucher(Voucher voucher)
+        {
+            voucher = voucher;
+            HasVoucher = true;
+            CalculateShoppingCartPrice();
+        }
+
+        public void CalculateDiscountPrice()
+        {
+            if (!HasVoucher) return;
+
+            decimal discount = 0;
+            decimal price = Total;
+
+            if (Voucher.DiscountType == VoucherDiscountType.Value)
+            {
+                if (Voucher.Discount.HasValue)
+                {
+                    discount = Voucher.Discount.Value;
+                    price -= discount;
+                }
+            }
+
+            if (Voucher.DiscountType == VoucherDiscountType.Percentage)
+            {
+                if (Voucher.Percentage.HasValue)
+                {
+                    discount = (price * Voucher.Percentage.Value) / 100;
+                    price -= discount;
+                }
+            }
+
+            Total = price < 0 ? 0 : price;
+            Discount = discount;
+        }
 
 
         internal bool IsValid()
@@ -19,7 +59,6 @@ namespace NSE.Carrinho.Api.Domain
             ValidationResult = new ValidationResult(errors);
 
             return ValidationResult.IsValid;
-
         }
 
         public CustomerShoppingCart(Guid customerId)
@@ -60,6 +99,7 @@ namespace NSE.Carrinho.Api.Domain
         internal void CalculateShoppingCartPrice()
         {
             Total = Items.Sum(item => item.CalculatePrice());
+            CalculateDiscountPrice();
         }
 
         internal void UpdateCartItem(CartItem item)
