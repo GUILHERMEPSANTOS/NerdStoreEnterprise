@@ -16,7 +16,6 @@ namespace NSE.Pedido.Domain.Vouchers
         public bool Active { get; private set; }
         public bool Used { get; private set; }
 
-
         public bool CanUse()
         {
             var specifications = new VoucherActiveSpecification()
