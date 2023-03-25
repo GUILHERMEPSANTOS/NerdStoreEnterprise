@@ -15,6 +15,8 @@ namespace NSE.Bff.Compras.Configurations
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
+
+            #region HttpClient
             services.AddHttpClient<ICatalogService, CatalogService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 .AddPolicyHandler(PollyExtensions.WaitAndTry())
@@ -25,6 +27,11 @@ namespace NSE.Bff.Compras.Configurations
                 .AddPolicyHandler(PollyExtensions.WaitAndTry())
                 .AddTransientHttpErrorPolicy(builder => builder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
+            services.AddHttpClient<IOrderService, IOrderService>()
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddPolicyHandler(PollyExtensions.WaitAndTry())
+                .AddTransientHttpErrorPolicy(builder => builder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+            #endregion
             return services;
         }
     }
