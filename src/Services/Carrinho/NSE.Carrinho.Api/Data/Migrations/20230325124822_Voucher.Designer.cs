@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NSE.Carrinho.Api.Data;
 
@@ -11,9 +12,10 @@ using NSE.Carrinho.Api.Data;
 namespace NSE.Carrinho.API.Data.Migrations
 {
     [DbContext(typeof(ShoppingCartContext))]
-    partial class ShoppingCartContextModelSnapshot : ModelSnapshot
+    [Migration("20230325124822_Voucher")]
+    partial class Voucher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,6 +99,7 @@ namespace NSE.Carrinho.API.Data.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Code")
+                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("Varchar(50)")
                                 .HasColumnName("VoucherCode");
@@ -106,7 +109,8 @@ namespace NSE.Carrinho.API.Data.Migrations
                                 .HasColumnName("VoucherDiscount");
 
                             b1.Property<int>("DiscountType")
-                                .HasColumnType("int");
+                                .HasColumnType("int")
+                                .HasColumnName("VoucherDiscountType");
 
                             b1.Property<decimal?>("Percentage")
                                 .HasColumnType("decimal(18,2)")

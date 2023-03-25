@@ -18,6 +18,22 @@ namespace NSE.Carrinho.Api.Data.Mappings
                 .WithOne(i => i.CustomerShoppingCart)
                 .HasForeignKey(i => i.ShoppingCartId);
 
+            builder.Ignore(shoppingCart => shoppingCart.Voucher)
+                .OwnsOne(shoppingCart => shoppingCart.Voucher, voucherBuilder =>
+                {
+                    voucherBuilder.Property(voucher => voucher.Code)
+                                  .HasColumnName("VoucherCode")
+                                  .HasMaxLength(50)
+                                  .IsRequired(false);
+
+                    voucherBuilder.Property(voucher => voucher.DiscountType);                            ;
+
+                    voucherBuilder.Property(voucher => voucher.Percentage)
+                                  .HasColumnName("VoucherPercentage");
+
+                    voucherBuilder.Property(voucher => voucher.Discount)
+                                  .HasColumnName("VoucherDiscount");
+                });
         }
     }
 }
