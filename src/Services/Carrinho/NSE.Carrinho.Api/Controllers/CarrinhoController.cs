@@ -31,6 +31,14 @@ namespace NSE.Carrinho.Api.Controllers
             return CustomResponse(result);
         }
 
+        [HttpPost("aplicar-voucher")]
+        public async Task<IActionResult> ApplyVoucher([FromBody] Voucher voucher)
+        {
+            var result = await _shoppingCartService.ApplyVoucher(voucher);
+
+            return CustomResponse(result);
+        }
+
         [HttpPut("atualizar-item/{productId}")]
         public async Task<IActionResult> UpdateCartItem([FromRoute] Guid productId, [FromBody] CartItem item)
         {

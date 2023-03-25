@@ -20,8 +20,8 @@ namespace NSE.Carrinho.Api.Application.Validations
                 .WithMessage(item => $"A quantidade miníma para o {item.Name} é 1");
 
             RuleFor(c => c.Quantity)
-                .LessThanOrEqualTo(CartItem.MAX_ITEMS)
-                .WithMessage(item => $"A quantidade máxima para o {item.Name} é {CartItem.MAX_ITEMS}");
+                .LessThanOrEqualTo(CustomerShoppingCart.MAX_ITEMS)
+                .WithMessage(item => $"A quantidade máxima para o {item.Name} é {CustomerShoppingCart.MAX_ITEMS}");
 
             RuleFor(c => c.Price)
                 .GreaterThan(0)

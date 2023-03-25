@@ -56,6 +56,17 @@ namespace NSE.Carrinho.Api.Application.Services
             return await PersistData(_shoppingCartRepository.UnitOfWork);
         }
 
+        public async Task<ValidationResult> ApplyVoucher(Voucher voucher)
+        {
+            var customerShoppingCart = await GetCustomerShoppingCart();
+
+            customerShoppingCart.ApplyVoucher(voucher);
+
+            _shoppingCartRepository.UpdateCustomerShoppingCart(customerShoppingCart);
+
+            return await PersistData(_shoppingCartRepository.UnitOfWork);
+        }
+
         public async Task<ValidationResult> AddCartItem(CartItem item)
         {
             var shoppingCart = await GetCustomerShoppingCart();
@@ -148,7 +159,5 @@ namespace NSE.Carrinho.Api.Application.Services
 
             return false;
         }
-
-
     }
 }
