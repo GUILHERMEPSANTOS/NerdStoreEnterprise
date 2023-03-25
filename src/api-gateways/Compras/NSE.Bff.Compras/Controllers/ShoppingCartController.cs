@@ -10,11 +10,13 @@ namespace NSE.Bff.Compras.Controllers
     {
         private readonly ICatalogService _catalogService;
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly IOrderService _orderService;
 
-        public ShoppingCartController(ICatalogService catalogService, IShoppingCartService shoppingCartService)
+        public ShoppingCartController(ICatalogService catalogService, IShoppingCartService shoppingCartService, IOrderService orderService)
         {
             _catalogService = catalogService;
             _shoppingCartService = shoppingCartService;
+            _orderService = orderService;
         }
 
         [HttpGet("carrinho")]
@@ -83,6 +85,22 @@ namespace NSE.Bff.Compras.Controllers
             var result = await _shoppingCartService.RemoveCartItem(productId: productId);
 
             return CustomResponse(result);
+        }
+
+        [HttpPost("carrinho/aplicar-voucher")]
+        public async Task<IActionResult> ApplyVoucher([FromBody] string code)
+        {
+            var voucher = await _orderService.GetVoucherByCode(code);
+
+            if (voucher is null)
+            {
+                AddErrorsProcessing("Voucher não foi encontrado ou é inválido!");
+                return CustomResponse();
+            }
+
+            var response = await _shoppingCartService.ApplyVoucher(voucher);
+
+            return CustomResponse(response);
         }
 
         private async Task ValidateShoppingCartItem(ProductDTO product, int quantity)
