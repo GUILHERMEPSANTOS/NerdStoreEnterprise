@@ -8,6 +8,7 @@ using NSE.WebApi.Core.Controllers;
 namespace NSE.Pedido.API.Controllers
 {
     [Authorize]
+    [Route("voucher")]
     public class VoucherController : MainController
     {
         private readonly IVoucherQueries _voucherQueries;
@@ -17,7 +18,7 @@ namespace NSE.Pedido.API.Controllers
             _voucherQueries = voucherQueries;
         }
 
-        [HttpGet("voucher/{code}")]
+        [HttpGet("{code}")]
         [ProducesResponseType(typeof(VoucherDTO), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetVoucherByCode(string code)
