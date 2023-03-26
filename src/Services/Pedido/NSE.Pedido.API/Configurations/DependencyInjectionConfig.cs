@@ -13,8 +13,8 @@ namespace NSE.Pedido.API.Configurations
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
 
-            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IAspNetUser,   AspNetUser>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IAspNetUser, AspNetUser>();
 
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IMediatorHandler, MediatorHandler>();
