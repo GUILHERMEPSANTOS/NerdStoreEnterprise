@@ -94,15 +94,27 @@
             "console": "internalConsole",
             "stopAtEntry": false
         },
+        {
+            "name": "Pedido",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Services/Pedido/NSE.Pedido.API/bin/Debug/net6.0/NSE.Pedido.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/Pedido/NSE.Pedido.API",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
     ],
     "compounds": [
-        {
+        {   
             "name": "Start all projects",
             "configurations": [
                 "Catalogo",
                 "Carrinho",
                 "Identidade",
                 "Cliente",
+                "Pedido",
                 "BFF_Api_Gateway_Compras",
                 "WebApp",
             ],
