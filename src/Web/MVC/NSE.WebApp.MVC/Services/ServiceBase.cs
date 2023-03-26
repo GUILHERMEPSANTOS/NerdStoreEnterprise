@@ -34,6 +34,16 @@ namespace NSE.WebApp.MVC.Services
 
             return JsonSerializer.Deserialize<Response>(await response.Content.ReadAsStringAsync(), options);
         }
+
+        protected async Task<ResponseResult> HandleResponse(HttpResponseMessage response)
+        {
+            var hasNotError = HandleResponseError(response);
+
+            if (!hasNotError) return await DeserializeResponse<ResponseResult>(response);
+
+            return ReturnOk();
+        }
+
         protected ResponseResult ReturnOk()
         {
             return new ResponseResult();

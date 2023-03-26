@@ -2,6 +2,7 @@ using Core.Communication;
 using Microsoft.Extensions.Options;
 using NSE.WebApp.MVC.Extensions;
 using NSE.WebApp.MVC.Models.Carrinho;
+using NSE.WebApp.MVC.Models.Pedido;
 using NSE.WebApp.MVC.Services.Interfaces;
 
 namespace NSE.WebApp.MVC.Services
@@ -20,11 +21,15 @@ namespace NSE.WebApp.MVC.Services
         public async Task<ResponseResult> AddCartItem(CartItemViewModel item)
         {
             var result = await _httpClient.PostAsJsonAsync("compras/carrinho-adicionar", item);
-            var hasNotError = HandleResponseError(result);
 
-            if (!hasNotError) return await DeserializeResponse<ResponseResult>(result);
+            return await HandleResponse(result);
+        }
 
-            return ReturnOk();
+        public async Task<ResponseResult> ApplyVoucher(string code)
+        {
+            var result = await _httpClient.PostAsJsonAsync("compras/carrinho/aplicar-voucher", code);
+
+            return await HandleResponse(result);
         }
 
         public async Task<ShoppingCartViewModel> GetShoppingCart()
@@ -48,21 +53,15 @@ namespace NSE.WebApp.MVC.Services
         public async Task<ResponseResult> RemoveCartItem(Guid productId)
         {
             var result = await _httpClient.DeleteAsync($"compras/carrinho-remover/{productId}");
-            var hasNotError = HandleResponseError(result);
 
-            if (!hasNotError) return await DeserializeResponse<ResponseResult>(result);
-
-            return ReturnOk();
+            return await HandleResponse(result);
         }
 
         public async Task<ResponseResult> UpdateCartItem(Guid productId, CartItemViewModel item)
         {
             var result = await _httpClient.PutAsJsonAsync($"compras/carrinho-atualizar/{productId}", item);
-            var hasNotError = HandleResponseError(result);
 
-            if (!hasNotError) return await DeserializeResponse<ResponseResult>(result);
-
-            return ReturnOk();
+            return await HandleResponse(result);
         }
     }
 }
