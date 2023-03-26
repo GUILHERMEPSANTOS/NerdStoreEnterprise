@@ -27,7 +27,7 @@ namespace NSE.Bff.Compras.Configurations
                 .AddPolicyHandler(PollyExtensions.WaitAndTry())
                 .AddTransientHttpErrorPolicy(builder => builder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-            services.AddHttpClient<IOrderService, IOrderService>()
+            services.AddHttpClient<IOrderService, OrderService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 .AddPolicyHandler(PollyExtensions.WaitAndTry())
                 .AddTransientHttpErrorPolicy(builder => builder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
