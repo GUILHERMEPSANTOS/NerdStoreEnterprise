@@ -17,7 +17,7 @@ namespace NSE.Carrinho.Api.Domain
 
         public void ApplyVoucher(Voucher voucher)
         {
-            voucher = voucher;
+            Voucher = voucher;
             HasVoucher = true;
             CalculateShoppingCartPrice();
         }
