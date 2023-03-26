@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NSE.WebApp.MVC.Models.Carrinho;
+using NSE.WebApp.MVC.Models.Pedido;
 using NSE.WebApp.MVC.Services.Interfaces;
 
 namespace NSE.WebApp.MVC.Controllers
@@ -54,6 +55,19 @@ namespace NSE.WebApp.MVC.Controllers
         public async Task<IActionResult> RemoveCartItem(Guid productId)
         {
             var result = await _comprasBffService.RemoveCartItem(productId);
+
+            if (HasErrors(result)) return View("Index", await _comprasBffService.GetShoppingCart());
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Route("carrinho/aplicar-voucher")]
+        public async Task<IActionResult> ApplyVoucher(string code)
+        {
+            ModelState.Clear();
+
+            var result = await _comprasBffService.ApplyVoucher(code);
 
             if (HasErrors(result)) return View("Index", await _comprasBffService.GetShoppingCart());
 
