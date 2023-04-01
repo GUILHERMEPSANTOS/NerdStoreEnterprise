@@ -28,6 +28,11 @@ namespace NSE.Pedido.Domain.Orders
             OrderStatus = OrderStatus.Authorized;
         }
 
+        public void SetAddress(Address address)
+        {
+            Address = address;
+        }
+
         internal void SetVoucher(Voucher voucher)
         {
             Voucher = voucher;
