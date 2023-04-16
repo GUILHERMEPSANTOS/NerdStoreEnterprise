@@ -16,12 +16,28 @@ namespace NSE.Pedido.Domain.Orders
         public DateTime DateAdded { get; private set; }
         public OrderStatus OrderStatus { get; private set; }
         public Address Address { get; private set; }
-        private readonly List<OrderItem> _ordersItems;
-        private IReadOnlyCollection<OrderItem> OrderItems => _ordersItems;
-        public IDiscountStrategy DiscountStrategy { get; private set; }
-        // EF Core 
         public Voucher Voucher { get; private set; }
+        private readonly List<OrderItem> _ordersItems;
+        public IReadOnlyCollection<OrderItem> OrderItems => _ordersItems;
+        private IDiscountStrategy DiscountStrategy { get; set; }
 
+        public Order(Guid customerId, decimal amount, List<OrderItem> ordersItems
+                    , bool hasVoucher = false, decimal discount = 0, Guid? voucherId = null)
+        {
+
+            CustomerId = customerId;
+            Amount = amount;
+            Discount = discount;
+
+            HasVoucher = hasVoucher;
+            VoucherId = voucherId;
+            _ordersItems = ordersItems;
+
+        }
+
+        protected Order()
+        {
+        }
 
         internal void Authorize()
         {
