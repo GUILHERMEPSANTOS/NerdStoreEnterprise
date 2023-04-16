@@ -2,7 +2,7 @@ using Core.DomainObjects.Data;
 
 namespace NSE.Pedido.Domain.Orders.Interfaces
 {
-    public interface OrderRepository : IRepository<Order>
+    public interface IOrderRepository : IRepository<Order>
     {
         Task<Order> GetBy(Guid id);
         Task<IEnumerable<Order>> GetOrdersBy(Guid customerId);
