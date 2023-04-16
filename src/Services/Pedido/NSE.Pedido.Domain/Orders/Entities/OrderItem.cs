@@ -10,7 +10,6 @@ namespace NSE.Pedido.Domain.Orders
         public int Quantity { get; set; }
         public string ProductImage { get; set; }
         public decimal Price { get; set; }
-        public Address Address { get; set; }
         //EF Core
         public Order Order { get; set; }
 
