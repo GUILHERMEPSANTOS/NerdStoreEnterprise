@@ -6,6 +6,7 @@ namespace NSE.Pedido.Domain.Orders
     {
         public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
+        public string ProductName { get; set; }
         public int Quantity { get; set; }
         public string ProductImage { get; set; }
         public decimal Price { get; set; }
@@ -17,16 +18,12 @@ namespace NSE.Pedido.Domain.Orders
         {
         }
 
-        public OrderItem(Guid orderId, Guid productId, int quantity, decimal price,
-            Address address, Order order, string productImage = null)
+        public OrderItem(Guid productId, string productName,int quantity, decimal price, string productImage = null)
         {
-            OrderId = orderId;
             ProductId = productId;
             Quantity = quantity;
             ProductImage = productImage;
-            Price = price;
-            Address = address;
-            Order = order;
+            Price = price;        
         }
 
         internal decimal CalculateAmount()
