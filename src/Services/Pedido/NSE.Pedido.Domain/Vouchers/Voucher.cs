@@ -32,5 +32,14 @@ namespace NSE.Pedido.Domain.Vouchers
             Active = false;
             Quantity = 0;
         }
+
+        public void DebitAmount()
+        {
+            Quantity -= 1;
+
+            if (Quantity >= 1) return;
+
+            SetAsUsed();
+        }
     }
 }

@@ -23,5 +23,10 @@ namespace NSE.Pedido.Infra.Repositories
         {
             _context.Dispose();
         }
+
+        public void Update(Voucher voucher)
+        {
+            _context.Vouchers.Update(voucher);
+        }
     }
 }

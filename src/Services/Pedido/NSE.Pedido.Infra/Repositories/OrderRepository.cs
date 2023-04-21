@@ -1,3 +1,4 @@
+using System.Data.Common;
 using Core.Data;
 using Microsoft.EntityFrameworkCore;
 using NSE.Pedido.Domain.Orders;
@@ -55,6 +56,11 @@ namespace NSE.Pedido.Infra.Repositories
         public void Dispose()
         {
             _orderContext.Dispose();
+        }
+
+        public DbConnection GetDbConnection()
+        {
+            return _orderContext.Database.GetDbConnection();
         }
     }
 }
