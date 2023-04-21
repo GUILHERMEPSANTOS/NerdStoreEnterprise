@@ -85,7 +85,7 @@ namespace NSE.Pedido.Infra.Context
                     entity.Property("DateAdded").CurrentValue = DateTime.Now;
                 }
 
-                if (entity.State == EntityState.Unchanged)
+                if (entity.State == EntityState.Modified)
                 {
                     entity.Property("DateAdded").IsModified = false;
                 }
