@@ -1,5 +1,6 @@
 using Core.Messages;
 using NSE.Pedido.API.Application.DTO;
+using NSE.Pedido.API.Application.Validations;
 
 namespace NSE.Pedido.API.Application.Commands
 {
@@ -24,5 +25,11 @@ namespace NSE.Pedido.API.Application.Commands
         public string ExpirationDate { get; set; }
         public string SecurityCode { get; set; }
 
+        public bool IsValid()
+        {
+            ValidationResult = new AddOrderValidation().Validate(this);
+
+            return ValidationResult.IsValid;
+        }
     }
 }
