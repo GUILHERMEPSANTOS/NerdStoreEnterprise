@@ -1,66 +1,144 @@
 using Core.Messages;
 using FluentValidation.Results;
 using MediatR;
+using System.Linq;
+using NSE.Pedido.API.Application.DTO;
+using NSE.Pedido.Domain.Orders;
+using NSE.Pedido.Domain.Vouchers;
+using NSE.Pedido.Domain.Vouchers.Specs;
+using NSE.Pedido.API.Application.Events;
+using NSE.Pedido.Domain.Orders.Interfaces;
 
 namespace NSE.Pedido.API.Application.Commands
 {
     public class OrderCommandHandler : CommandHandler, IRequestHandler<AddOrderCommand, ValidationResult>
     {
-        public Task<ValidationResult> Handle(AddOrderCommand message, CancellationToken cancellationToken)
+        private readonly IVoucherRepository _voucherRepository;
+        private readonly IOrderRepository _orderRepository;
+
+        public OrderCommandHandler(IVoucherRepository voucherRepository, IOrderRepository orderRepository)
         {
+            _voucherRepository = voucherRepository;
+            _orderRepository = orderRepository;
+        }
 
-             // command validation
-           
+        public async Task<ValidationResult> Handle(AddOrderCommand message, CancellationToken cancellationToken)
+        {            
+            var validMessage = message.IsValid();
 
-            // Map Order
-           
+            if (!validMessage) return message.ValidationResult;
+         
+            var order = MapOrder(message);
+         
+            var voucherAppliedSuccessfully = await ApplyVoucher(message, order);
 
-            // apply voucher, if exists
-          
+            if (!voucherAppliedSuccessfully) return ValidationResult;
+         
+            var validOrder = ValidateOrder(order);
 
-            // Validate order
-          
+            if (validOrder) return ValidationResult;
+         
+            var paymentExecutedSuccessfully = DoPayment(order, message);
 
-            // pay the order
-          
+            if (!paymentExecutedSuccessfully) return ValidationResult;
+         
+            order.Authorize();
+         
+            order.AddEvent(new OrderDoneEvent(order.Id, order.CustomerId));
+         
+            _orderRepository.Add(order);
 
-            // If paid, authorize order!
-          
+            return await PersistData(_orderRepository.UnitOfWork);
+        }
 
-            // Adding event
-          
+        private Order MapOrder(AddOrderCommand message)
+        {
+            var address = new Address
+            {
+                City = message.Address.City,
+                BuildingNumber = message.Address.BuildingNumber,
+                Neighborhood = message.Address.Neighborhood,
+                SecondaryAddress = message.Address.SecondaryAddress,
+                State = message.Address.State,
+                StreetAddress = message.Address.StreetAddress,
+            };
 
-            // Add Order Repositorio
-             // command validation
-          
+            var orderItem = message.OrderItems.Select(OrderItemDTO.ToOrderItem).ToList();
+            var order = new Order(message.CustomerId, message.Amount, orderItem);
 
-            // Map Order
-          
+            order.SetAddress(address);
 
-            // apply voucher, if exists
-            
+            return order;
+        }
 
-            // Validate order
-            
+        private async Task<bool> ApplyVoucher(AddOrderCommand message, Order order)
+        {
+            if (message.HasVoucher) return true;
 
-            // pay the order
-            
+            var voucher = await _voucherRepository.GetVoucherByCode(message.VoucherCode);
 
-            // If paid, authorize order!
-            
+            if (voucher is null)
+            {
+                AddError("O voucher informado não existe");
+                return false;
+            }
 
-            // Adding event
-            
+            var voucherValidation = ValidateVoucher(voucher);
 
-            // Add Order Repositorio
-            
+            if (!voucherValidation.IsValid)
+            {
+                AddVoucherErrors(voucherValidation.Errors);
+                return false;
+            }
 
-            // Commiting order and voucher data
-            
+            order.SetVoucher(voucher);
+            DebitVoucherAmount(voucher);
+            UpdateVoucherRepository(voucher);
 
-            // Commiting order and voucher data
-            
-            throw new NotImplementedException();
+            return true;
+        }
+
+        private ValidationResult ValidateVoucher(Voucher voucher)
+        {
+            return new VoucherValidation().Validate(voucher);
+        }
+
+        private void AddVoucherErrors(List<ValidationFailure> errors) => errors.ForEach(error => AddError(error.ErrorCode));
+
+        private void DebitVoucherAmount(Voucher voucher)
+        {
+            voucher.DebitAmount();
+        }
+
+        private void UpdateVoucherRepository(Voucher voucher)
+        {
+            _voucherRepository.Update(voucher);
+        }
+
+        private bool ValidateOrder(Order order)
+        {
+            var orderAmount = order.Amount;
+            var orderDiscount = order.Discount;
+
+            order.CalculateOrderAmount();
+
+            if (order.Amount != orderAmount)
+            {
+                AddError("O valor total do pedido não confere com o cálculo do pedido");
+                return false;
+            }
+
+            if (order.Discount != orderDiscount)
+            {
+                AddError("O valor total do desconto não confere com o cálculo do pedido");
+                return false;
+            }
+
+            return true;
+        }
+        private bool DoPayment(Order order, AddOrderCommand message)
+        {
+            return true;
         }
     }
 }
