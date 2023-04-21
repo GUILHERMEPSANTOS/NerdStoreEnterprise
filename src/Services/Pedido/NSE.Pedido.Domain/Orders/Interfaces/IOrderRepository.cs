@@ -1,3 +1,4 @@
+using System.Data.Common;
 using Core.DomainObjects.Data;
 
 namespace NSE.Pedido.Domain.Orders.Interfaces
@@ -10,5 +11,7 @@ namespace NSE.Pedido.Domain.Orders.Interfaces
         void Update(Order order);
         Task<OrderItem> GetOrderItemBy(Guid id);
         Task<OrderItem> GetOrderItemBy(Guid orderId, Guid productId);
+
+        DbConnection GetDbConnection();
     }
 }
