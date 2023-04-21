@@ -39,7 +39,7 @@ namespace NSE.Pedido.Domain.Orders
         {
         }
 
-        internal void Authorize()
+        public void Authorize()
         {
             OrderStatus = OrderStatus.Authorized;
         }
@@ -49,7 +49,7 @@ namespace NSE.Pedido.Domain.Orders
             Address = address;
         }
 
-        internal void SetVoucher(Voucher voucher)
+        public void SetVoucher(Voucher voucher)
         {
             Voucher = voucher;
             VoucherId = voucher.Id;
@@ -62,7 +62,7 @@ namespace NSE.Pedido.Domain.Orders
             DiscountStrategy = DiscountFactory.MakeDiscountStrategy(voucher);
         }
 
-        internal void CalculateOrderAmount()
+        public void CalculateOrderAmount()
         {
             Amount = _ordersItems.Sum(orderItem => orderItem.CalculateAmount());
             CalculateAmount();
