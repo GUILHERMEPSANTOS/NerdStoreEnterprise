@@ -17,6 +17,18 @@ namespace NSE.Carrinho.Api.Application.Services
             _aspNetUser = aspNetUser;
         }
 
+        public async Task DeleteShoppingCartBy(Guid customerId)
+        {
+            var customerShoppingCart = await _shoppingCartRepository.GetCustomerShoppingCart(customerId);
+
+            if (customerShoppingCart is not null)
+            {
+                _shoppingCartRepository.DeleteShoppingCart(customerShoppingCart);
+
+                await PersistData(_shoppingCartRepository.UnitOfWork);
+            }
+        }
+
         public async Task<ValidationResult> UpdateCartItem(Guid productId, CartItem item)
         {
             var customerShoppingCart = await GetCustomerShoppingCart();

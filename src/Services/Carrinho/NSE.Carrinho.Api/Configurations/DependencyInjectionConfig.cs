@@ -8,11 +8,12 @@ namespace NSE.Carrinho.Api.Configurations
 {
     public static class DependencyInjectionConfig
     {
-        public static IServiceCollection AddDependencyInjectionConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddDependencyInjectionConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IAspNetUser, AspNetUser>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            
+
+            services.AddMessageBusConfig(configuration);
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 

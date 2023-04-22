@@ -1,4 +1,5 @@
 using Core.Data;
+using Core.DomainObjects;
 using Core.Mediator;
 using Core.Messages;
 using FluentValidation.Results;
@@ -104,4 +105,31 @@ namespace NSE.Pedido.Infra.Context
             return mutableEntities.SelectMany(entity => entity.GetForeignKeys());
         }
     }
+
+    public static class MediatorExtensions
+    {
+        public static async Task PublishEvents<TContext>(this IMediatorHandler mediator, TContext context) where TContext : DbContext
+        {
+            var domainEntities = context.ChangeTracker
+                .Entries<Entity>()
+                .Where(entry => entry.Entity.Notification is not null && entry.Entity.Notification.Any());
+
+            if (domainEntities is not null)
+            {
+                var domainEvents = domainEntities
+                    .SelectMany(entry => entry.Entity.Notification)
+                    .ToList();
+
+                domainEntities?.ToList()
+                    .ForEach(entry => entry.Entity.ClearEvents());
+
+
+                foreach (var @event in domainEvents)
+                {
+                    await mediator.PublishEvent(@event);
+                }
+            }
+        }
+    }
+
 }

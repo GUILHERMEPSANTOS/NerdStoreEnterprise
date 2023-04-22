@@ -8,7 +8,7 @@ namespace NSE.Pedido.API.Configurations
         {
             services.AddControllers();
             services.AddSwaggerConfiguration();
-            services.AddDependencyInjection();
+            services.AddDependencyInjection(configuration);
             services.AddAuthConfiguration(configuration);
             services.AddDbContextConfiguration(configuration);
 

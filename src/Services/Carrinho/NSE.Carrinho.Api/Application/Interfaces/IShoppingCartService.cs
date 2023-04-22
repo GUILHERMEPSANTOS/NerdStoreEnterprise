@@ -10,5 +10,6 @@ namespace NSE.Carrinho.Api.Application.Interfaces
         Task<ValidationResult> ApplyVoucher(Voucher voucher);
         Task<ValidationResult> UpdateCartItem(Guid productId, CartItem item);
         Task<ValidationResult> RemoveCartItem(Guid productId);
+        Task DeleteShoppingCartBy(Guid customerId);
     }
 }

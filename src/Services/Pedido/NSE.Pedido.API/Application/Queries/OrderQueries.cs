@@ -13,7 +13,7 @@ namespace NSE.Pedido.API.Application.Queries
             _orderRepository = orderRepository;
         }
 
-        public async Task<IEnumerable<OrderDTO>> GetBy(Guid customerId)
+        public async Task<IEnumerable<OrderDTO>> GetOrdersBy(Guid customerId)
         {
             var orders = await _orderRepository.GetOrdersBy(customerId);
 

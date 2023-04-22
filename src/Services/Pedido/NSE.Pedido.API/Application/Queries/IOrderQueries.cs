@@ -7,6 +7,6 @@ namespace NSE.Pedido.API.Application.Queries
     public interface IOrderQueries
     {
         Task<OrderDTO> GetLastOrder(Guid customerId);
-        Task<IEnumerable<OrderDTO>> GetBy(Guid customerId);
+        Task<IEnumerable<OrderDTO>> GetOrdersBy(Guid customerId);
     }
 }

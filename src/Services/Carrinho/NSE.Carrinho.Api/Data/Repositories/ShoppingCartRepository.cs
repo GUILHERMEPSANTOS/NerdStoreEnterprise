@@ -53,5 +53,10 @@ namespace NSE.Carrinho.Api.Data.Repositories
         {
             _shoppingCartContext.CartItems.Remove(item);
         }
+
+        public void DeleteShoppingCart(CustomerShoppingCart cart)
+        {
+            _shoppingCartContext.CustomerShoppingCarts.Remove(cart);
+        }
     }
 }

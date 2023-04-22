@@ -21,7 +21,7 @@ namespace NSE.Carrinho.Api.Data
             builder.Ignore<ValidationResult>();
 
             MapForgottenProperties(builder);
-            DisableCascadeDelete(builder);
+            ApplyDeleteCascade(builder);
         }
 
 
@@ -37,14 +37,14 @@ namespace NSE.Carrinho.Api.Data
             }
         }
 
-        private void DisableCascadeDelete(ModelBuilder modelBuilder)
+        private void ApplyDeleteCascade(ModelBuilder modelBuilder)
         {
             var properties = modelBuilder.Model.GetEntityTypes()
                 .SelectMany(properties => properties.GetForeignKeys());
 
             foreach (var property in properties)
             {
-                property.DeleteBehavior = DeleteBehavior.ClientSetNull;
+                property.DeleteBehavior = DeleteBehavior.Cascade;
             }
         }
 
