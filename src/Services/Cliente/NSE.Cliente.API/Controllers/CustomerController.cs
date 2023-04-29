@@ -1,38 +1,39 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NSE.Cliente.API.Application.Customer.Queries;
 using NSE.Cliente.API.Application.DTO;
 using NSE.Cliente.API.Application.Interfaces;
 using NSE.WebApi.Core.Controllers;
 
 namespace NSE.Cliente.API.Controllers
 {
-    [Route("customers")]
+    [Authorize, Route("customers")]
     public class CustomerController : MainController
     {
         private readonly ICustomerService _customerService;
+        private readonly ICustomerAddressQuery _customerAddressQuery;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, ICustomerAddressQuery customerAddressQuery)
         {
             _customerService = customerService;
+            _customerAddressQuery = customerAddressQuery;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Add()
+        [HttpPost("address")]
+        public async Task<IActionResult> AddAddress([FromBody] AddressDTO address)
         {
-
-            var newCustomerDTO = new NewCustomerDTO();
-
-            newCustomerDTO.Cpf = "53225780057";
-
-            newCustomerDTO.Email = "thiagopereiradossantos41@outlook.com";
-
-            newCustomerDTO.Id = Guid.NewGuid();
-
-            newCustomerDTO.Name = "Thiago";
-
-            var result = await _customerService.Add(newCustomerDTO);
+            var result = await _customerService.AddAddress(address);
 
             return CustomResponse(result);
+        }
+
+        [HttpGet("address")]
+        public async Task<IActionResult> GetAddress()
+        {
+            var address = await _customerAddressQuery.GetAddress();
+
+            return address is null ? NotFound() : CustomResponse(address);
         }
 
     }
