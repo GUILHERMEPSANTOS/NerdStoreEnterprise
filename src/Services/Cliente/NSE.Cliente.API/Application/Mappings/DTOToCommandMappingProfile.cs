@@ -9,6 +9,7 @@ namespace NSE.Cliente.API.Application.Mappings
         public DTOToCommandMappingProfile()
         {
             CreateMap<NewCustomerDTO, NewCustomerCommand>();
+            CreateMap<AddressDTO, AddAddressCommand>();
         }
     }
 }
