@@ -14,7 +14,7 @@ namespace NSE.Cliente.API.Domain.Entities
         public Guid CustomerId { get; private set; }
         public Customer Customer { get; private set; }
 
-        public Address(string street, string houseNumber, string complement, string neighborhood, string zipCode, string city, string state)
+        public Address(string street, string houseNumber, string complement, string neighborhood, string zipCode, string city, string state, Guid customerId)
         {
             Street = street;
             HouseNumber = houseNumber;
@@ -23,6 +23,7 @@ namespace NSE.Cliente.API.Domain.Entities
             ZipCode = zipCode;
             City = city;
             State = state;
+            CustomerId = customerId;
         }
     }
 }
