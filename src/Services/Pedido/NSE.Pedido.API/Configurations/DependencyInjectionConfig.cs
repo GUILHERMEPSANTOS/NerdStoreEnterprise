@@ -12,7 +12,7 @@ namespace NSE.Pedido.API.Configurations
 {
     public static class DependencyInjectionConfig
     {
-        public static IServiceCollection AddDependencyInjection(this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -22,7 +22,8 @@ namespace NSE.Pedido.API.Configurations
             services.AddScoped<IMediatorHandler, MediatorHandler>();
 
             services.AddScoped<IOrderRepository, OrderRepository>();
-            
+            services.AddScoped<IOrderQueries, OrderQueries>();
+
             services.AddScoped<IVoucherRepository, VoucherRepository>();
             services.AddScoped<IVoucherQueries, VoucherQueries>();
 
