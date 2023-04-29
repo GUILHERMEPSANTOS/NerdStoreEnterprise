@@ -8,5 +8,7 @@ namespace NSE.Cliente.API.Domain.Interfaces
         void Add(Customer customer);
         Task<IEnumerable<Customer>> GetAll();
         Task<Customer> GetByCpf(string cpf);
+        Task<Address> GetAddressBy(Guid customerId);
+        void AddAddress(Address address);
     }
 }
