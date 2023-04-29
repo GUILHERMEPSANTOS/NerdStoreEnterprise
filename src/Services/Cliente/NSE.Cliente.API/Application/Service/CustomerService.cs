@@ -24,5 +24,12 @@ namespace NSE.Cliente.API.Application.Service
 
             return await _mediator.SendCommand<NewCustomerCommand>(newCustomerCommand);
         }
+
+        public async Task<ValidationResult> AddAddress(AddressDTO address)
+        {
+            var addAddressCommand = _mapper.Map<AddAddressCommand>(address);
+
+            return await _mediator.SendCommand<AddAddressCommand>(addAddressCommand);
+        }
     }
 }
