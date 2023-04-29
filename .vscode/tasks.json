@@ -4,15 +4,12 @@
         {
             "label": "build",
             "command": "dotnet",
-            "type": "process",
+            "type": "shell",
             "args": [
-                "build",
-                "${workspaceFolder}/src/Services/Identidade/NSE.Identidade.API/NSE.Identidade.API.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "build"
             ],
-            "problemMatcher": "$msCompile"
-        },
+            "group": "build"
+        },        
         {
             "label": "publish",
             "command": "dotnet",
