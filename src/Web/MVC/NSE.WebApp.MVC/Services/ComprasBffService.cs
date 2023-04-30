@@ -2,6 +2,7 @@ using Core.Communication;
 using Microsoft.Extensions.Options;
 using NSE.WebApp.MVC.Extensions;
 using NSE.WebApp.MVC.Models.Carrinho;
+using NSE.WebApp.MVC.Models.Cliente;
 using NSE.WebApp.MVC.Models.Pedido;
 using NSE.WebApp.MVC.Services.Interfaces;
 
@@ -62,6 +63,34 @@ namespace NSE.WebApp.MVC.Services
             var result = await _httpClient.PutAsJsonAsync($"compras/carrinho-atualizar/{productId}", item);
 
             return await HandleResponse(result);
+        }
+
+          public TransactionViewModel MapToOrder(ShoppingCartViewModel shoppingCart, AddressViewModel address)
+        {
+            var order = new TransactionViewModel
+            {
+                Amount = shoppingCart.Total,
+                Items = shoppingCart.Items,
+                Discount = shoppingCart.Discount,
+                HasVoucher = shoppingCart.HasVoucher,
+                VoucherCode = shoppingCart.Voucher?.Code
+            };
+
+            if (address != null)
+            {
+                order.Address = new AddressViewModel
+                {
+                    StreetAddress = address.StreetAddress,
+                    BuildingNumber = address.BuildingNumber,
+                    Neighborhood = address.Neighborhood,
+                    ZipCode = address.ZipCode,
+                    SecondaryAddress = address.SecondaryAddress,
+                    City = address.City,
+                    State = address.State
+                };
+            }
+
+            return order;
         }
     }
 }

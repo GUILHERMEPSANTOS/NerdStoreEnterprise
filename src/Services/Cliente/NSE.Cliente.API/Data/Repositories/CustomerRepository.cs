@@ -30,11 +30,6 @@ namespace NSE.Cliente.API.Data.Repositories
             return await _customerContext.Customers.FirstOrDefaultAsync(customer => customer.Cpf.Number == cpf);
         }
 
-        public void Dispose()
-        {
-            _customerContext?.Dispose();
-        }
-
         public async Task<Address> GetAddressBy(Guid customerId)
         {
             return await _customerContext.Addresses.FirstOrDefaultAsync(address => address.CustomerId == customerId);
@@ -43,6 +38,10 @@ namespace NSE.Cliente.API.Data.Repositories
         public void AddAddress(Address address)
         {
             _customerContext.Addresses.Add(address);
+        }
+        public void Dispose()
+        {
+            _customerContext?.Dispose();
         }
     }
 }

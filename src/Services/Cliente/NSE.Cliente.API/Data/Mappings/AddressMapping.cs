@@ -10,11 +10,11 @@ namespace NSE.Cliente.API.Data.Mappings
         {
             builder.HasKey(a => a.Id);
 
-            builder.Property(a => a.Street)
+            builder.Property(a => a.StreetAddress)
                 .IsRequired()
                 .HasColumnType("VARCHAR(200)");
 
-            builder.Property(a => a.HouseNumber)
+            builder.Property(a => a.BuildingNumber)
                 .IsRequired()
                 .HasColumnType("VARCHAR(50)");
 
@@ -22,7 +22,7 @@ namespace NSE.Cliente.API.Data.Mappings
                 .IsRequired()
                 .HasColumnType("VARCHAR(20)");
 
-            builder.Property(a => a.Complement)
+            builder.Property(a => a.SecondaryAddress)
                 .IsRequired()
                 .HasColumnType("VARCHAR(250)");
 
@@ -38,7 +38,7 @@ namespace NSE.Cliente.API.Data.Mappings
                 .IsRequired()
                 .HasColumnType("VARCHAR(50)");
 
-            builder.ToTable("Adresses");
+            builder.ToTable("Addresses");
         }
     }
 }

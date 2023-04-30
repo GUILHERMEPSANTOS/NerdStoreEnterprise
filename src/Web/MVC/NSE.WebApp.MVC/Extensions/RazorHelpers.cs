@@ -19,13 +19,25 @@ namespace NSE.WebApp.MVC.Extensions
 
             return sBuilder.ToString();
         }
+
+        public static string UnitByProductAmount(this RazorPage page, int unities, decimal amount)
+        {
+            return $"{unities}x {FormatCurrency(amount)} = Total: {FormatCurrency(amount * unities)}";
+        }
+
         public static string StockMessage(this RazorPage page, int quantity)
         {
             return quantity > 0 ? $"Apenas {quantity} em estoque!" : "Produto esgotado";
         }
+
         public static string FormatCurrency(this RazorPage page, decimal valor)
         {
-            return valor > 0 ? string.Format(Thread.CurrentThread.CurrentCulture, "{0:C}", valor) : "Gratuito";
+            return FormatCurrency(valor);
+        }
+
+        private static string FormatCurrency(decimal valor)
+        {
+            return string.Format(System.Globalization.CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", valor);
         }
 
         public static string UnityByProduct(this RazorPage page, int units)

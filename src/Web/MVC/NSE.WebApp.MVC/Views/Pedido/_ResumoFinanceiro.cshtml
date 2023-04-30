@@ -1,0 +1,25 @@
+﻿@using NSE.WebApp.MVC.Extensions
+@model NSE.WebApp.MVC.Models.Pedido.TransactionViewModel
+
+<article class="card-body border-top">
+    <dl class="row">
+        @{
+            if (Model.HasVoucher)
+            {
+            <dt class="col-sm-10">Subtotal: <span class="float-right text-muted">@Model.Items.Sum(i => i.Quantity) itens</span></dt>
+            <dd class="col-sm-2 text-right">
+                <strong>@this.FormatCurrency(Model.Amount + Model.Discount)</strong>
+            </dd>
+
+            <dt class="col-sm-10">Desconto: <span class="float-right text-muted">@Model.VoucherCode</span></dt>
+            <dd class="col-sm-2 text-danger text-right">
+                <strong>@this.FormatCurrency(Model.Discount)</strong>
+            </dd>
+            }
+        }
+        <dt class="col-sm-10">Total:</dt>
+        <dd class="col-sm-2 text-right">
+            <strong class="h5 text-dark">@this.FormatCurrency(Model.Amount)</strong>
+        </dd>
+    </dl>
+</article>

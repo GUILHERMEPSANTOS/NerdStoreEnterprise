@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using NSE.WebApp.MVC.Models.Carrinho;
-using NSE.WebApp.MVC.Models.Pedido;
 using NSE.WebApp.MVC.Services.Interfaces;
 
 namespace NSE.WebApp.MVC.Controllers

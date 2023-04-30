@@ -7,11 +7,11 @@ namespace NSE.Cliente.API.Application.Customer.Validations
     {
         public AddAddressValidation()
         {
-            RuleFor(c => c.Street)
+            RuleFor(c => c.StreetAddress)
                    .NotEmpty()
                    .WithMessage("informe o logradouro");
 
-            RuleFor(c => c.HouseNumber)
+            RuleFor(c => c.BuildingNumber)
                 .NotEmpty()
                 .WithMessage("Informe o número");
 

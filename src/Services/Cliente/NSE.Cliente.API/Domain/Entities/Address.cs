@@ -4,21 +4,21 @@ namespace NSE.Cliente.API.Domain.Entities
 {
     public class Address : Entity
     {
-        public string Street { get; private set; }
-        public string HouseNumber { get; private set; }
-        public string Complement { get; private set; }
+        public string StreetAddress { get; private set; }
+        public string BuildingNumber { get; private set; }
+        public string SecondaryAddress { get; private set; }
         public string Neighborhood { get; private set; }
         public string ZipCode { get; private set; }
-        public string City { get; set; }
-        public string State { get; set; }
+        public string City { get; private set; }
+        public string State { get; private set; }
         public Guid CustomerId { get; private set; }
         public Customer Customer { get; private set; }
 
-        public Address(string street, string houseNumber, string complement, string neighborhood, string zipCode, string city, string state, Guid customerId)
+        public Address(string streetAddress, string buildingNumber, string secondaryAddress, string neighborhood, string zipCode, string city, string state, Guid customerId)
         {
-            Street = street;
-            HouseNumber = houseNumber;
-            Complement = complement;
+            StreetAddress = streetAddress;
+            BuildingNumber = buildingNumber;
+            SecondaryAddress = secondaryAddress;
             Neighborhood = neighborhood;
             ZipCode = zipCode;
             City = city;

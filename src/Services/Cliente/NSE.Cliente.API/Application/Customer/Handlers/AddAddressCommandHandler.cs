@@ -27,16 +27,7 @@ namespace NSE.Cliente.API.Application.Customer.Handlers
 
             var customerId = _user.GetUserId();
 
-            var address = new Address(
-                message.Street,
-                message.HouseNumber,
-                message.Complement,
-                message.Neighborhood,
-                message.ZipCode,
-                message.City,
-                message.State,
-                customerId
-            );
+            var address = new Address(message.StreetAddress, message.BuildingNumber, message.SecondaryAddress, message.Neighborhood, message.ZipCode, message.City, message.State, customerId);
 
             _customerRepository.AddAddress(address);
 

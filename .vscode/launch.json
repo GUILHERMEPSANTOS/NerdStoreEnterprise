@@ -2,30 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Catalogo",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Services/Catalogo/NSE.Catalogo.API/bin/Debug/net6.0/NSE.Catalogo.API.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/Services/Catalogo/NSE.Catalogo.API",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
             "name": "WebApp",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            
             "program": "${workspaceFolder}/src/Web/MVC/NSE.WebApp.MVC/bin/Debug/net6.0/NSE.WebApp.MVC.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Web/MVC/NSE.WebApp.MVC",
@@ -45,7 +25,7 @@
             "name": "Identidade",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            
             "program": "${workspaceFolder}/src/Services/Identidade/NSE.Identidade.API/bin/Debug/net6.0/NSE.Identidade.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Identidade/NSE.Identidade.API",
@@ -65,7 +45,7 @@
             "name": "Cliente",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            
             "program": "${workspaceFolder}/src/Services/Cliente/NSE.Cliente.API/bin/Debug/net6.0/NSE.Cliente.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Cliente/NSE.Cliente.API",
@@ -73,10 +53,21 @@
             "stopAtEntry": false
         },
         {
+            "name": "Catalogo",
+            "type": "coreclr",
+            "request": "launch",
+            
+            "program": "${workspaceFolder}/src/Services/Catalogo/NSE.Catalogo.API/bin/Debug/net6.0/NSE.Catalogo.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/Catalogo/NSE.Catalogo.API",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
             "name": "Carrinho",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            
             "program": "${workspaceFolder}/src/Services/Carrinho/NSE.Carrinho.Api/bin/Debug/net6.0/NSE.Carrinho.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Carrinho/NSE.Carrinho.Api",
@@ -87,7 +78,7 @@
             "name": "BFF_Api_Gateway_Compras",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            
             "program": "${workspaceFolder}/src/api-gateways/Compras/NSE.Bff.Compras/bin/Debug/net6.0/NSE.Bff.Compras.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/api-gateways/Compras/NSE.Bff.Compras",
@@ -98,7 +89,7 @@
             "name": "Pedido",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            
             "program": "${workspaceFolder}/src/Services/Pedido/NSE.Pedido.API/bin/Debug/net6.0/NSE.Pedido.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Pedido/NSE.Pedido.API",
@@ -110,8 +101,8 @@
         {   
             "name": "Start all projects",
             "configurations": [
-                "Catalogo",
                 "Carrinho",
+                "Catalogo",
                 "Identidade",
                 "Cliente",
                 "Pedido",
