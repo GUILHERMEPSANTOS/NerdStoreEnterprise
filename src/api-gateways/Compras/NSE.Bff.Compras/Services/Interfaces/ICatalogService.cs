@@ -6,5 +6,6 @@ namespace NSE.Bff.Compras.Services.Interfaces
     {
         Task<IEnumerable<ProductDTO>> GetAll();
         Task<ProductDTO> GetById(Guid productId);
+        Task<IEnumerable<ProductDTO>> GetProducts(IEnumerable<Guid> ids);
     }
 }

@@ -17,12 +17,13 @@ namespace NSE.Pedido.Domain.Orders
         {
         }
 
-        public OrderItem(Guid productId, string productName,int quantity, decimal price, string productImage = null)
+        public OrderItem(Guid productId, string productName, int quantity, decimal price, string productImage = null)
         {
             ProductId = productId;
+            ProductName = productName;
             Quantity = quantity;
             ProductImage = productImage;
-            Price = price;        
+            Price = price;
         }
 
         internal decimal CalculateAmount()

@@ -7,7 +7,6 @@ namespace NSE.Pedido.API.Application.Commands
     public class AddOrderCommand : Command
     {
         // Order
-        public Guid CustomerId { get; set; }
         public decimal Amount { get; set; }
         public List<OrderItemDTO> OrderItems { get; set; }
 

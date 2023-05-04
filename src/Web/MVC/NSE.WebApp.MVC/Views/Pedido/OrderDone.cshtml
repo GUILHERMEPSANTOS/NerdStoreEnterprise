@@ -1,8 +1,8 @@
 ﻿@using NSE.WebApp.MVC.Extensions
-@model NSE.WebApp.MVC.Models.Pedido.TransactionViewModel
+@model NSE.WebApp.MVC.Models.Pedido.OrderViewModel
 
 @{
-    ViewData["Title"] = "Confirme o seu pedido";
+    ViewData["Title"] = "Pedido confirmado!";
 }
 
 <section class="padding-y">
@@ -11,7 +11,7 @@
         <vc:Summary></vc:Summary>
 
         @{
-            if (Model.Items.Any())
+            if (Model.OrderItems.Any())
             {
                 <div class="card">
                     <div class="tracking-wrap">
@@ -21,13 +21,13 @@
                             </span>
                             <span class="text"> Endereço</span>
                         </div>
-                        <div class="step">
+                        <div class="step active">
                             <span class="icon">
                                 <i class="fa fa-credit-card"></i>
                             </span>
                             <span class="text"> Pagamento </span>
                         </div>
-                        <div class="step">
+                        <div class="step active">
                             <span class="icon">
                                 <i class="fa fa-check-square"></i>
                             </span>
@@ -36,11 +36,11 @@
                     </div>
                     <article class="card-body">
                         <header class="mb-4">
-                            <h4 class="card-title">Seu pedido</h4>
+                            <h4 class="card-title">Pedido concluído com sucesso!</h4>
                         </header>
                         <div class="row">
                             @{
-                                foreach (var item in Model.Items)
+                                foreach (var item in Model.OrderItems)
                                 {
                                     <div class="col-md-6">
                                         <figure class="itemside  mb-3">
@@ -51,7 +51,7 @@
                                                 <p>
                                                     <b>@item.Name</b>
                                                 </p>
-                                                <span>@this.UnitByProductAmount(item.Quantity,item.Price)</span>
+                                                <span>@this.UnitByProductAmount(item.Quantity, item.Price) </span>
                                             </figcaption>
                                         </figure>
                                     </div>
@@ -60,40 +60,51 @@
 
                         </div>
                     </article>
+                   
+                    <header class="card-header">
+                        <h3 class="d-inline-block mr-3">Pedido número: #@Model.Code</h3>
+                    </header>
+                    <article class="card-body border-top">
 
-                    <partial name="_ResumoFinanceiro" model="Model"/>
-
-                    <div class="card-body border-top">
-                        <partial name="_Endereco" model="Model"/>
-                    </div>
-                    <div class="card-body border-top">
-                        @{
-                            if (Model.Address != null)
-                            {
-                                <div class="text-left">
-                                    <a asp-controller="Pedido" asp-action="Payment" class="btn btn-primary float-md-right"> Pagamento <i class="fa fa-chevron-right"></i> </a>
+                        <div class="card-body">
+                            <div class="row"> 
+                                <div class="col-md-8">
+                                    <h6 class="text-muted">Entregar em</h6>
+                                    <p>
+                                        @Model.Address.ToString()
+                                    </p>
                                 </div>
-                            }
-                        }
+                                <div class="col-md-4">
+                                    <h6 class="text-muted">Pagamento</h6>
+                                    <span class="text-success">
+                                        <i class="fas fa-credit-card"></i>
+                                        Transação em cartão de crédito
+                                    </span>
+                                    <p>
+                                        <span class="b">Total:  @this.FormatCurrency(Model.Amount)</span>
+                                    </p>
+                                </div>
+                            </div>
 
-                        <a asp-controller="Carrinho" asp-action="Index" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Voltar ao carrinho </a>
+                        </div>
+                    </article>
+
+                    <div class="card-body border-top">
+                        <div class="text-left">
+                            <a asp-controller="Pedido" asp-action="MyOrders" class="btn btn-primary float-md-right"> Meus Pedidos <i class="fa fa-chevron-right"></i> </a>
+                        </div>
                     </div>
+
                 </div>
             }
         }
     </div>
 </section>
 
-<partial name="_NovoEndereco" />
-
 @section Scripts {
 
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-       $(document).ready(function() {
-          SearchCep();
-       });
-    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
 }

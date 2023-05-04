@@ -7,10 +7,6 @@ namespace NSE.Pedido.API.Application.Validations
     {
         public AddOrderValidation()
         {
-            RuleFor(addOrder => addOrder.CustomerId)
-                .NotEqual(Guid.Empty)
-                .WithMessage("Id do cliente inválido");
-
             RuleFor(addOrder => addOrder.OrderItems.Count)
                 .GreaterThan(0)
                 .WithMessage("O pedido precisa ter no minímo 1 item");

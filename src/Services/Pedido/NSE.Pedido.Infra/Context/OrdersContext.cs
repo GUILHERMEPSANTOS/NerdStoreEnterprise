@@ -67,9 +67,11 @@ namespace NSE.Pedido.Infra.Context
         {
             UpdateDateAdded();
 
-            var success = await base.SaveChangesAsync() > 0;
+            var sucess = await base.SaveChangesAsync() > 0;
+           
+            if (sucess) await _mediator.PublishEvents(this);
 
-            return success;
+            return sucess;
         }
 
         private void UpdateDateAdded()

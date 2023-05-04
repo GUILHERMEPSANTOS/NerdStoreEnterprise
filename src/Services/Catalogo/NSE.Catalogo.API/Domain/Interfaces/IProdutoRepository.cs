@@ -9,5 +9,6 @@ namespace NSE.Catalogo.API.Domain.Interfaces
         Task<Product> GetById(Guid id);
         void Add(Product produto);
         void Update(Product produto);
+         Task<IEnumerable<Product>> GetProducts(IEnumerable<Guid> ids);
     }
 }

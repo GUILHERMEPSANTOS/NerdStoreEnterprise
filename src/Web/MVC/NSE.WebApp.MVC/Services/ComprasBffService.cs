@@ -65,13 +65,41 @@ namespace NSE.WebApp.MVC.Services
             return await HandleResponse(result);
         }
 
-          public TransactionViewModel MapToOrder(ShoppingCartViewModel shoppingCart, AddressViewModel address)
+
+        #region Order
+
+        public async Task<ResponseResult> FinishOrder(TransactionViewModel transaction)
+        {
+            var response = await _httpClient.PostAsJsonAsync("/compras/pedido/adicionar", transaction);
+
+            return await HandleResponse(response);
+        }
+
+        public async Task<OrderViewModel> GetLastOrder()
+        {
+            var response = await _httpClient.GetAsync("/compras/pedido/ultimo");
+
+            HandleResponseError(response);
+
+            return await DeserializeResponse<OrderViewModel>(response);
+        }
+
+        public async Task<IEnumerable<OrderViewModel>> GetCustomersById()
+        {
+            var response = await _httpClient.GetAsync("/compras/pedido/cliente");
+
+            HandleResponseError(response);
+
+            return await DeserializeResponse<IEnumerable<OrderViewModel>>(response);
+        }
+
+        public TransactionViewModel MapToOrder(ShoppingCartViewModel shoppingCart, AddressViewModel address)
         {
             var order = new TransactionViewModel
             {
                 Amount = shoppingCart.Total,
                 Items = shoppingCart.Items,
-                Discount = shoppingCart.Discount,
+                Discount = shoppingCart.Discount,   
                 HasVoucher = shoppingCart.HasVoucher,
                 VoucherCode = shoppingCart.Voucher?.Code
             };
@@ -92,5 +120,7 @@ namespace NSE.WebApp.MVC.Services
 
             return order;
         }
+
+        #endregion
     }
 }

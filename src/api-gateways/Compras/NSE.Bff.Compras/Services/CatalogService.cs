@@ -34,5 +34,16 @@ namespace NSE.Bff.Compras.Services
 
             return await DeserializeResponse<ProductDTO>(httpResponse);
         }
+
+        public async Task<IEnumerable<ProductDTO>> GetProducts(IEnumerable<Guid> idsGuid)
+        {
+            var ids = string.Join(",", idsGuid);
+
+            var httpResponse = await _httpClient.GetAsync($"catalogo/produtos/{ids}");
+
+            HandleResponseError(httpResponse);
+
+            return await DeserializeResponse<IEnumerable<ProductDTO>>(httpResponse);
+        }
     }
 }

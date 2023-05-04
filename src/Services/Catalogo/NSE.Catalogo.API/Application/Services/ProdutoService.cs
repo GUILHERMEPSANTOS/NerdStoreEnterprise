@@ -32,5 +32,32 @@ namespace NSE.Catalogo.API.Application.Services
         {
             _produtoRepository.Update(produto);
         }
+        public async Task<IEnumerable<Product>> GetProducts(string ids)
+        {
+            var wrapperIdsGuid = GetWrapperIdsGuid(ids);
+
+            var allIdsIsValid = CheckAllValuesInWrapperIdsGuid(wrapperIdsGuid);
+
+            if (!allIdsIsValid) return new List<Product>();
+
+            var idsGuid = GetIdsGuid(wrapperIdsGuid);
+
+            return await _produtoRepository.GetProducts(idsGuid);
+        }
+
+        private IEnumerable<(bool Ok, Guid Value)> GetWrapperIdsGuid(string ids)
+        {
+            return ids.Split(",").Select(id => (Ok: Guid.TryParse(id, out Guid idGuid), Value: idGuid));
+        }
+
+        private bool CheckAllValuesInWrapperIdsGuid(IEnumerable<(bool Ok, Guid Value)> wrapperIdsGuid)
+        {
+            return wrapperIdsGuid.All(wrapperIdGuid => wrapperIdGuid.Ok);
+        }
+
+        private IEnumerable<Guid> GetIdsGuid(IEnumerable<(bool Ok, Guid Value)> wrapperIdsGuid)
+        {
+            return wrapperIdsGuid.Select(wrapperIdGuid => wrapperIdGuid.Value);
+        }
     }
 }

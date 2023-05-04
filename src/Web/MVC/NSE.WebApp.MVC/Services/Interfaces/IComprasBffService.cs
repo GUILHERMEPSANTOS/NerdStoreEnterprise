@@ -13,6 +13,10 @@ namespace NSE.WebApp.MVC.Services.Interfaces
         Task<ResponseResult> AddCartItem(CartItemViewModel item);
         Task<ResponseResult> UpdateCartItem(Guid productId, CartItemViewModel item);
         Task<ResponseResult> RemoveCartItem(Guid productId);
+
+        Task<ResponseResult> FinishOrder(TransactionViewModel transaction);
+        Task<OrderViewModel> GetLastOrder();
+        Task<IEnumerable<OrderViewModel>> GetCustomersById();
         TransactionViewModel MapToOrder(ShoppingCartViewModel shoppingCart, AddressViewModel address);
     }
 }

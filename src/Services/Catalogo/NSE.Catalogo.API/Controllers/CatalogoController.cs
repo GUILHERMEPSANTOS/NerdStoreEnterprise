@@ -20,16 +20,29 @@ namespace NSE.Catalogo.API.Controllers
 
         [AllowAnonymous]
         [HttpGet("produtos")]
-        public async Task<IEnumerable<Product>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return await _produtoService.GetAll();
+            var result = await _produtoService.GetAll();
+
+            return CustomResponse(result);
         }
 
         [ClaimsAuthorize("Catalogo", "Read")]
         [HttpGet("produto/{id}")]
-        public async Task<Product> GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            return await _produtoService.GetById(id);
+            var result = await _produtoService.GetById(id);
+            
+            return CustomResponse(result);
+        }
+
+
+        [HttpGet("produtos/{ids}")]
+        public async Task<IActionResult> GetProducts([FromRoute] string ids)
+        {
+            var result = await _produtoService.GetProducts(ids);
+
+            return CustomResponse(result);
         }
     }
 }

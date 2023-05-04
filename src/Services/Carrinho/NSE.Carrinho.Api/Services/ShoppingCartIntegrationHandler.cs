@@ -18,7 +18,15 @@ namespace NSE.Carrinho.Api.Services
         private async Task SetSubscriber()
         {
             await _bus.SubscribeAsync<OrderDoneIntegrationEvent>("OrderDone", RemoveShoppingCart);
+
+            _bus.AdvancedBus.Connected += OnConnect;
         }
+
+        private void OnConnect(object? sender, EventArgs e)
+        {
+            SetSubscriber().Wait();
+        }
+
 
         private async Task RemoveShoppingCart(OrderDoneIntegrationEvent @event)
         {
@@ -31,6 +39,11 @@ namespace NSE.Carrinho.Api.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await SetSubscriber();
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
+            }
         }
     }
 }

@@ -45,6 +45,39 @@ namespace NSE.WebApp.MVC.Extensions
             return units > 1 ? $"{units} unidades" : $"{units} unidade";
         }
 
+        public static string ShowStatus(this RazorPage page, int status)
+        {
+            var statusMensagem = "";
+            var statusClasse = "";
+
+            switch (status)
+            {
+                case 1:
+                    statusClasse = "info";
+                    statusMensagem = "Processing";
+                    break;
+                case 2:
+                    statusClasse = "primary";
+                    statusMensagem = "Approved";
+                    break;
+                case 3:
+                    statusClasse = "danger";
+                    statusMensagem = "Refused";
+                    break;
+                case 4:
+                    statusClasse = "success";
+                    statusMensagem = "Delivered";
+                    break;
+                case 5:
+                    statusClasse = "warning";
+                    statusMensagem = "Canceled";
+                    break;
+
+            }
+
+            return $"<span class='badge badge-{statusClasse}'>{statusMensagem}</span>";
+        }
+
         public static string SelectOptionsByQuantity(this RazorPage page, int quantity, int selectedValue = 0)
         {
             var sb = new StringBuilder();

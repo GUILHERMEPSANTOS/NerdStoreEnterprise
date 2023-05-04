@@ -1,13 +1,13 @@
 using Core.Messages;
 using FluentValidation.Results;
 using MediatR;
-using System.Linq;
 using NSE.Pedido.API.Application.DTO;
 using NSE.Pedido.Domain.Orders;
 using NSE.Pedido.Domain.Vouchers;
 using NSE.Pedido.Domain.Vouchers.Specs;
 using NSE.Pedido.API.Application.Events;
 using NSE.Pedido.Domain.Orders.Interfaces;
+using NSE.WebApi.Core.User;
 
 namespace NSE.Pedido.API.Application.Commands
 {
@@ -15,37 +15,39 @@ namespace NSE.Pedido.API.Application.Commands
     {
         private readonly IVoucherRepository _voucherRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly IAspNetUser _user;
 
-        public OrderCommandHandler(IVoucherRepository voucherRepository, IOrderRepository orderRepository)
+        public OrderCommandHandler(IVoucherRepository voucherRepository, IOrderRepository orderRepository, IAspNetUser user)
         {
             _voucherRepository = voucherRepository;
             _orderRepository = orderRepository;
+            _user = user;
         }
 
         public async Task<ValidationResult> Handle(AddOrderCommand message, CancellationToken cancellationToken)
-        {            
+        {
             var validMessage = message.IsValid();
 
             if (!validMessage) return message.ValidationResult;
-         
+
             var order = MapOrder(message);
-         
+
             var voucherAppliedSuccessfully = await ApplyVoucher(message, order);
 
             if (!voucherAppliedSuccessfully) return ValidationResult;
-         
+
             var validOrder = ValidateOrder(order);
 
             if (validOrder) return ValidationResult;
-         
+
             var paymentExecutedSuccessfully = DoPayment(order, message);
 
             if (!paymentExecutedSuccessfully) return ValidationResult;
-         
+
             order.Authorize();
-         
+
             order.AddEvent(new OrderDoneEvent(order.Id, order.CustomerId));
-         
+
             _orderRepository.Add(order);
 
             return await PersistData(_orderRepository.UnitOfWork);
@@ -53,6 +55,8 @@ namespace NSE.Pedido.API.Application.Commands
 
         private Order MapOrder(AddOrderCommand message)
         {
+            var customerId = _user.GetUserId();
+
             var address = new Address
             {
                 City = message.Address.City,
@@ -61,10 +65,11 @@ namespace NSE.Pedido.API.Application.Commands
                 SecondaryAddress = message.Address.SecondaryAddress,
                 State = message.Address.State,
                 StreetAddress = message.Address.StreetAddress,
+                ZipCode = message.Address.ZipCode
             };
 
             var orderItem = message.OrderItems.Select(OrderItemDTO.ToOrderItem).ToList();
-            var order = new Order(message.CustomerId, message.Amount, orderItem);
+            var order = new Order(customerId, (decimal)message.Amount, orderItem);
 
             order.SetAddress(address);
 
@@ -73,7 +78,7 @@ namespace NSE.Pedido.API.Application.Commands
 
         private async Task<bool> ApplyVoucher(AddOrderCommand message, Order order)
         {
-            if (message.HasVoucher) return true;
+            if (!(bool)message.HasVoucher) return true;
 
             var voucher = await _voucherRepository.GetVoucherByCode(message.VoucherCode);
 

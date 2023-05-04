@@ -4,7 +4,7 @@ using NSE.MessageBus;
 
 namespace NSE.Pedido.API.Application.Events
 {
-    public class OrderEventHandler : INotificationHandler<OrderDoneIntegrationEvent>
+    public class OrderEventHandler : INotificationHandler<OrderDoneEvent>
     {
         private readonly IMessageBus _messageBus;
 
@@ -13,7 +13,7 @@ namespace NSE.Pedido.API.Application.Events
             _messageBus = messageBus;
         }
 
-        public async Task Handle(OrderDoneIntegrationEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(OrderDoneEvent notification, CancellationToken cancellationToken)
         {
             await _messageBus.PublishAsync<OrderDoneIntegrationEvent>(new OrderDoneIntegrationEvent(notification.CustomerId));
         }

@@ -38,5 +38,10 @@ namespace NSE.Catalogo.API.Data.Repository
         {
             _catalogoContext?.Dispose();
         }
+
+        public async Task<IEnumerable<Product>> GetProducts(IEnumerable<Guid> ids)
+        {
+            return await _catalogoContext.Produtos.Where(product => ids.Contains(product.Id) && product.Active).ToListAsync();
+        }
     }
 }

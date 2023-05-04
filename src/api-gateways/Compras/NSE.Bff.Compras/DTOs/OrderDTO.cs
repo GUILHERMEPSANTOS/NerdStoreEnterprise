@@ -1,32 +1,39 @@
-
-
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Core.Validation;
-using NSE.WebApp.MVC.Models.Carrinho;
-using NSE.WebApp.MVC.Models.Cliente;
 
-namespace NSE.WebApp.MVC.Models.Pedido
+namespace NSE.Bff.Compras.DTOs
 {
-    public class TransactionViewModel
+    public class OrderDTO
     {
         #region Order
 
+        public int Code { get; set; }
+        // Authorized = 1,
+        // Paid = 2,
+        // Refused = 3,
+        // Delivered = 4,
+        // Canceled = 5
+
         public decimal Amount { get; set; }
-        public decimal Discount { get; set; }
+        public List<CartItemDTO> OrderItems { get; set; }
+
         public string VoucherCode { get; set; }
         public bool HasVoucher { get; set; }
+        public decimal Discount { get; set; }
 
-        public List<CartItemViewModel> Items { get; set; } = new List<CartItemViewModel>();
+
+        public int Status { get; set; }
+        public DateTime Date { get; set; }
 
         #endregion
 
         #region Address
-        public AddressViewModel Address { get; set; }
+        public AddressDTO Address { get; set; }
 
         #endregion
 
-        #region CreditCard
+        #region Credit Card
 
         [Required(ErrorMessage = "Card number is required")]
         [DisplayName("Card number")]
@@ -36,9 +43,9 @@ namespace NSE.WebApp.MVC.Models.Pedido
         [DisplayName("Holder")]
         public string Holder { get; set; }
 
+        [Required(ErrorMessage = "Credit card expiration is required")]
         [RegularExpression(@"(0[1-9]|1[0-2])\/[0-9]{2}", ErrorMessage = "The expiration must be in form of MM/YY")]
         [CreditCardExpired(ErrorMessage = "Expired Credit Card")]
-        [Required(ErrorMessage = "Credit card expiration is required")]
         [DisplayName("Expiration MM/YY")]
         public string ExpirationDate { get; set; }
 

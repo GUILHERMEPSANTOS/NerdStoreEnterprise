@@ -21,8 +21,25 @@ namespace NSE.Bff.Compras.Services
                 PropertyNameCaseInsensitive = true,
             };
 
-            return JsonSerializer.Deserialize<Response>(await response.Content.ReadAsStringAsync(), options);
+            var responseString = await ReadAsStringAsync(response);
+
+            return JsonSerializer.Deserialize<Response>(responseString, options);
         }
+
+        private async Task<string> ReadAsStringAsync(HttpResponseMessage response)
+        {
+           return await response.Content.ReadAsStringAsync();
+        }
+
+        protected async Task<ResponseResult> HandleResponse(HttpResponseMessage response)
+        {
+            var hasNotError = HandleResponseError(response);
+
+            if (!hasNotError) return await DeserializeResponse<ResponseResult>(response);
+
+            return ReturnOk();
+        }
+
         protected ResponseResult ReturnOk()
         {
             return new ResponseResult();

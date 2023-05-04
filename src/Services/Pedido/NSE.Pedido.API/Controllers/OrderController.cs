@@ -23,11 +23,12 @@ namespace NSE.Pedido.API.Controllers
             _orderQueries = orderQueries;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddOrder(AddOrderCommand order)
+        [HttpPost("add")]
+        public async Task<IActionResult> AddOrder([FromBody] AddOrderCommand order)
         {
-            order.CustomerId = _user.GetUserId();
-            return CustomResponse(await _mediator.SendCommand(order));
+            var result = await _mediator.SendCommand(order);
+
+            return CustomResponse(result);
         }
 
         [HttpGet("last")]
@@ -39,7 +40,7 @@ namespace NSE.Pedido.API.Controllers
             return order is null ? NoContent() : CustomResponse(order);
         }
 
-        [HttpGet("customers")]
+        [HttpGet("customerr")]
         public async Task<IActionResult> Customers()
         {
             var customerId = _user.GetUserId();
