@@ -3,7 +3,7 @@ NerdStoreEnterprise is an e-commerce for the nerd public
 
 
 ## Give a Star! :star:
-If you liked the project or if NerdStoreEnterprise is helping you, please give us a star ;)
+If you liked the project or if NerdStoreEnterprise is helping you, please give me a star ;)
 
 <p align="center">
     <img alt="DevStore" src="https://user-images.githubusercontent.com/89268597/227810630-48844d7d-94a4-4224-904c-ec10bf224bdd.png" />
