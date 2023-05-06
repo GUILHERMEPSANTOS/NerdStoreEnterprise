@@ -17,7 +17,7 @@ namespace NSE.Pedido.Domain.Orders
         public OrderStatus OrderStatus { get; private set; }
         public Address Address { get; private set; }
         public Voucher Voucher { get; private set; }
-        private readonly List<OrderItem> _ordersItems;
+        private readonly List<OrderItem> _ordersItems = new List<OrderItem>();
         public IReadOnlyCollection<OrderItem> OrderItems => _ordersItems;
         private IDiscountStrategy DiscountStrategy { get; set; }
 
