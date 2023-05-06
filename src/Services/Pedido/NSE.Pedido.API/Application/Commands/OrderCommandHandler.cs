@@ -38,7 +38,7 @@ namespace NSE.Pedido.API.Application.Commands
 
             var validOrder = ValidateOrder(order);
 
-            if (validOrder) return ValidationResult;
+            if (!validOrder) return ValidationResult;
 
             var paymentExecutedSuccessfully = DoPayment(order, message);
 
