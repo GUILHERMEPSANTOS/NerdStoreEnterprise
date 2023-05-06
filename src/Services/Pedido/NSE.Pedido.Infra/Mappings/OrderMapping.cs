@@ -8,7 +8,7 @@ namespace NSE.Pedido.Infra.Mappings
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-               builder.HasKey(c => c.Id);
+            builder.HasKey(c => c.Id);
 
             builder.OwnsOne(p => p.Address, e =>
             {
@@ -37,7 +37,7 @@ namespace NSE.Pedido.Infra.Mappings
             builder.Property(c => c.Code)
                 .HasDefaultValueSql("NEXT VALUE FOR OrderCodeSequence");
 
-            // 1 : N => Order : OrderItems
+            // 1 : N => Order : OrderItems        
             builder.HasMany(c => c.OrderItems)
                 .WithOne(c => c.Order)
                 .HasForeignKey(c => c.OrderId);

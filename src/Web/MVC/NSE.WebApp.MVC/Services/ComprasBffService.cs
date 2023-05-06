@@ -98,7 +98,7 @@ namespace NSE.WebApp.MVC.Services
             var order = new TransactionViewModel
             {
                 Amount = shoppingCart.Total,
-                Items = shoppingCart.Items,
+                Items = shoppingCart.Items, 
                 Discount = shoppingCart.Discount,   
                 HasVoucher = shoppingCart.HasVoucher,
                 VoucherCode = shoppingCart.Voucher?.Code

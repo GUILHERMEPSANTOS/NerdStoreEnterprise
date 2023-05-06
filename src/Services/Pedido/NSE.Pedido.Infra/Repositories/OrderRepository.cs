@@ -41,11 +41,10 @@ namespace NSE.Pedido.Infra.Repositories
         public async Task<IEnumerable<Order>> GetOrdersBy(Guid customerId)
         {
             return await _orderContext.Orders
-                .Include(order => order.OrderItems)
                 .AsNoTracking()
+                .Include(order => order.OrderItems)
                 .Where(order => order.CustomerId == customerId)
-                .ToListAsync();
-
+                .ToArrayAsync();
         }
 
         public void Update(Order order)
