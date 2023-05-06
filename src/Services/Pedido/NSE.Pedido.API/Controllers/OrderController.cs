@@ -40,7 +40,7 @@ namespace NSE.Pedido.API.Controllers
             return order is null ? NoContent() : CustomResponse(order);
         }
 
-        [HttpGet("customerr")]
+        [HttpGet("customer")]
         public async Task<IActionResult> Customers()
         {
             var customerId = _user.GetUserId();
