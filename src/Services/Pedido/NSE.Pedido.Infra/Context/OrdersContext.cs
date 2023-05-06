@@ -78,7 +78,7 @@ namespace NSE.Pedido.Infra.Context
         {
 
             var entityEntries = ChangeTracker.Entries()
-                .Where(entry => entry.GetType().GetProperty("DateAdded") != null);
+                .Where(entry => entry.Entity.GetType().GetProperty("DateAdded") != null);
 
 
             foreach (var entity in entityEntries)
