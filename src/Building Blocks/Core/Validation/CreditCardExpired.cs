@@ -12,7 +12,9 @@ namespace Core.Validation
             var month = value.ToString().Split("/")[0];
             var year = $"20{value.ToString().Split('/')[1]}"; ;
 
-            return ValidateDate(year, month);
+            var isValidDate = ValidateDate(year, month);
+
+            return isValidDate;
         }
 
         private bool ValidateDate(string year, string month)

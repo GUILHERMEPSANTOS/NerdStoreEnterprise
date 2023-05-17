@@ -16,6 +16,10 @@ namespace Core.Messages
         {
             ValidationResult.Errors.Add(new ValidationFailure(string.Empty, message));
         }
+        protected void AddError(List<ValidationFailure> validationFailures)
+        {
+            ValidationResult.Errors.AddRange(validationFailures);
+        }
 
         protected async Task<ValidationResult> PersistData(IUnitOfWork uow)
         {

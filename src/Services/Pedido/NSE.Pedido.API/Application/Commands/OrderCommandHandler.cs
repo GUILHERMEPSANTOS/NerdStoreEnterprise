@@ -8,6 +8,8 @@ using NSE.Pedido.Domain.Vouchers.Specs;
 using NSE.Pedido.API.Application.Events;
 using NSE.Pedido.Domain.Orders.Interfaces;
 using NSE.WebApi.Core.User;
+using Core.Messages.Integration;
+using NSE.MessageBus;
 
 namespace NSE.Pedido.API.Application.Commands
 {
@@ -16,12 +18,14 @@ namespace NSE.Pedido.API.Application.Commands
         private readonly IVoucherRepository _voucherRepository;
         private readonly IOrderRepository _orderRepository;
         private readonly IAspNetUser _user;
+        private readonly IMessageBus _messageBus;
 
-        public OrderCommandHandler(IVoucherRepository voucherRepository, IOrderRepository orderRepository, IAspNetUser user)
+        public OrderCommandHandler(IVoucherRepository voucherRepository, IOrderRepository orderRepository, IAspNetUser user, IMessageBus messageBus)
         {
             _voucherRepository = voucherRepository;
             _orderRepository = orderRepository;
             _user = user;
+            _messageBus = messageBus;
         }
 
         public async Task<ValidationResult> Handle(AddOrderCommand message, CancellationToken cancellationToken)
@@ -40,7 +44,7 @@ namespace NSE.Pedido.API.Application.Commands
 
             if (!validOrder) return ValidationResult;
 
-            var paymentExecutedSuccessfully = DoPayment(order, message);
+            var paymentExecutedSuccessfully = await DoPayment(order, message);
 
             if (!paymentExecutedSuccessfully) return ValidationResult;
 
@@ -69,7 +73,7 @@ namespace NSE.Pedido.API.Application.Commands
             };
 
             var orderItem = message.OrderItems.Select(OrderItemDTO.ToOrderItem).ToList();
-            var order = new Order(customerId, (decimal)message.Amount, orderItem);
+            var order = new Order(customerId, (decimal)message.Amount, orderItem, message.HasVoucher, message.Discount);
 
             order.SetAddress(address);
 
@@ -108,7 +112,7 @@ namespace NSE.Pedido.API.Application.Commands
             return new VoucherValidation().Validate(voucher);
         }
 
-        private void AddVoucherErrors(List<ValidationFailure> errors) => errors.ForEach(error => AddError(error.ErrorCode));
+        private void AddVoucherErrors(List<ValidationFailure> errors) => errors.ForEach(error => AddError(error.ErrorMessage));
 
         private void DebitVoucherAmount(Voucher voucher)
         {
@@ -141,8 +145,28 @@ namespace NSE.Pedido.API.Application.Commands
 
             return true;
         }
-        private bool DoPayment(Order order, AddOrderCommand message)
+        private async Task<bool> DoPayment(Order order, AddOrderCommand message)
         {
+            var orderInitiated = new OrderInitiatedIntegrationEvent
+            {
+                OrderId = order.Id,
+                CustomerId = order.CustomerId,
+                PaymentType = 1,
+                Amount = order.Amount,
+                CardNumber = message.CardNumber,
+                Holder = message.Holder,
+                ExpirationDate = message.ExpirationDate,
+                SecurityCode = message.SecurityCode
+            };
+
+            var response = await _messageBus.RequestAsync<OrderInitiatedIntegrationEvent, ResponseMessage>(orderInitiated);
+
+            if (!response.ValidationResult.IsValid)
+            {
+                AddError(response.ValidationResult.Errors);
+                return false;
+            }
+
             return true;
         }
     }

@@ -7,8 +7,8 @@ namespace NSE.Pedido.Domain.Vouchers.Specs
         public VoucherValidation()
         {
             var dataSpecification = new VoucherDateSpecification();
-            var quantitySpecication = new VoucherDateSpecification();
-            var activeSpecification = new VoucherDateSpecification();
+            var quantitySpecication = new VoucherQuantitySpecification();
+            var activeSpecification = new VoucherActiveSpecification();
 
             Add("dataSpecification", new Rule<Voucher>(dataSpecification, "Este voucher está expirado"));
             Add("quantitySpecication", new Rule<Voucher>(quantitySpecication, "Este voucher já foi utilizado"));

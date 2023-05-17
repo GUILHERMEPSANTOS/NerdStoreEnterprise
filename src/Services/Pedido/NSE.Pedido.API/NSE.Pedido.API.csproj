@@ -10,17 +10,13 @@
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <ProjectReference Include="..\..\..\Building Blocks\Services\NSE.WebApi.Core\NSE.WebApi.Core.csproj" />
     <ProjectReference Include="..\NSE.Pedido.Infra\NSE.Pedido.Infra.csproj" />
     <ProjectReference Include="..\..\..\Building Blocks\Core\NSE.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Building Blocks\MessageBus\NSE.MessageBus\NSE.MessageBus.csproj" />
   </ItemGroup>
-
 </Project>

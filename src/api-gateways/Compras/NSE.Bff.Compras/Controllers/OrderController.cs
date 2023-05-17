@@ -130,13 +130,15 @@ namespace NSE.Bff.Compras.Controllers
                     }
                     var isAddedItemInCart = await AddItemToShoppingCart(item, product);
 
-                    if (!isRemoveItem)
+                    if (!isAddedItemInCart)
                     {
                         return false;
                     }
 
                     ClearErrors();
                     AddErrorsProcessing(messgaeError + "Atualizamos o valor em seu carrinho, realize a conferência do pedido e se preferir remova o produto");
+
+                    return false;
                 }
             }
 

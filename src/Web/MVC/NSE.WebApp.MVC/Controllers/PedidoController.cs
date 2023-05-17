@@ -43,9 +43,7 @@ namespace NSE.WebApp.MVC.Controllers
         [HttpPost]
         [Route("finalizar-pedido")]
         public async Task<IActionResult> FinishOrder(TransactionViewModel transaction)
-        {
-            ModelState.Clear();
-            
+        {   
             if (!ModelState.IsValid) return View("Payment", _comprasBffService.MapToOrder(await _comprasBffService.GetShoppingCart(), null));
 
             var retorno = await _comprasBffService.FinishOrder(transaction);
