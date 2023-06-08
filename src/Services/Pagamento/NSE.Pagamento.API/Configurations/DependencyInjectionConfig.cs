@@ -22,7 +22,6 @@ namespace NSE.Pagamento.API.Configurations
             services.AddScoped<IPaymentRepository, PaymentRepository>();
 
             services.AddMessageBusConfig(configuration);
-
             return services;
         }
     }

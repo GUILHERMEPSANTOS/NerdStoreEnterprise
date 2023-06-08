@@ -108,7 +108,7 @@ namespace NSE.Identidade.API.Controllers
 
             if (result.IsLockedOut)
             {
-                AddErrorsProcessing("Usuário temprariamente bloqueado por tentativas inválidas");
+                AddErrorsProcessing("Usuário temporariamente bloqueado por tentativas inválidas");
                 return CustomResponse();
             }
 

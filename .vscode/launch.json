@@ -96,6 +96,17 @@
             "console": "internalConsole",
             "stopAtEntry": false
         },
+        {
+            "name": "Pagamento",
+            "type": "coreclr",
+            "request": "launch",
+            
+            "program": "${workspaceFolder}/src/Services/Pagamento/NSE.Pagamento.API/bin/Debug/net6.0/NSE.Pagamento.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Services/Pagamento/NSE.Pagamento.API",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
     ],
     "compounds": [
         {   
@@ -106,6 +117,7 @@
                 "Identidade",
                 "Cliente",
                 "Pedido",
+                "Pagamento",
                 "BFF_Api_Gateway_Compras",
                 "WebApp",
             ],
