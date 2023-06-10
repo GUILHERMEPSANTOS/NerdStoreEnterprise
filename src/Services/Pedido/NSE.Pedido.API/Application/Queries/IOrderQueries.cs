@@ -8,5 +8,6 @@ namespace NSE.Pedido.API.Application.Queries
     {
         Task<OrderDTO> GetLastOrder(Guid customerId);
         Task<IEnumerable<OrderDTO>> GetOrdersBy(Guid customerId);
+        Task<OrderDTO> GetAuthorizedOrders();
     }
 }

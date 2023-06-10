@@ -1,3 +1,4 @@
+using System.Data;
 using Dapper;
 using NSE.Pedido.API.Application.DTO;
 using NSE.Pedido.Domain.Orders.Interfaces;
@@ -11,6 +12,39 @@ namespace NSE.Pedido.API.Application.Queries
         public OrderQueries(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
+        }
+
+        public async Task<OrderDTO> GetAuthorizedOrders()
+        {
+            using var connection = _orderRepository.GetDbConnection();
+
+            var sql = @"SELECT Id                = Orders.Id
+                              ,CustomerId        = Orders.CustomerId
+                              ,OrderItemId       = OrderItems.Id
+                              ,Id                = OrderItems.Id
+                              ,OrderId           = OrderItems.OrderId
+                              ,ProductId         = OrderItems.ProductId
+                              ,Quantity          = OrderItems.Quantity
+                        FROM Orders
+                          INNER JOIN OrderItems
+                          ON Orders.Id = OrderItems.OrderId
+                        WHERE Orders.OrderStatus = 1
+                        ORDER BY Orders.DateAdded;";
+
+            var orderDTO = await connection.QueryAsync<OrderDTO, OrderItemDTO, OrderDTO>(
+                sql: sql,
+                commandType: CommandType.Text,
+                map: (order, orderItem) =>
+                {
+                    order.OrderItems ??= new List<OrderItemDTO>();
+                    order.OrderItems.Add(orderItem);
+
+                    return order;
+                },
+                 splitOn: "OrderId,OrderItemId"
+            );
+
+            return orderDTO.FirstOrDefault();
         }
 
         public async Task<IEnumerable<OrderDTO>> GetOrdersBy(Guid customerId)
@@ -80,5 +114,6 @@ namespace NSE.Pedido.API.Application.Queries
 
             return order;
         }
+
     }
 }

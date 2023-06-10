@@ -3,6 +3,7 @@ using Core.Mediator;
 using MediatR;
 using NSE.Cliente.API.Configuration;
 using NSE.Pedido.API.Application.Queries;
+using NSE.Pedido.API.Services;
 using NSE.Pedido.Domain.Orders.Interfaces;
 using NSE.Pedido.Domain.Vouchers;
 using NSE.Pedido.Infra.Repositories;

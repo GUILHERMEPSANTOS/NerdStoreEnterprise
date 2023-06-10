@@ -5,8 +5,8 @@ namespace NSE.Pedido.API.Application.DTO
     public class OrderDTO
     {
         public Guid Id { get; set; }
+        public Guid? CustomerId { get; set; }
         public int Code { get; set; }
-
         public int Status { get; set; }
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
