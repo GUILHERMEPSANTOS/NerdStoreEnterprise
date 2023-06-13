@@ -8,10 +8,12 @@ namespace NSE.Catalogo.API.Configurations
 {
     public static class DependencyInjectionConfig
     {
-        public static IServiceCollection AddDependencyInjectionConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddDependencyInjectionConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IProdutoRepository, ProdutoRepository>();
-            services.AddScoped<IProdutoService, ProdutoService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
+
+            services.AddMessageBusConfig(configuration);
 
             return services;
         }

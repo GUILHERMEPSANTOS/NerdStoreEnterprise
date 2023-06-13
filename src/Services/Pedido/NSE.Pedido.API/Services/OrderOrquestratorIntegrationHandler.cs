@@ -1,4 +1,6 @@
+using NSE.MessageBus;
 using NSE.Pedido.API.Application.Queries;
+using Core.Messages.Integration;
 
 namespace NSE.Pedido.API.Services
 {
@@ -31,10 +33,18 @@ namespace NSE.Pedido.API.Services
             using var scope = _serviceProvider.CreateScope();
             var orderQueries = scope.ServiceProvider.GetService<IOrderQueries>();
 
-            var orders = await orderQueries.GetAuthorizedOrders();
+            var order = await orderQueries.GetAuthorizedOrder();
 
-            _logger.LogDebug("Orders", orders);
+            if (order is not null) return;
 
+            var _bus = scope.ServiceProvider.GetService<IMessageBus>();
+
+            var authorizedOrder = new OrderAuthorizedIntegrationEvent(order.Id, order.CustomerId,
+                order.OrderItems.ToDictionary(item => item.ProductId, item => item.Quantity));
+
+            await _bus.PublishAsync(authorizedOrder);
+
+            _logger.LogInformation($"PedidoID: {order.Id} foi enviado para baixa no estoque");
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

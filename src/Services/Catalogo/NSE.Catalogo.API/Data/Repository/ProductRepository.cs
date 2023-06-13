@@ -5,12 +5,12 @@ using NSE.Catalogo.API.Domain.Interfaces;
 
 namespace NSE.Catalogo.API.Data.Repository
 {
-    public class ProdutoRepository : IProdutoRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly CatalogoContext _catalogoContext;
 
         public IUnitOfWork UnitOfWork => _catalogoContext;
-        public ProdutoRepository(CatalogoContext catalogoContext)
+        public ProductRepository(CatalogoContext catalogoContext)
         {
             _catalogoContext = catalogoContext;
         }

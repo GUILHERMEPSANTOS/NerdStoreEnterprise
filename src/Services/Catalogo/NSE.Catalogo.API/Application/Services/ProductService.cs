@@ -4,11 +4,11 @@ using NSE.Catalogo.API.Domain.Interfaces;
 
 namespace NSE.Catalogo.API.Application.Services
 {
-    public class ProdutoService : IProdutoService
+    public class ProductService : IProductService
     {
-        private readonly IProdutoRepository _produtoRepository;
+        private readonly IProductRepository _produtoRepository;
 
-        public ProdutoService(IProdutoRepository produtoRepository)
+        public ProductService(IProductRepository produtoRepository)
         {
             _produtoRepository = produtoRepository;
         }

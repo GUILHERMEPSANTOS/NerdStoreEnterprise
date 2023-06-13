@@ -14,7 +14,7 @@ namespace NSE.Pedido.API.Application.Queries
             _orderRepository = orderRepository;
         }
 
-        public async Task<OrderDTO> GetAuthorizedOrders()
+        public async Task<OrderDTO> GetAuthorizedOrder()
         {
             using var connection = _orderRepository.GetDbConnection();
 

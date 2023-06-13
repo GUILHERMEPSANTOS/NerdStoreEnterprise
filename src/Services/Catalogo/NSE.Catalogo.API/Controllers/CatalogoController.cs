@@ -11,9 +11,9 @@ namespace NSE.Catalogo.API.Controllers
     [Route("catalogo")]
     public class CatalogoController : MainController
     {
-        private readonly IProdutoService _produtoService;
+        private readonly IProductService _produtoService;
 
-        public CatalogoController(IProdutoService produtoService)
+        public CatalogoController(IProductService produtoService)
         {
             _produtoService = produtoService;
         }

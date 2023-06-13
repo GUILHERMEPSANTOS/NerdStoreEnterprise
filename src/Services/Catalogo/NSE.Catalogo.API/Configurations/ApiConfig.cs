@@ -19,7 +19,7 @@ namespace NSE.Catalogo.API.Configurations
 
             services.AddDbContextConfiguration(Configuration);
 
-            services.AddDependencyInjectionConfiguration();
+            services.AddDependencyInjectionConfiguration(Configuration);
 
             return services;
         }

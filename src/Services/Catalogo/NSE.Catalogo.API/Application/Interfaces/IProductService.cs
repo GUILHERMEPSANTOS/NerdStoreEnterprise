@@ -2,7 +2,7 @@ using NSE.Catalogo.API.Domain.Entities;
 
 namespace NSE.Catalogo.API.Application.Services.Interfaces
 {
-    public interface IProdutoService
+    public interface IProductService
     {
         Task<IEnumerable<Product>> GetAll();
         Task<Product> GetById(Guid id);

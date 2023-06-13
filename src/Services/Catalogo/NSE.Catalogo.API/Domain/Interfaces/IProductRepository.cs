@@ -3,7 +3,7 @@ using NSE.Catalogo.API.Domain.Entities;
 
 namespace NSE.Catalogo.API.Domain.Interfaces
 {
-    public interface IProdutoRepository : IRepository<Product>
+    public interface IProductRepository : IRepository<Product>
     { 
         Task<IEnumerable<Product>> GetAll();
         Task<Product> GetById(Guid id);
