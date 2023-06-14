@@ -42,7 +42,7 @@ namespace NSE.Pagamento.API.Services
             if (!response.ValidationResult.IsValid)
                 throw new DomainException($"Falha ao capturar o pagamento {message.OrderId}");
 
-            await _bus.PublishAsync(new OrderPaidIntegrationEvent(message.CustomerId, message.OrderId));
+            await _bus.PublishAsync(new OrderPaidIntegrationEvent(message.OrderId, message.CustomerId));
         }
 
         private async Task CancelTransaction(OrderCancelledIntegrationEvent message)

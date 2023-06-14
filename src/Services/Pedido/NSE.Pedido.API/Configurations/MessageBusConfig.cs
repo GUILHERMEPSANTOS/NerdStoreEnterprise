@@ -9,7 +9,9 @@ public static class MessageBusConfig
     {
 
         services.AddMessageBus(configuration.GetMessageQueueConnection("MessageBus"))
-            .AddHostedService<OrderOrquestratorIntegrationHandler>(); ;
+            .AddHostedService<OrderOrquestratorIntegrationHandler>()
+            .AddHostedService<OrderIntegrationHandler>();
+
 
         return services;
     }

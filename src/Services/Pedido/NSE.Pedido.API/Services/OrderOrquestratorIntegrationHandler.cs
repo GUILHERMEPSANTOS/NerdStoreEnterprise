@@ -35,7 +35,7 @@ namespace NSE.Pedido.API.Services
 
             var order = await orderQueries.GetAuthorizedOrder();
 
-            if (order is not null) return;
+            if (order is null) return;
 
             var _bus = scope.ServiceProvider.GetService<IMessageBus>();
 
