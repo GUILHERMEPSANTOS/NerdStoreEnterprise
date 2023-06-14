@@ -44,6 +44,16 @@ namespace NSE.Pedido.Domain.Orders
             OrderStatus = OrderStatus.Authorized;
         }
 
+        public void Cancel()
+        {
+            OrderStatus = OrderStatus.Canceled;
+        }
+
+        public void Finish()
+        {
+            OrderStatus = OrderStatus.Paid;
+        }
+
         public void SetAddress(Address address)
         {
             Address = address;
