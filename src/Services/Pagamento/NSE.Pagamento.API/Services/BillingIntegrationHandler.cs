@@ -1,3 +1,4 @@
+using Core.DomainObjects;
 using Core.Messages.Integration;
 using NSE.MessageBus;
 using NSE.Pagamento.API.Domain;
@@ -19,10 +20,41 @@ namespace NSE.Pagamento.API.Services
         {
             await _bus.RespondAsync<OrderInitiatedIntegrationEvent, ResponseMessage>(AuthorizePayment);
         }
+        private async Task SetSubscribersAsync()
+        {
+            await _bus.SubscribeAsync<OrderCancelledIntegrationEvent>("OrderCanceledIntegrationEvent", CancelTransaction);
+
+            await _bus.SubscribeAsync<OrderLoweredStockIntegrationEvent>("OrderLoweredStockIntegrationEvent", CapturePayment);
+        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await SetSubscribersAsync();
             await SetResponder();
+        }
+        private async Task CapturePayment(OrderLoweredStockIntegrationEvent message)
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var billingService = scope.ServiceProvider.GetService<IBillingService>();
+
+            var response = await billingService.GetTransaction(message.OrderId);
+
+            if (!response.ValidationResult.IsValid)
+                throw new DomainException($"Falha ao capturar o pagamento {message.OrderId}");
+
+            await _bus.PublishAsync(new OrderPaidIntegrationEvent(message.CustomerId, message.OrderId));
+        }
+
+        private async Task CancelTransaction(OrderCancelledIntegrationEvent message)
+        {
+            using var scope = _serviceProvider.CreateScope();
+
+            var pagamentoService = scope.ServiceProvider.GetRequiredService<IBillingService>();
+
+            var Response = await pagamentoService.CancelTransaction(message.OrderId);
+
+            if (!Response.ValidationResult.IsValid)
+                throw new DomainException($"Failed to cancel order payment {message.OrderId}");
         }
 
         private async Task<ResponseMessage> AuthorizePayment(OrderInitiatedIntegrationEvent message)
@@ -36,7 +68,6 @@ namespace NSE.Pagamento.API.Services
 
             return responseMessage;
         }
-
         public Payment ToPayment(OrderInitiatedIntegrationEvent message)
         {
             return new Payment
