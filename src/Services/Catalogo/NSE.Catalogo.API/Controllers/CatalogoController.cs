@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NSE.Catalogo.API.Application.DTOs;
 using NSE.Catalogo.API.Application.Services.Interfaces;
 using NSE.Catalogo.API.Domain.Entities;
 using NSE.WebApi.Core.Controllers;
@@ -20,9 +21,9 @@ namespace NSE.Catalogo.API.Controllers
 
         [AllowAnonymous]
         [HttpGet("produtos")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] RequestPagedProducts request)
         {
-            var result = await _produtoService.GetAll();
+            var result = await _produtoService.GetPagedProducts(request.PageSize, request.PageIndex, request.Query);
 
             return CustomResponse(result);
         }
@@ -32,7 +33,7 @@ namespace NSE.Catalogo.API.Controllers
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var result = await _produtoService.GetById(id);
-            
+
             return CustomResponse(result);
         }
 

@@ -1,4 +1,5 @@
 using NSE.Catalogo.API.Application.Services.Interfaces;
+using NSE.Catalogo.API.Domain.Enitites;
 using NSE.Catalogo.API.Domain.Entities;
 using NSE.Catalogo.API.Domain.Interfaces;
 
@@ -18,9 +19,9 @@ namespace NSE.Catalogo.API.Application.Services
             _produtoRepository.Add(produto);
         }
 
-        public async Task<IEnumerable<Product>> GetAll()
+        public async Task<PagedResult<Product>> GetPagedProducts(int pagedSize, int pagedIndex, string query)
         {
-            return await _produtoRepository.GetAll();
+            return await _produtoRepository.GetPagedProducts(pagedSize, pagedIndex, query);
         }
 
         public async Task<Product> GetById(Guid id)
