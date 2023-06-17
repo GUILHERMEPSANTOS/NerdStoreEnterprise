@@ -1,5 +1,6 @@
 ﻿@using NSE.WebApp.MVC.Extensions
-@model IEnumerable<NSE.WebApp.MVC.Models.Catalogo.ProdutoViewModel>
+@using NSE.WebApp.MVC.Models.Catalogo
+@model NSE.WebApp.MVC.Models.Paginacao.PagedResult<ProdutoViewModel>
 
 @{
     ViewData["Title"] = "Todos os produtos";
@@ -7,7 +8,8 @@
 
 <section>
     <div>
-        <div style="background-image: url(images/banners/Template.jpg); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
+        <div
+            style="background-image: url(images/banners/Template.jpg); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
             <div style="text-align: center;">
                 <img src="~/images/banners/nerdstore.png" />
             </div>
@@ -15,20 +17,22 @@
         <div class="container" style=" padding-top: 20px">
             <div class="row">
                 @{
-                    foreach (var produto in Model.OrderBy(p=>p.Name))
+                    foreach (var produto in Model.List.OrderBy(p => p.Name))
                     {
                         <div class="col-md-3">
                             <div href="#" class="card card-product-grid">
-                                <a asp-controller="Catalogo" asp-action="ProdutoDetalhe" asp-route-id="@produto.Id" class="img-wrap">
+                                <a asp-controller="Catalogo" asp-action="ProdutoDetalhe" asp-route-id="@produto.Id"
+                                    class="img-wrap">
                                     <img src="~/images/produtos/@produto.Image" alt="@produto.Name">
                                 </a>
                                 <figcaption class="info-wrap">
-                                    <a asp-controller="Catalogo" asp-action="ProdutoDetalhe" asp-route-id="@produto.Id" class="title">
+                                    <a asp-controller="Catalogo" asp-action="ProdutoDetalhe" asp-route-id="@produto.Id"
+                                        class="title">
                                         <b> @produto.Name</b>
                                     </a>
 
                                     <small class="card-text">
-                                        @this.StockMessage(produto.StockQuantity)<br/><br/>
+                                        @this.StockMessage(produto.StockQuantity)<br /><br />
                                         @produto.Description
                                     </small>
                                 </figcaption>
@@ -41,5 +45,6 @@
                 }
             </div>
         </div>
+        <vc:paging paging-model="@Model"></vc:paging>
     </div>
 </section>

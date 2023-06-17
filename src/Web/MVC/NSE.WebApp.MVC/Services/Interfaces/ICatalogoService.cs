@@ -1,11 +1,12 @@
  using NSE.WebApp.MVC.Models.Catalogo;
+using NSE.WebApp.MVC.Models.Paginacao;
 using Refit;
 
 namespace NSE.WebApp.MVC.Interfaces
 {
     public interface ICatalogoService
     {
-        Task<IEnumerable<ProdutoViewModel>> GetAll();
+        Task<PagedResult<ProdutoViewModel>> GetProductsWithPagination(int pageIndex, int pageSize, string query);
         Task<ProdutoViewModel> GetById(Guid productId);
     }
 
