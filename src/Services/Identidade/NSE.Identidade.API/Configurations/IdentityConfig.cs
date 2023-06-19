@@ -13,6 +13,11 @@ namespace NSE.Identidade.API.Configurations
     {
         public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services, IConfiguration Configuration)
         {
+            services.AddJwksManager()
+                    .PersistKeysToDatabaseStore<ApplicationDbContext>()
+                    .UseJwtValidation();
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))

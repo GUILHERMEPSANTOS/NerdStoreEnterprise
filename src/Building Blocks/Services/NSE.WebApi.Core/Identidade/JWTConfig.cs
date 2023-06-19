@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using NetDevPack.Security.JwtExtensions;
 
 namespace NSE.WebApi.Core.Identidade
 {
@@ -17,7 +17,6 @@ namespace NSE.WebApi.Core.Identidade
             builder.Configure<AppSettings>(appSettingsSection);
 
             var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = System.Text.Encoding.ASCII.GetBytes(appSettings.Secret);
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -30,15 +29,7 @@ namespace NSE.WebApi.Core.Identidade
             {
                 bearerOptions.RequireHttpsMetadata = true;
                 bearerOptions.SaveToken = true;
-                bearerOptions.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = appSettings.Audience,
-                    ValidIssuer = appSettings.Issuer,
-                };
+                bearerOptions.SetJwksOptions(new JwkOptions(appSettings.JksUrlAuthentication));
             });
 
             return builder;
