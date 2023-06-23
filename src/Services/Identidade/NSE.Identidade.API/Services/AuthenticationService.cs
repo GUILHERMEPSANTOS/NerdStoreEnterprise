@@ -79,7 +79,7 @@ namespace NSE.Identidade.API.Services
             {
                 Issuer = $"{_aspNetUser.GetHttpContext().Request.Scheme}://{_aspNetUser.GetHttpContext().Request.Host}",
                 Subject = identityClaims,
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = key
             };
 
