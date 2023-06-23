@@ -36,6 +36,15 @@ namespace NSE.WebApi.Core.User
                             : Guid.Empty;
         }
 
+        public string GetUserRefreshToken()
+        {
+            string refreshToken = _acessor.HttpContext.User.GetUserRefreshToken();
+
+            return IsAuthenticated()
+                    ? refreshToken
+                    : "";
+        }
+
         public string GetUserToken()
         {
             string token = _acessor.HttpContext.User.GetUserToken();

@@ -10,5 +10,10 @@ namespace NSE.WebApp.MVC.Authentication
         public double ExpiresIn { get; set; }
         public UserToken UserToken { get; set; }
         public ResponseResult ResponseResult { get; set; }
+
+        public bool IsValidToken()
+        {
+            return AcessToken != null && ResponseResult == null;
+        }
     }
 }

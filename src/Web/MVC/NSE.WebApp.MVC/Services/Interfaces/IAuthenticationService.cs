@@ -9,5 +9,9 @@ namespace NSE.WebApp.MVC.Interfaces
     {
         Task<UserLoginResponse> Register(RegisterViewModel registerViewModel);
         Task<UserLoginResponse> Login(LoginViewModel loginViewModel);
+        Task LogInContext(UserLoginResponse userLoginResponse);
+        Task Logout();
+        bool ExpiredToken();
+        Task<bool> ValidRefreshToken();
     }
 }

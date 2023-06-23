@@ -1,9 +1,4 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using NSE.WebApp.MVC.Authentication;
 using NSE.WebApp.MVC.Models;
 
 namespace NSE.WebApp.MVC.Controllers
@@ -34,7 +29,7 @@ namespace NSE.WebApp.MVC.Controllers
 
             if (HasErrors(response.ResponseResult)) return View(registerViewModel);
 
-            await LogInContext(response);
+            await _authenticationService.LogInContext(response);
 
             return RedirectToAction("Index", "Home");
         }
@@ -60,7 +55,7 @@ namespace NSE.WebApp.MVC.Controllers
 
             if (HasErrors(response.ResponseResult)) return View(loginViewModel);
 
-            await LogInContext(response);
+            await _authenticationService.LogInContext(response);
 
             if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
 
@@ -71,50 +66,8 @@ namespace NSE.WebApp.MVC.Controllers
         [Route("sair")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _authenticationService.Logout();
             return RedirectToAction("Index", "Home");
-        }
-
-        private async Task LogInContext(UserLoginResponse userLoginResponse)
-        {
-
-            var formattedToken = GetFormattedToken(userLoginResponse.AcessToken);
-
-            var claimsPrincipal = ConfigureClaimsPrincipal(userLoginResponse.AcessToken, formattedToken.Claims);
-
-            var authProperties = ConfigureAuthProperties();
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                claimsPrincipal,
-                authProperties
-            );
-        }
-
-        private static JwtSecurityToken GetFormattedToken(string token)
-        {
-            return new JwtSecurityTokenHandler().ReadJwtToken(token) as JwtSecurityToken;
-        }
-
-        private static ClaimsPrincipal ConfigureClaimsPrincipal(string token, IEnumerable<Claim> tokenClaims)
-        {
-            var claims = new List<Claim>();
-
-            claims.Add(new Claim("JWT", token));
-            claims.AddRange(tokenClaims);
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            return new ClaimsPrincipal(claimsIdentity);
-        }
-
-        private static AuthenticationProperties ConfigureAuthProperties()
-        {
-            return new AuthenticationProperties
-            {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
-                IsPersistent = true,
-            };
         }
     }
 }
