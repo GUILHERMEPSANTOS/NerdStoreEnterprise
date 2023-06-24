@@ -10,9 +10,9 @@ namespace NSE.Bff.Compras.Configurations
     {
         public static IServiceCollection AddGrpcServicesConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IShoppingCartGrpcService, ShoppingCartGrpcService>();
-
             services.AddSingleton<GrpcServiceInterceptor>();
+
+            services.AddScoped<IShoppingCartGrpcService, ShoppingCartGrpcService>();
 
             services.AddGrpcClient<ShoppingCartOrdersClient>((serivce, options) =>
             {

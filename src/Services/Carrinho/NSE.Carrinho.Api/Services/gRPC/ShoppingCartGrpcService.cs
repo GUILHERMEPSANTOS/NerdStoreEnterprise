@@ -40,11 +40,11 @@ namespace NSE.Carrinho.API.Services.gRPC
                 Hasvoucher = shoppingCart.HasVoucher,
             };
 
-            if (shoppingCart.Voucher != null)
+            if (shoppingCart.Voucher is {})
             {
                 shoppingCartResponse.Voucher = new VoucherResponse
                 {
-                    Code = shoppingCart.Voucher.Code,
+                    Code = shoppingCart.Voucher.Code ?? string.Empty,
                     Percentage = (double?)shoppingCart.Voucher.Percentage ?? 0,
                     Discount = (double?)shoppingCart.Voucher.Discount ?? 0,
                     Discounttype = (int)shoppingCart.Voucher.DiscountType

@@ -7,15 +7,19 @@ namespace NSE.Bff.Compras.Services.Grpc
 {
     public class ShoppingCartGrpcService : IShoppingCartGrpcService
     {
+        private readonly ILogger<ShoppingCartGrpcService> _logger;
         private readonly ShoppingCartOrdersClient _shoppingCartOrdersClient;
 
-        public ShoppingCartGrpcService(ShoppingCartOrdersClient shoppingCartOrdersClient)
+        public ShoppingCartGrpcService(ShoppingCartOrdersClient shoppingCartOrdersClient, ILogger<ShoppingCartGrpcService> logger)
         {
             _shoppingCartOrdersClient = shoppingCartOrdersClient;
+            _logger = logger;
         }
 
         public async Task<ShoppingCartDTO> GetShoppingCart()
         {
+            _logger.LogInformation("BFF Chamando GetShoppingCartAsync");
+
             var response = await _shoppingCartOrdersClient.GetShoppingCartAsync(new GetShoppingCartRequest());
 
             return MapShoppingCartProtoResponseDTO(response);

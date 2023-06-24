@@ -15,6 +15,7 @@ namespace NSE.Bff.Compras.Configurations
             services.AddSwaggerGen();
             services.AddCors();
             services.AddDependencyInjectionConfiguration();
+            services.AddGrpcServicesConfiguration(configuration);
             services.AddMessageBusConfig(configuration);
             services.AddAuthConfiguration(configuration);
             services.AddSwaggerConfiguration();
@@ -31,9 +32,9 @@ namespace NSE.Bff.Compras.Configurations
 
             app.UseHttpsRedirection();
 
-            app.UseCorsConfiguration();
-
             app.UseRouting();
+
+            app.UseCorsConfiguration();
 
             app.UseAuthConfiguration();
 

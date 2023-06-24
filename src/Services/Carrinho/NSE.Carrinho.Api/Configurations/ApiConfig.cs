@@ -28,8 +28,8 @@ namespace NSE.Carrinho.Api.Configurations
                app.UseSwaggerConfiguration();
             }
             app.UseHttpsRedirection();
-            app.UseCorsConfiguration();
             app.UseRouting();
+            app.UseCorsConfiguration();
             app.UseAuthConfiguration();
             app.MapControllers();
             app.MapGrpcService<ShoppingCartGrpcService>()
