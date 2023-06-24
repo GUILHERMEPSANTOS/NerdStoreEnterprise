@@ -3,6 +3,7 @@ using System.Net;
 using NSE.WebApp.MVC.Extensions;
 using Polly.CircuitBreaker;
 using NSE.WebApp.MVC.Interfaces;
+using Grpc.Core;
 
 namespace NSE.WebApp.MVC.Middlewares;
 public class ExeceptionMiddleware
@@ -39,7 +40,29 @@ public class ExeceptionMiddleware
         {
             HandleCircuitBreakerExceptionAsync(httpContext);
         }
+        catch (RpcException ex)
+        {
+            await HandleRpcRequestExceptionAsync(ex, httpContext);
+        }
     }
+
+    private static async Task HandleRpcRequestExceptionAsync(RpcException exception, HttpContext httpContext)
+    {
+        var statusCode = exception.StatusCode switch
+        {
+            StatusCode.Internal => 400,
+            StatusCode.Unauthenticated => 401,
+            StatusCode.PermissionDenied => 403,
+            StatusCode.Unimplemented => 404,
+            _ => 500
+        };
+
+        var httpStatusCode = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), statusCode.ToString());
+
+        await HandleRequestExceptionAsync(httpContext, httpStatusCode);
+    }
+
+
     private static async Task HandleRequestExceptionAsync(HttpContext httpContext, HttpStatusCode statusCode)
     {
         if (statusCode == HttpStatusCode.Unauthorized)
@@ -49,7 +72,7 @@ public class ExeceptionMiddleware
             if (tokenUpdated) return;
 
             await _authenticationService.Logout();
-            
+
             httpContext.Response.Redirect($"/login?ReturnUrl={httpContext.Request.Path}");
             return;
         }
@@ -66,7 +89,7 @@ public class ExeceptionMiddleware
 
             if (tokenUpdated)
             {
-                
+
                 httpContext.Response.Redirect(httpContext.Request.Path);
                 return true;
             }
