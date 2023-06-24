@@ -18,6 +18,7 @@ If you liked the project or if NerdStoreEnterprise is helping you, please give m
     - ASP.NET Minimal API
     - ASP.NET Identity Core
     - JWT
+    - GRPC
     - JWT with rotactive public / private key
     - Refresh Token
     - Background Services
