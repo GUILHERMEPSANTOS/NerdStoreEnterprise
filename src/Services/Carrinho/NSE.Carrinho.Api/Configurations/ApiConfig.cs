@@ -1,3 +1,4 @@
+using NSE.Carrinho.API.Services.gRPC;
 using NSE.WebApi.Core.Identidade;
 
 namespace NSE.Carrinho.Api.Configurations
@@ -7,6 +8,7 @@ namespace NSE.Carrinho.Api.Configurations
         public static IServiceCollection AddApiConfiguration(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddControllers();
+            services.AddGrpc();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddAuthConfiguration(Configuration);
@@ -30,7 +32,9 @@ namespace NSE.Carrinho.Api.Configurations
             app.UseRouting();
             app.UseAuthConfiguration();
             app.MapControllers();
-
+            app.MapGrpcService<ShoppingCartGrpcService>()
+               .RequireCors("All");
+                
             return app;
         }
     }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NSE.Bff.Compras.DTOs;
+using NSE.Bff.Compras.Services.Grpc.Interfaces;
 using NSE.Bff.Compras.Services.Interfaces;
 using NSE.WebApi.Core.Controllers;
 
@@ -10,25 +11,30 @@ namespace NSE.Bff.Compras.Controllers
     {
         private readonly ICatalogService _catalogService;
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly IShoppingCartGrpcService _shoppingCartGrpcService;
         private readonly IOrderService _orderService;
 
-        public ShoppingCartController(ICatalogService catalogService, IShoppingCartService shoppingCartService, IOrderService orderService)
+        public ShoppingCartController(ICatalogService catalogService
+                                     , IShoppingCartService shoppingCartService
+                                     , IOrderService orderService
+                                     , IShoppingCartGrpcService shoppingCartGrpcService)
         {
             _catalogService = catalogService;
             _shoppingCartService = shoppingCartService;
             _orderService = orderService;
+            _shoppingCartGrpcService = shoppingCartGrpcService;
         }
 
         [HttpGet("carrinho")]
         public async Task<IActionResult> GetShoppingCart()
         {
-            return CustomResponse(await _shoppingCartService.GetShoppingCart());
+            return CustomResponse(await _shoppingCartGrpcService.GetShoppingCart());
         }
 
         [HttpGet("carrinho-quantidade")]
         public async Task<int> GetShoppingCartItemsQuantity()
         {
-            var shoppingCart = await _shoppingCartService.GetShoppingCart();
+            var shoppingCart = await _shoppingCartGrpcService.GetShoppingCart();
             var quantity = shoppingCart?.Items.Sum(item => item.Quantity);
 
             return quantity ?? 0;
@@ -118,7 +124,7 @@ namespace NSE.Bff.Compras.Controllers
 
         private async Task<bool> ValidateShoppingCart(int quantity, ProductDTO product)
         {
-            var shoppingCart = await _shoppingCartService.GetShoppingCart();
+            var shoppingCart = await _shoppingCartGrpcService.GetShoppingCart();
             var cartItem = shoppingCart?.Items.FirstOrDefault(item => item.ProductId == product.Id) ?? new CartItemDTO();
             var totalQuantity = quantity + (cartItem?.Quantity ?? 0);
 

@@ -1,5 +1,7 @@
 using NSE.Bff.Compras.Extensions;
 using NSE.Bff.Compras.Services;
+using NSE.Bff.Compras.Services.Grpc;
+using NSE.Bff.Compras.Services.Grpc.Interfaces;
 using NSE.Bff.Compras.Services.Interfaces;
 using NSE.WebApi.Core.Extensions;
 using NSE.WebApi.Core.User;
@@ -14,7 +16,6 @@ namespace NSE.Bff.Compras.Configurations
             services.AddScoped<IAspNetUser, AspNetUser>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
-
 
             #region HttpClient
             services.AddHttpClient<ICatalogService, CatalogService>()

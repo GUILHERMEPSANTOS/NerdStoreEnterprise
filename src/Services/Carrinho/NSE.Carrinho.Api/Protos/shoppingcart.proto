@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option csharp_namespace = "NSE.Carrinho.Api.Services.gRPC";
+
+package ShoppingCartApi;
+
+service ShoppingCartOrders {
+	rpc GetShoppingCart(GetShoppingCartRequest) returns (CustomerShoppingCartClientResponse) {}
+}
+
+message GetShoppingCartRequest {
+
+}
+
+message CustomerShoppingCartClientResponse {
+	string id = 1;
+	string CustomerId = 2;
+	double total = 3;
+	repeated CartItemResponse items = 4;
+	bool hasvoucher = 5;
+	double discount = 6;
+	VoucherResponse voucher = 7; 
+}
+	
+message CartItemResponse {
+	string id = 1;
+	string productid = 2;
+	string name = 3;
+	int32 quantity = 4;
+	double price = 5;
+	string image = 6;
+}
+
+message VoucherResponse {
+	string code = 1;
+	double Percentage = 2;
+	double discount = 3;
+	int32 discounttype = 4;
+}

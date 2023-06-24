@@ -12,7 +12,7 @@ namespace NSE.Carrinho.Api.Domain
         public decimal Price { get; set; }
         public string? Image { get; set; }
         public Guid ShoppingCartId { get; set; }
-       
+
         [JsonIgnore]
         public CustomerShoppingCart? CustomerShoppingCart { get; set; }
 
@@ -33,7 +33,7 @@ namespace NSE.Carrinho.Api.Domain
 
         internal void AddUnit(int quantity)
         {
-            Quantity = +quantity;
+            Quantity =+ quantity;
         }
 
         internal void UpdateUnit(int quantity)

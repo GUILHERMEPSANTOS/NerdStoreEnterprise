@@ -1,19 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Building Blocks\Core\NSE.Core.csproj" />
-    <ProjectReference Include="..\..\..\Building Blocks\Services\NSE.WebApi.Core\NSE.WebApi.Core.csproj" />
-    <ProjectReference Include="..\..\..\Building Blocks\MessageBus\NSE.MessageBus\NSE.MessageBus.csproj" />
-  </ItemGroup>
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+		<PackageReference Include="Google.Protobuf" Version="3.23.3" />
+		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.54.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.56.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Building Blocks\Core\NSE.Core.csproj" />
+		<ProjectReference Include="..\..\..\Building Blocks\Services\NSE.WebApi.Core\NSE.WebApi.Core.csproj" />
+		<ProjectReference Include="..\..\..\Building Blocks\MessageBus\NSE.MessageBus\NSE.MessageBus.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Protobuf Include="..\..\..\Services\Carrinho\NSE.Carrinho.API\Protos\shoppingcart.proto" GrpcServices="Client" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Grpc\" />
+	</ItemGroup>
 </Project>
