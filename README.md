@@ -17,7 +17,9 @@ If you liked the project or if NerdStoreEnterprise is helping you, please give m
     - ASP.NET WebApi
     - ASP.NET Minimal API
     - ASP.NET Identity Core
-    - JWT    
+    - JWT
+    - JWT with rotactive public / private key
+    - Refresh Token
     - Background Services
     - Entity Framework Core 6
 
@@ -30,4 +32,21 @@ If you liked the project or if NerdStoreEnterprise is helping you, please give m
     - FluentValidator
     - MediatR
     - Swagger UI with JWT support
+
+### Complete architecture implementing the most important and used concerns as:
+
+- Hexagonal Architecture
+- Clean Code
+- Clean Architecture
+- DDD - Domain Driven Design (Layers and Domain Model Pattern)
+- Domain Events
+- Domain Notification
+- Domain Validations
+- CQRS (Imediate Consistency)
+- Retry Pattern
+- Circuit Breaker
+- Unit of Work
+- Repository
+- Specification Pattern
+- API Gateway / BFF
  
