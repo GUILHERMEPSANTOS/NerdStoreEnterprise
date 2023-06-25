@@ -12,4 +12,4 @@ services:
       - 5251:5251
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://*:7064
+      - ASPNETCORE_URLS=http://*:5251
