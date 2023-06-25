@@ -1,0 +1,15 @@
+version: "3.4"
+
+services:
+  web-mvc:
+    image: nerdstore-enterprise/nerdstore-web-mvc-ecommerce:latest
+    container_name: nerdstore-web-mvc-ecommerce
+    build:
+      context: "../src"
+      dockerfile: "./Web/MVC/NSE.WebApp.MVC/Dockerfile"
+    ports:
+      - 7064:7064
+      - 5251:5251
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:7064
