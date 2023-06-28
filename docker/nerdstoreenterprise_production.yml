@@ -42,7 +42,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://*:5251
-      - ASPNETCORE_ENVIRONMENT=Docker
     depends_on:
       - api-catalogo
     networks:
