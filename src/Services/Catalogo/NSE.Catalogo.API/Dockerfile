@@ -10,9 +10,9 @@ COPY ["./Building Blocks/Core/*.csproj", "Building Blocks/Core/"]
 COPY ["./Building Blocks/Services/NSE.WebApi.Core/*.csproj", "Building Blocks/Services/NSE.WebApi.Core/"]
 COPY ["./Building Blocks/MessageBus/NSE.MessageBus/*.csproj", "Building Blocks/MessageBus/NSE.MessageBus/"]
 
-RUN dotnet restore "Services/Catalogo/NSE.Catalogo.API/NSE.Catalogo.API.csproj"
 COPY . .
 WORKDIR "Services/Catalogo/NSE.Catalogo.API"
+RUN dotnet restore "NSE.Catalogo.API.csproj"
 RUN dotnet build "NSE.Catalogo.API.csproj" -c Release -o /app/build
 
 FROM build AS publish

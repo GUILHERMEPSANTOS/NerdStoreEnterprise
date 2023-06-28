@@ -42,6 +42,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://*:5251
+      - ASPNETCORE_ENVIRONMENT=Docker
     depends_on:
       - api-catalogo
     networks:
@@ -53,6 +54,8 @@ services:
     build:
       context: "../src"
       dockerfile: "./Services/Catalogo/NSE.Catalogo.Api/Dockerfile"
+    ports:
+      - "7000:7000"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://*:7000
