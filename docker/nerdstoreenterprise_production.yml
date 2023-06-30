@@ -44,6 +44,7 @@ services:
       - ASPNETCORE_URLS=http://*:5251
     depends_on:
       - api-catalogo
+      - api-identidade
     networks:
       - nerdstore-networking
 
@@ -53,11 +54,27 @@ services:
     build:
       context: "../src"
       dockerfile: "./Services/Catalogo/NSE.Catalogo.Api/Dockerfile"
-    ports:
-      - "7000:7000"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://*:7000
+    depends_on:
+      - rabbitmq
+      - sql-server
+      - api-identidade
+    networks:
+      - nerdstore-networking
+
+  api-identidade:
+    image: nerdstore-enterprise/nerdstore-api-identidade:latest
+    container_name: nerdstore-api-identidade
+    build:  
+      context: "../src"
+      dockerfile: "./Services/Identidade/NSE.Identidade.API/Dockerfile"
+    ports:
+      - 7213:7213
+    environment:
+       - ASPNETCORE_ENVIRONMENT=Production
+       - ASPNETCORE_URLS=http://*:7213
     depends_on:
       - rabbitmq
       - sql-server
