@@ -4,6 +4,7 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+
 WORKDIR /src
 COPY ["./Web/MVC/NSE.WebApp.MVC/*.csproj","Web/MVC/NSE.WebApp.MVC/"]
 COPY ["./Building Blocks/Core/*.csproj","Building Blocks/Core/"]
@@ -15,9 +16,10 @@ WORKDIR "Web/MVC/NSE.WebApp.MVC"
 RUN dotnet build "NSE.WebApp.MVC.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet build "NSE.WebApp.MVC.csproj" -c Release -o /app/published
+RUN dotnet build "NSE.WebApp.MVC.csproj" -c Release -o /app/publish
 
 FROM runtime AS final
 WORKDIR /app
-COPY --from=publish /app/published .
+COPY ["./Web/MVC/NSE.WebApp.MVC/wwwroot", "./wwwroot/"]
+COPY --from=publish /app/publish .
 CMD ["dotnet", "NSE.WebApp.MVC.dll"]
