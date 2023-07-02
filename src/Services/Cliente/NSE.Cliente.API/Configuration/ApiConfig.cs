@@ -26,7 +26,7 @@ namespace NSE.Cliente.API.Configuration
                 app.UseSwaggerConfiguration();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseCorsConfiguration();
 

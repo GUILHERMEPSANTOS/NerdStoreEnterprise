@@ -27,7 +27,7 @@ namespace NSE.Carrinho.Api.Configurations
             {
                app.UseSwaggerConfiguration();
             }
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCorsConfiguration();
             app.UseAuthConfiguration();

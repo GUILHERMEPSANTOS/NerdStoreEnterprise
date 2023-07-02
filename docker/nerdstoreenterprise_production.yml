@@ -45,6 +45,25 @@ services:
     depends_on:
       - api-catalogo
       - api-identidade
+      - api-cliente
+      - api-bff-compras
+    networks:
+      - nerdstore-networking
+
+  api-bff-compras:
+    image: nerdstore-enterprise/nerdstore-api-bff-compras:latest
+    container_name: nerdstore-api-bff-compras
+    build:
+      context: "../src"
+      dockerfile: "./api-gateways/Compras/NSE.Bff.Compras/Dockerfile"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:5011
+    depends_on:
+      - api-identidade
+      - api-catalogo
+      - api-cliente
+      - api-carrinho
     networks:
       - nerdstore-networking
 
@@ -67,16 +86,46 @@ services:
   api-identidade:
     image: nerdstore-enterprise/nerdstore-api-identidade:latest
     container_name: nerdstore-api-identidade
-    build:  
+    build:
       context: "../src"
       dockerfile: "./Services/Identidade/NSE.Identidade.API/Dockerfile"
-    ports:
-      - 7213:7213
     environment:
-       - ASPNETCORE_ENVIRONMENT=Production
-       - ASPNETCORE_URLS=http://*:7213
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:5140
     depends_on:
       - rabbitmq
       - sql-server
+    networks:
+      - nerdstore-networking
+
+  api-cliente:
+    image: nerdstore-enterprise/nerdstore-api-cliente:latest
+    container_name: nerdstore-api-cliente
+    build:
+      context: "../src"
+      dockerfile: "./Services/Cliente/NSE.Cliente.API/Dockerfile"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:7276
+    depends_on:
+      - rabbitmq
+      - sql-server
+      - api-identidade
+    networks:
+      - nerdstore-networking
+
+  api-carrinho:
+    image: nerdstore-enterprise/nerdstore-api-carrinho:latest
+    container_name: nerdstore-api-carrinho
+    build:
+      context: "../src"
+      dockerfile: "./Services/Carrinho/NSE.Carrinho.Api/Dockerfile"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:5018
+    depends_on:
+      - rabbitmq
+      - sql-server
+      - api-identidade
     networks:
       - nerdstore-networking
