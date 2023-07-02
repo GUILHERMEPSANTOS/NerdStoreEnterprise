@@ -146,3 +146,19 @@ services:
        - api-identidade
     networks:
       - nerdstore-networking   
+  
+  api-pagamento:
+    image: nerdstore-enterprise/nerdstore-api-pagamento:latest
+    container_name: nerdstore-api-pagamento
+    build: 
+      context: "../src"
+      dockerfile: "./Services/Pagamento/NSE.Pagamento.API/Dockerfile"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:5112
+    depends_on:
+      - rabbitmq
+      - sql-server
+      - api-identidade
+    networks:
+      - nerdstore-networking  
