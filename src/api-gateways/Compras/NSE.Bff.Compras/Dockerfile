@@ -8,9 +8,6 @@ WORKDIR /src
 COPY ["./api-gateways/Compras/NSE.Bff.Compras/*.csproj", "api-gateways/Compras/NSE.Bff.Compras/"]
 COPY ["./Building Blocks/Core/*.csproj", "Building Blocks/Core/"]
 COPY ["./Building Blocks/Services/NSE.WebApi.Core/*.csproj", "Building Blocks/Services/NSE.WebApi.Core/"]
-COPY ["./Services/Carrinho/NSE.Carrinho.Api/Protos/*.proto", "api-gateways/Compras/NSE.Bff.Compras/Protos/"]
-
-
 
 RUN dotnet restore "api-gateways/Compras/NSE.Bff.Compras/NSE.Bff.Compras.csproj"
 COPY . .
