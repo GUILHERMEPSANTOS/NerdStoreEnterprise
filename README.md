@@ -34,6 +34,10 @@ If you liked the project or if NerdStoreEnterprise is helping you, please give m
     - MediatR
     - Swagger UI with JWT support
 
+- Hosting
+    - IIS
+    - Docker (with compose)
+      
 ### Complete architecture implementing the most important and used concerns as:
 
 - Hexagonal Architecture
