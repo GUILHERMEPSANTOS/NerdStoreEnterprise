@@ -13,7 +13,7 @@ namespace NSE.Bff.Compras.Services
         public CustomerService(HttpClient httpClient, IOptions<AppServicesSettings> settings)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(settings.Value.CustomerUrl);
+            _httpClient.BaseAddress = new Uri(settings.Value.ClienteUrl);
         }
 
         public async Task<AddressDTO> GetAddress()
