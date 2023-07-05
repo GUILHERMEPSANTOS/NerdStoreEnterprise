@@ -10,9 +10,6 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "nerdstore"
       RABBITMQ_DEFAULT_PASS: "nerdstore"
-    ports:
-      - "5672:5672"
-      - "15672:15672"
     networks:
       - nerdstore-networking
 
@@ -22,12 +19,24 @@ services:
     build:
       context: "../sql"
       dockerfile: "./Dockerfile"
-    ports:
-      - "1433:1433"
     environment:
       SA_PASSWORD: "MeuDB@123"
       ACCEPT_EULA: "Y"
     networks:
+      - nerdstore-networking
+
+  nerdstore-server: 
+    image: nerdstore-enterprise/nerdstore-server:latest
+    container_name: nerdstore-server
+    build: 
+      context: "./"
+      dockerfile: "./nginx/Dockerfile"
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on: 
+      - web-mvc 
+    networks: 
       - nerdstore-networking
 
   web-mvc:
@@ -36,9 +45,6 @@ services:
     build:
       context: "../src"
       dockerfile: "./Web/MVC/NSE.WebApp.MVC/Dockerfile"
-    ports:
-      - "7064:7064"
-      - "5251:5251"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://*:5251
@@ -161,4 +167,4 @@ services:
       - sql-server
       - api-identidade
     networks:
-      - nerdstore-networking  
+      - nerdstore-networking
