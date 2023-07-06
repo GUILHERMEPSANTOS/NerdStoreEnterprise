@@ -27,8 +27,9 @@ namespace NSE.WebApi.Core.Identidade
                }
             ).AddJwtBearer(bearerOptions =>
             {
-                bearerOptions.RequireHttpsMetadata = false;
+                bearerOptions.RequireHttpsMetadata = true;
                 bearerOptions.SaveToken = true;
+                bearerOptions.BackchannelHttpHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = delegate { return true; } };
                 bearerOptions.SetJwksOptions(new JwkOptions(appSettings.JksUrlAuthentication));
             });
 

@@ -28,13 +28,13 @@ namespace NSE.Bff.Compras.Controllers
         [HttpGet("carrinho")]
         public async Task<IActionResult> GetShoppingCart()
         {
-            return CustomResponse(await _shoppingCartService.GetShoppingCart());
+            return CustomResponse(await _shoppingCartGrpcService.GetShoppingCart());
         }
 
         [HttpGet("carrinho-quantidade")]
         public async Task<int> GetShoppingCartItemsQuantity()
         {
-            var shoppingCart = await _shoppingCartService.GetShoppingCart();
+            var shoppingCart = await _shoppingCartGrpcService.GetShoppingCart();
             var quantity = shoppingCart?.Items.Sum(item => item.Quantity);
 
             return quantity ?? 0;
@@ -124,7 +124,7 @@ namespace NSE.Bff.Compras.Controllers
 
         private async Task<bool> ValidateShoppingCart(int quantity, ProductDTO product)
         {
-            var shoppingCart = await _shoppingCartService.GetShoppingCart();
+            var shoppingCart = await _shoppingCartGrpcService.GetShoppingCart();
             var cartItem = shoppingCart?.Items.FirstOrDefault(item => item.ProductId == product.Id) ?? new CartItemDTO();
             var totalQuantity = quantity + (cartItem?.Quantity ?? 0);
 
