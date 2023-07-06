@@ -9,6 +9,7 @@ namespace NSE.WebApp.MVC.Configuration
         public static IServiceCollection AddMvcCongiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddForwardHeadersConfiguration();
+            services.AddDataProtectionConfiguration();
             services.AddControllersWithViews();
             services.Configure<AppSettings>(configuration);
 
