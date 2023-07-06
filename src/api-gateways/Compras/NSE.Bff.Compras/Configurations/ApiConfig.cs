@@ -29,7 +29,7 @@ namespace NSE.Bff.Compras.Configurations
                 app.UseSwaggerConfiguration();
             }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 

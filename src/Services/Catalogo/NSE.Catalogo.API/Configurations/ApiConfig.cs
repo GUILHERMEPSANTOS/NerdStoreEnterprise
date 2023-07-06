@@ -31,7 +31,7 @@ namespace NSE.Catalogo.API.Configurations
                 app.UseSwaggerConfiguration();
             }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseCorsConfiguration();
 
