@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: windows-latest
+    runs-on: self-hosted
     permissions: read-all
     steps:
       - uses: actions/checkout@v2
